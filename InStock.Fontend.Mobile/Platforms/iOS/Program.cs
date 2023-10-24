@@ -1,10 +1,13 @@
-﻿using ObjCRuntime;
-using UIKit;
+﻿using UIKit;
 
 namespace InStock.Fontend.Mobile;
 
 public class Program
 {
+	protected Program()
+	{
+
+	}
 	// This is the main entry point of the application.
 	static void Main(string[] args)
 	{
@@ -13,4 +16,3 @@ public class Program
 		UIApplication.Main(args, null, typeof(AppDelegate));
 	}
 }
-
