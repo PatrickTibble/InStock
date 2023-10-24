@@ -11,5 +11,50 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="PageModels\" />
+    <None Remove="PageModels\Dashboard\" />
+    <None Remove="PageModels\Base\" />
+    <None Remove="Repositories\" />
+    <None Remove="Repositories\Base\" />
+    <None Remove="Models\" />
+    <None Remove="Resources\" />
+    <None Remove="Resources\Localization\" />
+    <None Remove="Extensions\" />
+    <None Remove="Extensions\Navigation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PageModels\" />
+    <Folder Include="PageModels\Dashboard\" />
+    <Folder Include="PageModels\Base\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\Base\" />
+    <Folder Include="Models\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Localization\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Extensions\Navigation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
+    <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Localization\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localization\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
