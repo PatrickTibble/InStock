@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace InStock.Mobile;
+namespace InStock.Fontend.Mobile;
 
 public class Program
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace InStock.Mobile;
+namespace InStock.Fontend.Mobile;
 
 public static class MauiProgram
 {

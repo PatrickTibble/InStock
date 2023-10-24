@@ -2,7 +2,7 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace InStock.Mobile;
+namespace InStock.Fontend.Mobile;
 
 class Program : MauiApplication
 {
