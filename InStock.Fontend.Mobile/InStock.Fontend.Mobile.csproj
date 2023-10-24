@@ -53,6 +53,18 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="InStock.Frontend.Mobile.ViewModels\obj\project.assets.json" />
+	  <None Remove="InStock.Frontend.Mobile.ViewModels\obj\InStock.Frontend.Mobile.ViewModels.csproj.nuget.dgspec.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="InStock.Frontend.Mobile.ViewModels\obj\project.assets.json" />
+	  <BundleResource Include="InStock.Frontend.Mobile.ViewModels\obj\InStock.Frontend.Mobile.ViewModels.csproj.nuget.dgspec.json" />
+	</ItemGroup>
 </Project>
