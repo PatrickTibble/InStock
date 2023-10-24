@@ -18,29 +18,12 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			})
-            .RegisterServices()
-			.RegisterForNavigation();
+			});
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();
-	}
-
-	private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
-	{
-		builder.Services
-			.AddSingleton<INavigationService, MauiNavigationService>()
-			.AddSingleton<IAlertService, MauiAlertService>();
-		return builder;
-	}
-
-	private static MauiAppBuilder RegisterForNavigation(this MauiAppBuilder builder)
-	{
-		builder.Services
-			.AddTransient<MainPageModel>();
-		return builder;
 	}
 }

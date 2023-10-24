@@ -1,29 +1,38 @@
-﻿using InStock.Fontend.Mobile;
-using InStock.Frontend.Abstraction.PageModels;
+﻿using InStock.Frontend.Abstraction.PageModels;
 using InStock.Frontend.Abstraction.Services.Navigation;
 
 namespace InStock.Frontend.Mobile.Services.Navigation
 {
     public class MauiNavigationService : INavigationService
     {
-        public Task InitializeAsync()
+        private readonly ILocator<Page> _locator;
+
+        public MauiNavigationService(ILocator<Page> locator)
         {
-            var root = new ContentPage();
-
-            App.Current.MainPage = new NavigationPage(root);
-
-            return Task.CompletedTask;
+            _locator = locator;
         }
 
-        public Task NavigateToAsync<TPageModel>(object? navigationData = null)
-            where TPageModel : IBasePageModel
+        public Task NavigateToAsync<TPageModel>(object navigationData = null, bool setRoot = false)
+            where TPageModel : class, IBasePageModel
         {
-            return Task.CompletedTask;
+            var page = _locator.CreatePageFor<TPageModel>();
+            var tasks = new List<Task> { ((IBasePageModel)page.BindingContext).InitializeAsync(navigationData) };
+
+            if (!setRoot)
+            {
+                tasks.Add(Application.Current.MainPage.Navigation.PushAsync(page));
+            }
+            else
+            {
+                Application.Current.MainPage = new NavigationPage(page);
+            }
+
+            return Task.WhenAll(tasks);
         }
 
         public Task PopAsync()
         {
-            return Task.CompletedTask;
+            return Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }
