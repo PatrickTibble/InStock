@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Common.Tests.Models
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Frontend.Tests.Mobile.UnitTests", "InStock.Frontend.Tests.Mobile.UnitTests\InStock.Frontend.Tests.Mobile.UnitTests.csproj", "{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Frontend.Mobile.ViewModels", "InStock.Fontend.Mobile\InStock.Frontend.Mobile.ViewModels\InStock.Frontend.Mobile.ViewModels.csproj", "{06D91522-0D84-401B-B657-B2C18CA947DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Frontend.Core", "InStock.Frontend.Core\InStock.Frontend.Core.csproj", "{F48F0081-2A1E-4204-9866-8FEC90B07BD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,10 +83,10 @@ Global
 		{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06D91522-0D84-401B-B657-B2C18CA947DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06D91522-0D84-401B-B657-B2C18CA947DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06D91522-0D84-401B-B657-B2C18CA947DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06D91522-0D84-401B-B657-B2C18CA947DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F48F0081-2A1E-4204-9866-8FEC90B07BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48F0081-2A1E-4204-9866-8FEC90B07BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48F0081-2A1E-4204-9866-8FEC90B07BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48F0081-2A1E-4204-9866-8FEC90B07BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +105,6 @@ Global
 		{210F1CEF-E351-4A0F-B96D-D2CAD3522515} = {F31FE2CD-B563-49D1-AE2A-FC56E3FC6139}
 		{B313961C-0F6E-4F87-A683-8F4E24CF1AC1} = {F31FE2CD-B563-49D1-AE2A-FC56E3FC6139}
 		{AE2D755C-315D-4B0A-ADD2-7A74732A45AD} = {615BB9D1-D8A2-4310-ADCD-57B656D074CE}
-		{06D91522-0D84-401B-B657-B2C18CA947DD} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
+		{F48F0081-2A1E-4204-9866-8FEC90B07BD8} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
 	EndGlobalSection
 EndGlobal
