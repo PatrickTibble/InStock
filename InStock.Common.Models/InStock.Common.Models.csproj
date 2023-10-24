@@ -12,4 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
+  </ItemGroup>
 </Project>
