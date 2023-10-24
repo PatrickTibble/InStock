@@ -60,11 +60,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="InStock.Frontend.Mobile.ViewModels\obj\project.assets.json" />
-	  <None Remove="InStock.Frontend.Mobile.ViewModels\obj\InStock.Frontend.Mobile.ViewModels.csproj.nuget.dgspec.json" />
+	  <None Remove="Pages\" />
+	  <None Remove="Pages\Dashboard\" />
+	  <None Remove="Views\" />
+	  <None Remove="Views\Input\" />
+	  <None Remove="Views\Headers\" />
+	  <None Remove="Pages\Shared\" />
+	  <None Remove="Services\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <BundleResource Include="InStock.Frontend.Mobile.ViewModels\obj\project.assets.json" />
-	  <BundleResource Include="InStock.Frontend.Mobile.ViewModels\obj\InStock.Frontend.Mobile.ViewModels.csproj.nuget.dgspec.json" />
+	  <Folder Include="Pages\" />
+	  <Folder Include="Pages\Dashboard\" />
+	  <Folder Include="Views\" />
+	  <Folder Include="Views\Input\" />
+	  <Folder Include="Views\Headers\" />
+	  <Folder Include="Pages\Shared\" />
+	  <Folder Include="Services\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj" />
 	</ItemGroup>
 </Project>
