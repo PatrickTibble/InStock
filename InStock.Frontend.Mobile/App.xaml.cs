@@ -20,13 +20,16 @@ public partial class App : Application
 	public App()
 	{
         RegisterServices();
-        RegisterForNavigation();
-		InitializeComponent();
-	}
 
-    protected override void OnStart()
+        RegisterForNavigation();
+
+		InitializeComponent();
+
+        InitializeNavigation();
+    }
+
+    private static void InitializeNavigation()
     {
-        base.OnStart();
         var navigationService = Resolver.Resolve<INavigationService>();
         navigationService
             .NavigateToAsync<MainPageModel>(setRoot: true)
