@@ -84,4 +84,9 @@
 	  <ProjectReference Include="..\InStock.Common.IoC\InStock.Common.IoC.csproj" />
 	  <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Pages\Inventory\ItemDetailsPage.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	</ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Pages.Inventory;
+﻿namespace InStock.Frontend.Mobile.Pages.Inventory;
 
 public partial class ItemDetailsPage : ContentPage
 {
