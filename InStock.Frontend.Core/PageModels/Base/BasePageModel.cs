@@ -18,7 +18,7 @@ namespace InStock.Frontend.Core.PageModels.Base
 
         }
 
-        public virtual Task InitializeAsync()
+        public virtual Task InitializeAsync(object navigationData = null)
 		{
 			return Task.CompletedTask;
 		}

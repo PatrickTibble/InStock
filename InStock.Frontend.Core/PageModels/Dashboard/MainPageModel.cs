@@ -15,13 +15,13 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
 		{
             this.navigationService = navigationService;
 
-            MenuItems.Add(
+            Items.Add(
                 new MenuItem(
                     Strings.MenuItem_Title_Inventory,
                     Strings.MenuItem_Subtitle_Inventory,
                     new AsyncRelayCommand(OnShowInventory)));
 
-            MenuItems.Add(
+            Items.Add(
                 new MenuItem(
                     Strings.MenuItem_Title_PointOfSale,
                     Strings.MenuItem_Subtitle_PointOfSale,
