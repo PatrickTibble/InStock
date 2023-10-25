@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace InStock.Fontend.Mobile;
+namespace InStock.Frontend.Mobile;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

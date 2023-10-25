@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace InStock.Fontend.Mobile;
+namespace InStock.Frontend.Mobile;
 
 [Application]
 public class MainApplication : MauiApplication

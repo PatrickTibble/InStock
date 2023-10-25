@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Pages.Dashboard;
+﻿namespace InStock.Frontend.Mobile.Pages.Dashboard;
 
 public partial class MainPage : ContentPage
 {

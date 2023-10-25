@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Views.Input;
+﻿namespace InStock.Frontend.Mobile.Views.Input;
 
 public partial class PrimaryEntryView : ContentView
 {

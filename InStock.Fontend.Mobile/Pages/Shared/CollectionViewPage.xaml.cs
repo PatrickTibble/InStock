@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Pages.Shared;
+﻿namespace InStock.Frontend.Mobile.Pages.Shared;
 
 public partial class CollectionViewPage : ContentPage
 {

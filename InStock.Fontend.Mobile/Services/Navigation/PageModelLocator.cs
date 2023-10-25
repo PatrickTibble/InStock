@@ -1,7 +1,7 @@
 ﻿using InStock.Common.IoC;
 using InStock.Frontend.Abstraction.Services.Navigation;
 
-namespace InStock.Fontend.Mobile.Services.Navigation
+namespace InStock.Frontend.Mobile.Services.Navigation
 {
     public class PageModelLocator : ILocator<Page>
     {

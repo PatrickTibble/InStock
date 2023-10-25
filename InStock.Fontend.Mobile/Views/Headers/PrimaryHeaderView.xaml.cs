@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Views.Headers;
+﻿namespace InStock.Frontend.Mobile.Views.Headers;
 
 public partial class PrimaryHeaderView : ContentView
 {

@@ -1,11 +1,6 @@
-﻿using InStock.Frontend.Abstraction.Services.Alerts;
-using InStock.Frontend.Abstraction.Services.Navigation;
-using InStock.Frontend.Core.PageModels.Dashboard;
-using InStock.Frontend.Mobile.Services.Alerts;
-using InStock.Frontend.Mobile.Services.Navigation;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
-namespace InStock.Fontend.Mobile;
+namespace InStock.Frontend.Mobile;
 
 public static class MauiProgram
 {

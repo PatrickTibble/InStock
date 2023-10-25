@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Frontend", "InStock
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Common", "InStock.Common", "{A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Fontend.Mobile", "InStock.Fontend.Mobile\InStock.Fontend.Mobile.csproj", "{437C7170-FDB9-4A21-9477-2C087DB08429}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Frontend.Mobile", "InStock.Fontend.Mobile\InStock.Frontend.Mobile.csproj", "{437C7170-FDB9-4A21-9477-2C087DB08429}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Common.Abstraction", "InStock.Common.Abstraction\InStock.Common.Abstraction.csproj", "{C1F1E7E5-3FEE-4B84-B340-E7D9BBB3B4F4}"
 EndProject

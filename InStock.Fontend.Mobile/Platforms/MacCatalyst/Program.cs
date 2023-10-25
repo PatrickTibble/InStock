@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace InStock.Fontend.Mobile;
+namespace InStock.Frontend.Mobile;
 
 public class Program
 {

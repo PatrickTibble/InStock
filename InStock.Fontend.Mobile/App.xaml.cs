@@ -1,6 +1,6 @@
 ﻿using InStock.Common.IoC;
-using InStock.Fontend.Mobile.Pages.Dashboard;
-using InStock.Fontend.Mobile.Services.Navigation;
+using InStock.Frontend.Mobile.Pages.Dashboard;
+using InStock.Frontend.Mobile.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.Extensions;
@@ -8,7 +8,7 @@ using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Mobile.Services.Alerts;
 using InStock.Frontend.Mobile.Services.Navigation;
 
-namespace InStock.Fontend.Mobile;
+namespace InStock.Frontend.Mobile;
 
 public partial class App : Application
 {
