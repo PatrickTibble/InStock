@@ -19,7 +19,7 @@ namespace InStock.Frontend.Core.PageModels.Inventory
             _repository = repository;
 		}
 
-        public override Task InitializeAsync()
+        public override Task InitializeAsync(object navigationData = null)
         {
             var items = _repository.GetAll();
             foreach (var item in items)
@@ -27,16 +27,19 @@ namespace InStock.Frontend.Core.PageModels.Inventory
                 Items.Add(item);
             }
 
-            return base.InitializeAsync();
+            return base.InitializeAsync(navigationData);
         }
 
         protected override void SelectedItemChanged(InventoryItem? oldValue, InventoryItem? newValue)
         {
             base.SelectedItemChanged(oldValue, newValue);
 
-            _navigationService
-                .NavigateToAsync<InventoryItemDetailsPageModel>(newValue)
-                .FireAndForgetSafeAsync();
+            if (newValue != null)
+            {
+                _navigationService
+                    .NavigateToAsync<InventoryItemDetailsPageModel>(newValue)
+                    .FireAndForgetSafeAsync();
+            }
         }
     }
 }
