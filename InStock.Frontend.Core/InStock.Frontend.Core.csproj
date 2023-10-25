@@ -25,6 +25,8 @@
     <None Remove="Resources\Localization\" />
     <None Remove="Extensions\" />
     <None Remove="Extensions\Navigation\" />
+    <None Remove="PageModels\Inventory\" />
+    <None Remove="Repositories\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PageModels\" />
@@ -37,6 +39,8 @@
     <Folder Include="Resources\Localization\" />
     <Folder Include="Extensions\" />
     <Folder Include="Extensions\Navigation\" />
+    <Folder Include="PageModels\Inventory\" />
+    <Folder Include="Repositories\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />

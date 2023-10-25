@@ -67,6 +67,7 @@
 	  <None Remove="Views\Headers\" />
 	  <None Remove="Pages\Shared\" />
 	  <None Remove="Services\" />
+	  <None Remove="Pages\Inventory\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -76,6 +77,7 @@
 	  <Folder Include="Views\Headers\" />
 	  <Folder Include="Pages\Shared\" />
 	  <Folder Include="Services\" />
+	  <Folder Include="Pages\Inventory\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj" />

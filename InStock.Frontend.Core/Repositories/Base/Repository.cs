@@ -2,7 +2,7 @@
 
 namespace InStock.Frontend.Core.Repositories.Base
 {
-    public class Repository<TModel, TKey> : IRepository<TModel, TKey> where TModel : class, IIdentifiable<TKey> where TKey : IComparable
+    public class Repository<TModel> : IRepository<TModel> where TModel : class, IIdentifiable
     {
         private readonly List<TModel> _items;
 
@@ -27,13 +27,18 @@ namespace InStock.Frontend.Core.Repositories.Base
             }
         }
 
-        public TModel? Get(TKey id)
+        public TModel? Get(int id)
         {
             if (_items.Find(i => i.Id.CompareTo(id) == 0) is TModel item)
             {
                 return item;
             }
             return default;
+        }
+
+        public IEnumerable<TModel> GetAll()
+        {
+            return _items;
         }
 
         public void Update(TModel item)
