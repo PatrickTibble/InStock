@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Frontend.Abstractio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Common.IoC", "InStock.Common.IoC\InStock.Common.IoC.csproj", "{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Frontend.API", "InStock.Frontend.API\InStock.Frontend.API.csproj", "{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,5 +126,6 @@ Global
 		{F48F0081-2A1E-4204-9866-8FEC90B07BD8} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
 		{594FAAB5-EBA8-4BC9-934F-CFF7885C702C} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
 		{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
+		{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
 	EndGlobalSection
 EndGlobal

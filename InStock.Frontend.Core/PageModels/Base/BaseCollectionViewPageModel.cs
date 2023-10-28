@@ -1,26 +1,24 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using InStock.Frontend.Core.ViewModels.Base;
 
 namespace InStock.Frontend.Core.PageModels.Base
 {
     public abstract partial class BaseCollectionViewPageModel<TListItem> : BasePageModel
+		where TListItem : BaseViewModel
 	{
-		public ObservableCollection<TListItem> Items { get; }
+		[ObservableProperty]
+		private ObservableCollection<TListItem>? _items;
 
 		[ObservableProperty]
 		private TListItem? _selectedItem;
 
-		protected BaseCollectionViewPageModel()
-		{
-			Items = new ObservableCollection<TListItem>();
-		}
-
 		protected virtual void SelectedItemChanged(TListItem? oldValue, TListItem? newValue)
 		{
-			/* no operation here */
+
 		}
 
-        partial void OnSelectedItemChanged(TListItem? oldValue, TListItem? newValue)
+		partial void OnSelectedItemChanged(TListItem? oldValue, TListItem? newValue)
 			=> SelectedItemChanged(oldValue, newValue);
     }
 }

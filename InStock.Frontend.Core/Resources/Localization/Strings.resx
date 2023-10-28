@@ -24,5 +24,11 @@
 	<data name="MenuItem_Subtitle_PointOfSale" xml:space="preserve">
 		<value>Scan and Accept Payment</value>
     </data>
+	<data name="Update" xml:space="preserve">
+		<value>Update</value>
+    </data>
+	<data name="Delete" xml:space="preserve">
+		<value>Delete</value>
+    </data>
 </root>
 

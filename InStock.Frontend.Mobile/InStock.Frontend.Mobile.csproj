@@ -61,23 +61,29 @@
 
 	<ItemGroup>
 	  <None Remove="Pages\" />
-	  <None Remove="Pages\Dashboard\" />
 	  <None Remove="Views\" />
 	  <None Remove="Views\Input\" />
 	  <None Remove="Views\Headers\" />
 	  <None Remove="Pages\Shared\" />
 	  <None Remove="Services\" />
 	  <None Remove="Pages\Inventory\" />
+	  <None Remove="TemplateSelectors\" />
+	  <None Remove="Views\ListItems\" />
+	  <None Remove="Pages\PointOfSale\" />
+	  <None Remove="Services\Threading\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
-	  <Folder Include="Pages\Dashboard\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="Views\Input\" />
 	  <Folder Include="Views\Headers\" />
 	  <Folder Include="Pages\Shared\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Pages\Inventory\" />
+	  <Folder Include="TemplateSelectors\" />
+	  <Folder Include="Views\ListItems\" />
+	  <Folder Include="Pages\PointOfSale\" />
+	  <Folder Include="Services\Threading\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj" />
