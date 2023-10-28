@@ -27,6 +27,12 @@
     <None Remove="Extensions\Navigation\" />
     <None Remove="PageModels\Inventory\" />
     <None Remove="Repositories\Mocks\" />
+    <None Remove="ViewModels\" />
+    <None Remove="ViewModels\Headers\" />
+    <None Remove="ViewModels\Input\" />
+    <None Remove="ViewModels\ListItems\" />
+    <None Remove="ViewModels\Base\" />
+    <None Remove="PageModels\PointOfSale\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PageModels\" />
@@ -41,6 +47,12 @@
     <Folder Include="Extensions\Navigation\" />
     <Folder Include="PageModels\Inventory\" />
     <Folder Include="Repositories\Mocks\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\Headers\" />
+    <Folder Include="ViewModels\Input\" />
+    <Folder Include="ViewModels\ListItems\" />
+    <Folder Include="ViewModels\Base\" />
+    <Folder Include="PageModels\PointOfSale\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />

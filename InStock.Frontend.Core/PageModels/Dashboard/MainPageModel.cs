@@ -1,37 +1,38 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using InStock.Frontend.Abstraction.Services.Navigation;
-using InStock.Frontend.Core.Extensions.Navigation;
-using InStock.Frontend.Core.Models;
 using InStock.Frontend.Core.PageModels.Base;
+using InStock.Frontend.Core.PageModels.Inventory;
+using InStock.Frontend.Core.PageModels.PointOfSale;
 using InStock.Frontend.Core.Resources.Localization;
+using InStock.Frontend.Core.ViewModels.ListItems;
 
 namespace InStock.Frontend.Core.PageModels.Dashboard
 {
-	public class MainPageModel : BaseCollectionViewPageModel<MenuItem>
+	public class MainPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
 	{
         private readonly INavigationService navigationService;
 
         public MainPageModel(INavigationService navigationService)
 		{
             this.navigationService = navigationService;
-
-            Items.Add(
-                new MenuItem(
+            Items = new System.Collections.ObjectModel.ObservableCollection<MenuItemViewModel>
+            {
+                new MenuItemViewModel(
                     Strings.MenuItem_Title_Inventory,
                     Strings.MenuItem_Subtitle_Inventory,
-                    new AsyncRelayCommand(OnShowInventory)));
+                    new AsyncRelayCommand(OnShowInventory)),
 
-            Items.Add(
-                new MenuItem(
+                new MenuItemViewModel(
                     Strings.MenuItem_Title_PointOfSale,
                     Strings.MenuItem_Subtitle_PointOfSale,
-                    new AsyncRelayCommand(OnShowPointOfSale)));
+                    new AsyncRelayCommand(OnShowPointOfSale))
+            };
         }
 
         private Task OnShowPointOfSale()
-            => navigationService.NavigateToPointOfSaleAsync();
+            => navigationService.NavigateToAsync<ScannerPageModel>();
 
         private Task OnShowInventory()
-            => navigationService.NavigateToInventoryAsync();
+            => navigationService.NavigateToAsync<InventoryPageModel>();
     }
 }

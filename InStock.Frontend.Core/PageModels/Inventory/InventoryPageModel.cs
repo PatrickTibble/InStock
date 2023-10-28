@@ -1,46 +1,43 @@
-﻿using InStock.Common.Abstraction.Repositories.Base;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Input;
+using InStock.Common.Abstraction.Repositories.Base;
 using InStock.Frontend.Abstraction.Services.Navigation;
-using InStock.Frontend.Core.Extensions;
+using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.Models;
 using InStock.Frontend.Core.PageModels.Base;
+using InStock.Frontend.Core.ViewModels.ListItems;
 
 namespace InStock.Frontend.Core.PageModels.Inventory
 {
-	public class InventoryPageModel : BaseCollectionViewPageModel<InventoryItem>
+	public class InventoryPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
 	{
+        private readonly IDispatcher _dispatcher;
         private readonly INavigationService _navigationService;
         private readonly IRepository<InventoryItem> _repository;
 
         public InventoryPageModel(
             INavigationService navigationService,
-            IRepository<InventoryItem> repository)
+            IRepository<InventoryItem> repository,
+            IDispatcher dispatcher)
 		{
+            _dispatcher = dispatcher;
             _navigationService = navigationService;
             _repository = repository;
 		}
 
-        public override Task InitializeAsync(object navigationData = null)
+        public override async Task InitializeAsync(object? navigationData = null)
         {
             var items = _repository.GetAll();
-            foreach (var item in items)
+            await _dispatcher.DispatchOnMainThreadAsync(() =>
             {
-                Items.Add(item);
-            }
-
-            return base.InitializeAsync(navigationData);
-        }
-
-        protected override void SelectedItemChanged(InventoryItem? oldValue, InventoryItem? newValue)
-        {
-            base.SelectedItemChanged(oldValue, newValue);
-
-            if (newValue != null)
-            {
-                _navigationService
-                    .NavigateToAsync<InventoryItemDetailsPageModel>(newValue)
-                    .FireAndForgetSafeAsync();
-            }
+                Items = new ObservableCollection<MenuItemViewModel>(
+                    items.Select(
+                        item => new MenuItemViewModel(
+                            item.Name,
+                            item.Description,
+                            new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
+            });
+            await base.InitializeAsync(navigationData);
         }
     }
 }
-
