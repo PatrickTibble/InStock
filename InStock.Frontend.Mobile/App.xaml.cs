@@ -1,12 +1,17 @@
 using InStock.Common.Abstraction.Repositories.Base;
 using InStock.Common.IoC;
 using InStock.Fontend.Mobile.Pages.PointOfSale;
+using InStock.Fontend.Mobile.Services.Threading;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
+using InStock.Frontend.Abstraction.Services.Threading;
+using InStock.Frontend.API.Account;
+using InStock.Frontend.API.Inventory;
 using InStock.Frontend.Core.Extensions;
 using InStock.Frontend.Core.Models;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Inventory;
+using InStock.Frontend.Core.PageModels.Login;
 using InStock.Frontend.Core.PageModels.PointOfSale;
 using InStock.Frontend.Core.Repositories.Mocks;
 using InStock.Frontend.Mobile.Pages.Inventory;
@@ -33,7 +38,7 @@ public partial class App : Application
     {
         var navigationService = Resolver.Resolve<INavigationService>();
         navigationService
-            .NavigateToAsync<MainPageModel>(setRoot: true)
+            .NavigateToAsync<LoginPageModel>(setRoot: true)
             .FireAndForgetSafeAsync();
     }
 
@@ -44,11 +49,15 @@ public partial class App : Application
         container.Register<ILocator<Page>>(new PageModelLocator(container));
         container.Register<IAlertService, MauiAlertService>();
         container.Register<INavigationService, MauiNavigationService>();
-        //-- TODO: Rename these so they don't collide with Maui Naming
-        container.Register<Abstraction.Services.Threading.IDispatcher, Fontend.Mobile.Services.Threading.ThreadDispatcher>();
+        container.Register<IMainThreadDispatcher, MainThreadDispatcher>();
 
         //-- TODO: Add configuration for DebugWithMocks
         container.Register<IRepository<InventoryItem>, MockInventoryRepository>();
+
+        var httpClient = new HttpClient();
+        var apiRegistrar = new API.APIServiceRegistrar();
+        container.Register(apiRegistrar.GetService<IAccountService>(httpClient));
+        container.Register(apiRegistrar.GetService<IInventoryService>(httpClient));
     }
 
     private static void RegisterForNavigation()

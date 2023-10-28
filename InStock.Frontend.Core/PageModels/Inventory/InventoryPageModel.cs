@@ -11,33 +11,34 @@ namespace InStock.Frontend.Core.PageModels.Inventory
 {
 	public class InventoryPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
 	{
-        private readonly IDispatcher _dispatcher;
+        private readonly IMainThreadDispatcher _dispatcher;
         private readonly INavigationService _navigationService;
         private readonly IRepository<InventoryItem> _repository;
 
         public InventoryPageModel(
             INavigationService navigationService,
             IRepository<InventoryItem> repository,
-            IDispatcher dispatcher)
+            IMainThreadDispatcher dispatcher)
 		{
             _dispatcher = dispatcher;
             _navigationService = navigationService;
             _repository = repository;
 		}
 
-        public override async Task InitializeAsync(object? navigationData = null)
+        public override Task InitializeAsync(object? navigationData = null)
         {
             var items = _repository.GetAll();
-            await _dispatcher.DispatchOnMainThreadAsync(() =>
-            {
-                Items = new ObservableCollection<MenuItemViewModel>(
-                    items.Select(
-                        item => new MenuItemViewModel(
-                            item.Name,
-                            item.Description,
-                            new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
-            });
-            await base.InitializeAsync(navigationData);
+            return Task.WhenAny(
+                base.InitializeAsync(navigationData),
+                _dispatcher.DispatchOnMainThreadAsync(() =>
+                {
+                    Items = new ObservableCollection<MenuItemViewModel>(
+                        items.Select(
+                            item => new MenuItemViewModel(
+                                item.Name,
+                                item.Description,
+                                new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
+                }));
         }
     }
 }

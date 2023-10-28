@@ -7,7 +7,7 @@ namespace InStock.Frontend.Core.PageModels.PointOfSale
 		{
 		}
 
-        public override Task InitializeAsync(object navigationData = null)
+        public override Task InitializeAsync(object? navigationData = null)
         {
             return base.InitializeAsync(navigationData);
         }

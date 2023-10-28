@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>59ed97ec-3f60-4203-a3e3-6526d7b45a05</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Account\" />
+    <None Remove="Inventory\" />
+    <None Remove="Models\" />
+    <None Remove="Models\Account\" />
+    <None Remove="Models\Account\SessionStatus\" />
+    <None Remove="Models\Account\Login\" />
+    <None Remove="Models\Account\Signout\" />
+    <None Remove="Models\Inventory\" />
+    <None Remove="Models\Inventory\Insert\" />
+    <None Remove="Models\Inventory\Delete\" />
+    <None Remove="Models\Inventory\Get\" />
+    <None Remove="Models\Inventory\GetAll\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Account\" />
+    <Folder Include="Inventory\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Account\" />
+    <Folder Include="Models\Account\SessionStatus\" />
+    <Folder Include="Models\Account\Login\" />
+    <Folder Include="Models\Account\Signout\" />
+    <Folder Include="Models\Inventory\" />
+    <Folder Include="Models\Inventory\Insert\" />
+    <Folder Include="Models\Inventory\Delete\" />
+    <Folder Include="Models\Inventory\Get\" />
+    <Folder Include="Models\Inventory\GetAll\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
+    <PackageReference Include="Refit" Version="7.0.0" />
+  </ItemGroup>
+</Project>

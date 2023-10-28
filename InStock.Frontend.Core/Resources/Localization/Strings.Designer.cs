@@ -58,6 +58,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to See what&apos;s in stock.
         /// </summary>
         internal static string MenuItem_Subtitle_Inventory {
@@ -90,6 +99,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         internal static string MenuItem_Title_PointOfSale {
             get {
                 return ResourceManager.GetString("MenuItem_Title_PointOfSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        internal static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
     }

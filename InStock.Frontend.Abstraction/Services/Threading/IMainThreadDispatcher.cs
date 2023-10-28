@@ -1,6 +1,6 @@
 ﻿namespace InStock.Frontend.Abstraction.Services.Threading
 {
-	public interface IDispatcher
+	public interface IMainThreadDispatcher
 	{
 		Task DispatchOnMainThreadAsync(Action action);
 	}

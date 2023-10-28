@@ -33,6 +33,7 @@
     <None Remove="ViewModels\ListItems\" />
     <None Remove="ViewModels\Base\" />
     <None Remove="PageModels\PointOfSale\" />
+    <None Remove="PageModels\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PageModels\" />
@@ -53,11 +54,13 @@
     <Folder Include="ViewModels\ListItems\" />
     <Folder Include="ViewModels\Base\" />
     <Folder Include="PageModels\PointOfSale\" />
+    <Folder Include="PageModels\Login\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
     <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Frontend.API\InStock.Frontend.API.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Localization\Strings.resx">
