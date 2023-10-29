@@ -29,10 +29,10 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
             };
         }
 
-        private Task OnShowPointOfSale()
-            => navigationService.NavigateToAsync<ScannerPageModel>();
-
         private Task OnShowInventory()
             => navigationService.NavigateToAsync<InventoryPageModel>();
+
+        private Task OnShowPointOfSale()
+            => navigationService.NavigateToAsync<ScannerPageModel>();
     }
 }

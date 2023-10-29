@@ -12,12 +12,4 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Repositories\" />
-    <None Remove="Repositories\Base\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-    <Folder Include="Repositories\Base\" />
-  </ItemGroup>
 </Project>

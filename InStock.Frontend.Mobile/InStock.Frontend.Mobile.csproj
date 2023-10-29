@@ -86,9 +86,15 @@
 	  <Folder Include="Services\Threading\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj" />
-	  <ProjectReference Include="..\InStock.Common.IoC\InStock.Common.IoC.csproj" />
-	  <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj" />
+	  <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj">
+	    <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+	  </ProjectReference>
+	  <ProjectReference Include="..\InStock.Common.IoC\InStock.Common.IoC.csproj">
+	    <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+	  </ProjectReference>
+	  <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj">
+	    <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+	  </ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Pages\Inventory\ItemDetailsPage.xaml">
