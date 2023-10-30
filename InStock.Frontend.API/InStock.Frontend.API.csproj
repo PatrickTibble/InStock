@@ -5,6 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>59ed97ec-3f60-4203-a3e3-6526d7b45a05</UserSecretsId>
+    <Configurations>Debug;Release;DebugWithMocks</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWithMocks|AnyCPU'">
+    <DefineConstants>$(DefineConstants);USE_MOCKS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
