@@ -4,6 +4,7 @@ using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Inventory;
 using InStock.Frontend.Core.PageModels.PointOfSale;
 using InStock.Frontend.Core.Resources.Localization;
+using InStock.Frontend.Core.ViewModels.Headers;
 using InStock.Frontend.Core.ViewModels.ListItems;
 
 namespace InStock.Frontend.Core.PageModels.Dashboard
@@ -15,6 +16,11 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
         public MainPageModel(INavigationService navigationService)
 		{
             this.navigationService = navigationService;
+            HeaderViewModel = new MainPageHeaderViewModel()
+            {
+                Title = "Main Page"
+            };
+
             Items = new System.Collections.ObjectModel.ObservableCollection<MenuItemViewModel>
             {
                 new MenuItemViewModel(
