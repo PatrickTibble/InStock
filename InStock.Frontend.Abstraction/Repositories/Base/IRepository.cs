@@ -1,4 +1,6 @@
-﻿namespace InStock.Common.Abstraction.Repositories.Base
+﻿using InStock.Frontend.Abstraction.Models;
+
+namespace InStock.Common.Abstraction.Repositories.Base
 {
     public interface IRepository<TModelType> : IRepository<TModelType, int> where TModelType : class, IIdentifiable<int>
 	{
