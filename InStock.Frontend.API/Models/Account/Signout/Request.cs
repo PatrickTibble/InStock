@@ -1,11 +1,11 @@
 ﻿using System;
+using InStock.Frontend.API.Models.Base;
+
 namespace InStock.Frontend.API.Models.Account.Signout
 {
-	public class Request
+    public class Request : IRequest
 	{
-		public Request()
-		{
-		}
-	}
+        public bool IsValid => throw new NotImplementedException();
+    }
 }
 

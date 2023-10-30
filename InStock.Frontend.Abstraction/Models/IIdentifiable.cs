@@ -1,4 +1,4 @@
-﻿namespace InStock.Common.Abstraction.Repositories.Base
+﻿namespace InStock.Frontend.Abstraction.Models
 {
     public interface IIdentifiable : IIdentifiable<int>
 	{

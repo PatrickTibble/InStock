@@ -1,4 +1,5 @@
-﻿using InStock.Frontend.Core.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.ViewModels.Input;
@@ -11,12 +12,14 @@ namespace InStock.Frontend.Core.PageModels.Inventory
         {
             ConfirmViewModel = new ButtonViewModel
             {
-                Title = Strings.Update
+                Title = Strings.Update,
+                Command = new RelayCommand(OnConfirm)
             };
 
             CancelViewModel = new ButtonViewModel
             {
-                Title = Strings.Delete
+                Title = Strings.Delete,
+                Command = new RelayCommand(OnCancel)
             };
         }
 
@@ -30,6 +33,15 @@ namespace InStock.Frontend.Core.PageModels.Inventory
 
             return base.InitializeAsync(navigationData);
         }
+
+        private void OnCancel()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnConfirm()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-

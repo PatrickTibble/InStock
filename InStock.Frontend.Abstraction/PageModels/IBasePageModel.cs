@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace InStock.Frontend.Abstraction.PageModels
+﻿namespace InStock.Frontend.Abstraction.PageModels
 {
     public interface IBasePageModel
     {
         void Appearing(object? sender, EventArgs e);
         void Disappearing(object? sender, EventArgs e);
-        Task InitializeAsync(object navigationData = null);
+        Task InitializeAsync(object? navigationData = null);
     }
 }
-
