@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Base;
@@ -36,6 +37,9 @@ namespace InStock.Frontend.Core.PageModels.Login
             _navigationService = navigationService;
             _sessionRepository = sessionRepository;
             _accountRepository = accountRepository;
+
+            LoginWithCredentialsCommand = new AsyncRelayCommand(TryLoginWithCredentialsAsync, () => !IsLoading);
+            LoginWithTokenCommand = new AsyncRelayCommand(TryLoginWithTokenAsync, () => !IsLoading);
         }
 
         public override async Task InitializeAsync(object? navigationData = null)
@@ -47,7 +51,7 @@ namespace InStock.Frontend.Core.PageModels.Login
             var sessionStatus = await _sessionRepository.GetSessionStateAsync().ConfigureAwait(false);
             if (sessionStatus.IsValid)
             {
-                // If yes, go straight to MainPage
+                // If yes, go straight to MainPageModel
                 await _navigationService.NavigateToAsync<MainPageModel>(setRoot: true);
                 return;
             }
@@ -57,7 +61,7 @@ namespace InStock.Frontend.Core.PageModels.Login
 
         private async Task<bool> TryLoginWithCredentialsAsync()
         {
-            var loginResult = await _accountRepository.LoginAsync(_username, _password).ConfigureAwait(false);
+            var loginResult = await _accountRepository.LoginAsync(Username, Password).ConfigureAwait(false);
 
             return loginResult.IsSuccessful;
         }
@@ -69,4 +73,3 @@ namespace InStock.Frontend.Core.PageModels.Login
         }
     }
 }
-
