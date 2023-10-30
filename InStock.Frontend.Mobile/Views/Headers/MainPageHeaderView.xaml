@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Headers;assembly=InStock.Frontend.Core"
              x:DataType="vm:MainPageHeaderViewModel"
-             x:Class="InStock.Fontend.Mobile.Views.Headers.MainPageHeaderView">
+             x:Class="InStock.Frontend.Mobile.Views.Headers.MainPageHeaderView">
     <VerticalStackLayout BackgroundColor="Purple">
         <Label 
             Text="{Binding Title}"

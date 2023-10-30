@@ -1,5 +1,5 @@
 ﻿using System;
-namespace InStock.Fontend.Mobile.TemplateSelectors
+namespace InStock.Frontend.Mobile.TemplateSelectors
 {
     public class MappableTemplateSelector : DataTemplateSelector
 	{

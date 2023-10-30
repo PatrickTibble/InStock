@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Pages.PointOfSale;
+﻿namespace InStock.Frontend.Mobile.Pages.PointOfSale;
 
 public partial class ScannerPage : ContentPage
 {

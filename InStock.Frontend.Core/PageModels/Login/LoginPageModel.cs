@@ -1,10 +1,12 @@
-﻿using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
+using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Dashboard;
+using InStock.Frontend.Core.Resources.Localization;
+using InStock.Frontend.Core.ViewModels.Input;
 
 namespace InStock.Frontend.Core.PageModels.Login
 {
@@ -18,19 +20,11 @@ namespace InStock.Frontend.Core.PageModels.Login
         private bool _isLoading;
 
         [ObservableProperty]
-        private string? _username;
-
-        [ObservableProperty]
-        private string? _password;
-
-        [ObservableProperty]
-        private ICommand? _loginWithCredentialsCommand;
-
-        [ObservableProperty]
-        private ICommand? _loginWithTokenCommand;
+        private string? _appVersion;
 
         public LoginPageModel(
             INavigationService navigationService,
+            IClientInfoService infoService,
             ISessionRepository sessionRepository,
             IAccountRepository accountRepository)
 		{
@@ -38,9 +32,31 @@ namespace InStock.Frontend.Core.PageModels.Login
             _sessionRepository = sessionRepository;
             _accountRepository = accountRepository;
 
-            LoginWithCredentialsCommand = new AsyncRelayCommand(TryLoginWithCredentialsAsync, () => !IsLoading);
-            LoginWithTokenCommand = new AsyncRelayCommand(TryLoginWithTokenAsync, () => !IsLoading);
+            AppVersion = infoService.AppVersion.ToString();
+
+            UsernameViewModel = new PrimaryEntryViewModel
+            {
+                Placeholder = Strings.Placeholder_Username
+            };
+
+            PasswordViewModel = new PrimaryEntryViewModel
+            {
+                Placeholder = Strings.Placeholder_Password,
+                IsPassword = true
+            };
+
+            LoginViewModel = new ButtonViewModel
+            {
+                Command = new AsyncRelayCommand(TryLoginWithCredentialsAsync, () => !IsLoading),
+                Title = Strings.ButtonTitle_Login
+            };
         }
+
+        public PrimaryEntryViewModel UsernameViewModel { get; }
+
+        public PrimaryEntryViewModel PasswordViewModel { get; }
+
+        public ButtonViewModel LoginViewModel { get; }
 
         public override async Task InitializeAsync(object? navigationData = null)
         {
@@ -61,15 +77,9 @@ namespace InStock.Frontend.Core.PageModels.Login
 
         private async Task<bool> TryLoginWithCredentialsAsync()
         {
-            var loginResult = await _accountRepository.LoginAsync(Username, Password).ConfigureAwait(false);
+            var loginResult = await _accountRepository.LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text).ConfigureAwait(false);
 
             return loginResult.IsSuccessful;
-        }
-
-        private async Task<bool> TryLoginWithTokenAsync()
-        {
-            // get session token from biometrics
-            return await Task.FromResult(false).ConfigureAwait(false);
         }
     }
 }

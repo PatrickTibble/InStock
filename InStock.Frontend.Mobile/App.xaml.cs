@@ -1,7 +1,7 @@
 using InStock.Common.IoC;
-using InStock.Fontend.Mobile.Pages.Login;
-using InStock.Fontend.Mobile.Pages.PointOfSale;
-using InStock.Fontend.Mobile.Services.Threading;
+using InStock.Frontend.Mobile.Pages.Login;
+using InStock.Frontend.Mobile.Pages.PointOfSale;
+using InStock.Frontend.Mobile.Services.Threading;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
@@ -19,6 +19,8 @@ using InStock.Frontend.Mobile.Pages.Inventory;
 using InStock.Frontend.Mobile.Pages.Shared;
 using InStock.Frontend.Mobile.Services.Alerts;
 using InStock.Frontend.Mobile.Services.Navigation;
+using InStock.Frontend.Abstraction.Services.Platform;
+using InStock.Frontend.Core.Services.Platform;
 
 namespace InStock.Frontend.Mobile;
 
@@ -52,6 +54,7 @@ public partial class App : Application
         container.Register<INavigationService, MauiNavigationService>();
         container.Register<IMainThreadDispatcher, MainThreadDispatcher>();
         container.Register<ITaskCancellationService, TaskCancellationService>();
+        container.Register<IClientInfoService, ClientInfoService>();
 
         var httpClient = new HttpClient();
         var apiRegistrar = new API.APIServiceRegistrar();

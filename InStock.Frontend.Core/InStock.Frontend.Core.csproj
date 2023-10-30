@@ -48,11 +48,9 @@
     <Folder Include="Extensions\" />
     <Folder Include="Extensions\Navigation\" />
     <Folder Include="PageModels\Inventory\" />
-    <Folder Include="ViewModels\Input\" />
     <Folder Include="ViewModels\ListItems\" />
     <Folder Include="PageModels\PointOfSale\" />
     <Folder Include="PageModels\Login\" />
-    <Folder Include="Services\" />
     <Folder Include="Services\Threading\" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +71,8 @@
     </Compile>
     <Compile Update="Resources\Localization\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 </Project>

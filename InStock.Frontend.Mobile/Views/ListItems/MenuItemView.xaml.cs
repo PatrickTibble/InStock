@@ -1,4 +1,4 @@
-﻿namespace InStock.Fontend.Mobile.Views.ListItems;
+﻿namespace InStock.Frontend.Mobile.Views.ListItems;
 
 public partial class MenuItemView : ContentView
 {
