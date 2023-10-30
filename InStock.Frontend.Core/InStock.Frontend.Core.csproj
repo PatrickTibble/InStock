@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;DebugWithMocks</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,6 @@
     <None Remove="PageModels\Base\" />
     <None Remove="Repositories\" />
     <None Remove="Repositories\Base\" />
-    <None Remove="Models\" />
     <None Remove="Resources\" />
     <None Remove="Resources\Localization\" />
     <None Remove="Extensions\" />
@@ -43,18 +43,13 @@
     <Folder Include="PageModels\Base\" />
     <Folder Include="Repositories\" />
     <Folder Include="Repositories\Base\" />
-    <Folder Include="Models\" />
     <Folder Include="Resources\" />
     <Folder Include="Resources\Localization\" />
     <Folder Include="Extensions\" />
     <Folder Include="Extensions\Navigation\" />
     <Folder Include="PageModels\Inventory\" />
-    <Folder Include="Repositories\Mocks\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="ViewModels\Headers\" />
     <Folder Include="ViewModels\Input\" />
     <Folder Include="ViewModels\ListItems\" />
-    <Folder Include="ViewModels\Base\" />
     <Folder Include="PageModels\PointOfSale\" />
     <Folder Include="PageModels\Login\" />
     <Folder Include="Services\" />
