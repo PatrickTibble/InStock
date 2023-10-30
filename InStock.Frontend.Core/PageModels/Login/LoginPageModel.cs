@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Base;
@@ -10,16 +11,31 @@ namespace InStock.Frontend.Core.PageModels.Login
 	{
         private readonly INavigationService _navigationService;
         private readonly ISessionRepository _sessionRepository;
+        private readonly IAccountRepository _accountRepository;
 
         [ObservableProperty]
         private bool _isLoading;
 
+        [ObservableProperty]
+        private string? _username;
+
+        [ObservableProperty]
+        private string? _password;
+
+        [ObservableProperty]
+        private ICommand? _loginWithCredentialsCommand;
+
+        [ObservableProperty]
+        private ICommand? _loginWithTokenCommand;
+
         public LoginPageModel(
             INavigationService navigationService,
-            ISessionRepository sessionRepository)
+            ISessionRepository sessionRepository,
+            IAccountRepository accountRepository)
 		{
             _navigationService = navigationService;
             _sessionRepository = sessionRepository;
+            _accountRepository = accountRepository;
         }
 
         public override async Task InitializeAsync(object? navigationData = null)
@@ -28,7 +44,7 @@ namespace InStock.Frontend.Core.PageModels.Login
             await base.InitializeAsync(navigationData);
             // Determine if user is logged in and if current
             // session is active.
-            var sessionStatus = await _sessionRepository.GetSessionStateAsync();
+            var sessionStatus = await _sessionRepository.GetSessionStateAsync().ConfigureAwait(false);
             if (sessionStatus.IsValid)
             {
                 // If yes, go straight to MainPage
@@ -37,6 +53,19 @@ namespace InStock.Frontend.Core.PageModels.Login
             }
             // else, stop loading and show Login/Signup
             IsLoading = false;
+        }
+
+        private async Task<bool> TryLoginWithCredentialsAsync()
+        {
+            var loginResult = await _accountRepository.LoginAsync(_username, _password).ConfigureAwait(false);
+
+            return loginResult.IsSuccessful;
+        }
+
+        private async Task<bool> TryLoginWithTokenAsync()
+        {
+            // get session token from biometrics
+            return await Task.FromResult(false).ConfigureAwait(false);
         }
     }
 }

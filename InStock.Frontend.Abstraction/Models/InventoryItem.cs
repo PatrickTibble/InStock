@@ -1,6 +1,4 @@
-﻿using InStock.Common.Abstraction.Repositories.Base;
-
-namespace InStock.Frontend.Core.Models
+﻿namespace InStock.Frontend.Abstraction.Models
 {
     public class InventoryItem : IIdentifiable
 	{
@@ -11,4 +9,3 @@ namespace InStock.Frontend.Core.Models
         public decimal SalePrice { get; set; }
     }
 }
-

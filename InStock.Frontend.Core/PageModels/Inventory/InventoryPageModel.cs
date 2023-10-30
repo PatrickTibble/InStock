@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
-using InStock.Common.Abstraction.Repositories.Base;
+using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Threading;
-using InStock.Frontend.Core.Models;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.ViewModels.ListItems;
 
@@ -13,11 +12,11 @@ namespace InStock.Frontend.Core.PageModels.Inventory
 	{
         private readonly IMainThreadDispatcher _dispatcher;
         private readonly INavigationService _navigationService;
-        private readonly IRepository<InventoryItem> _repository;
+        private readonly IInventoryRepository _repository;
 
         public InventoryPageModel(
             INavigationService navigationService,
-            IRepository<InventoryItem> repository,
+            IInventoryRepository repository,
             IMainThreadDispatcher dispatcher)
 		{
             _dispatcher = dispatcher;
@@ -25,10 +24,10 @@ namespace InStock.Frontend.Core.PageModels.Inventory
             _repository = repository;
 		}
 
-        public override Task InitializeAsync(object? navigationData = null)
+        public override async Task InitializeAsync(object? navigationData = null)
         {
-            var items = _repository.GetAll();
-            return Task.WhenAny(
+            var items = await _repository.GetFullInventoryAsync().ConfigureAwait(false);
+            await Task.WhenAny(
                 base.InitializeAsync(navigationData),
                 _dispatcher.DispatchOnMainThreadAsync(() =>
                 {
@@ -38,7 +37,7 @@ namespace InStock.Frontend.Core.PageModels.Inventory
                                 item.Name,
                                 item.Description,
                                 new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
-                }));
+                })).ConfigureAwait(false);
         }
     }
 }

@@ -34,9 +34,8 @@
     <None Remove="ViewModels\Base\" />
     <None Remove="PageModels\PointOfSale\" />
     <None Remove="PageModels\Login\" />
-    <None Remove="Repositories\Account\" />
-    <None Remove="Repositories\Inventory\" />
-    <None Remove="Models\Account\" />
+    <None Remove="Services\" />
+    <None Remove="Services\Threading\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PageModels\" />
@@ -58,9 +57,8 @@
     <Folder Include="ViewModels\Base\" />
     <Folder Include="PageModels\PointOfSale\" />
     <Folder Include="PageModels\Login\" />
-    <Folder Include="Repositories\Account\" />
-    <Folder Include="Repositories\Inventory\" />
-    <Folder Include="Models\Account\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Threading\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />

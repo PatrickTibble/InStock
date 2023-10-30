@@ -1,5 +1,4 @@
-﻿using System;
-namespace InStock.Frontend.Core.Extensions
+﻿namespace InStock.Frontend.Core.Extensions
 {
 	public static class TaskExtensions
 	{
@@ -18,4 +17,3 @@ namespace InStock.Frontend.Core.Extensions
 		}
 	}
 }
-
