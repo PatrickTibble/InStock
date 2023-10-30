@@ -2,11 +2,9 @@
 
 namespace InStock.Frontend.Core.ViewModels.Base
 {
-    public abstract class BaseViewModel : ObservableObject
+    public abstract partial class BaseViewModel : ObservableObject
 	{
-		protected BaseViewModel()
-		{
-		}
+		[ObservableProperty]
+		private string? _title;
 	}
 }
-

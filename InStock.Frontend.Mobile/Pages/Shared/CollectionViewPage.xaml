@@ -5,13 +5,16 @@
              x:Class="InStock.Frontend.Mobile.Pages.Shared.CollectionViewPage"
              Title="{Binding Title}">
     <ContentPage.Resources>
-        <templateSelectors:CollectionViewItemTemplateSelector x:Key="TemplateSelector" />
+        <templateSelectors:CollectionViewHeaderTemplateSelector x:Key="HeaderTemplateSelector" />
+        <templateSelectors:CollectionViewItemTemplateSelector x:Key="ItemTemplateSelector" />
     </ContentPage.Resources>
 
     <CollectionView ItemsSource="{Binding Items}"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
-                    ItemTemplate="{StaticResource TemplateSelector}"
+                    Header="{Binding HeaderViewModel}"
+                    HeaderTemplate="{StaticResource HeaderTemplateSelector}"
+                    ItemTemplate="{StaticResource ItemTemplateSelector}"
                     SelectionMode="None" />
 
 </ContentPage>
