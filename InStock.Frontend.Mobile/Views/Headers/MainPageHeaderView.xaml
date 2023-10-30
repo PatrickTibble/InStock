@@ -1,14 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Headers;assembly=InStock.Frontend.Core"
-             x:DataType="vm:PrimaryHeaderViewModel"
-             x:Class="InStock.Frontend.Mobile.Views.Headers.PrimaryHeaderView">
-    <VerticalStackLayout>
+             x:DataType="vm:MainPageHeaderViewModel"
+             x:Class="InStock.Fontend.Mobile.Views.Headers.MainPageHeaderView">
+    <VerticalStackLayout BackgroundColor="Purple">
         <Label 
             Text="{Binding Title}"
             VerticalOptions="Center" 
-            HorizontalOptions="CenterAndExpand" />
+            HorizontalOptions="Center" />
     </VerticalStackLayout>
 </ContentView>
-

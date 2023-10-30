@@ -13,6 +13,9 @@ namespace InStock.Frontend.Core.PageModels.Base
 		[ObservableProperty]
 		private TListItem? _selectedItem;
 
+		[ObservableProperty]
+		private BaseViewModel? _headerViewModel;
+
 		protected virtual void SelectedItemChanged(TListItem? oldValue, TListItem? newValue)
 		{
 
