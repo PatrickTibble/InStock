@@ -73,14 +73,10 @@
 	  <None Remove="Services\Threading\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Pages\" />
-	  <Folder Include="Views\" />
 	  <Folder Include="Views\Input\" />
-	  <Folder Include="Views\Headers\" />
 	  <Folder Include="Pages\Shared\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Pages\Inventory\" />
-	  <Folder Include="TemplateSelectors\" />
 	  <Folder Include="Views\ListItems\" />
 	  <Folder Include="Pages\PointOfSale\" />
 	  <Folder Include="Services\Threading\" />
@@ -99,6 +95,12 @@
 	<ItemGroup>
 	  <MauiXaml Update="Pages\Inventory\ItemDetailsPage.xaml">
 	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Login\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Headers\MainPageHeaderView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 </Project>
