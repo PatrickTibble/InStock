@@ -9,7 +9,8 @@ namespace InStock.Frontend.Mobile.TemplateSelectors
         {
             TemplateMap = new Dictionary<Type, DataTemplate>()
             {
-                { typeof(MainPageHeaderViewModel), new DataTemplate(typeof(MainPageHeaderView)) }
+                { typeof(MainPageHeaderViewModel), new DataTemplate(typeof(MainPageHeaderView)) },
+                { typeof(PrimaryHeaderViewModel), new DataTemplate(typeof(PrimaryHeaderView)) }
             };
         }
     }

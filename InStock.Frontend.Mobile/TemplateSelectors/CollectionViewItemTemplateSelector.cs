@@ -11,8 +11,7 @@ namespace InStock.Frontend.Mobile.TemplateSelectors
 		{
 			TemplateMap = new Dictionary<Type, DataTemplate>
 			{
-				{ typeof(MenuItemViewModel), new DataTemplate(typeof(MenuItemView)) },
-				{ typeof(PrimaryHeaderViewModel), new DataTemplate(typeof(PrimaryHeaderView)) }
+				{ typeof(MenuItemViewModel), new DataTemplate(typeof(MenuItemView)) }
 			};
 		}
 	}
