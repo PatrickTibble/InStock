@@ -41,7 +41,7 @@ public partial class App : Application
     {
         var navigationService = Resolver.Resolve<INavigationService>();
         navigationService
-            .NavigateToAsync<LoginPageModel>(setRoot: true)
+            .NavigateToAsync<MainPageModel>(setRoot: true)
             .FireAndForgetSafeAsync();
     }
 

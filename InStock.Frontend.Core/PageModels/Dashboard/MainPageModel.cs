@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
+using InStock.Frontend.Core.Extensions;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Inventory;
+using InStock.Frontend.Core.PageModels.Login;
 using InStock.Frontend.Core.PageModels.PointOfSale;
 using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.ViewModels.Headers;
@@ -11,11 +14,16 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
 {
 	public class MainPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
 	{
-        private readonly INavigationService navigationService;
+        private readonly ISessionRepository _sessionRepository;
+        private readonly INavigationService _navigationService;
 
-        public MainPageModel(INavigationService navigationService)
+        public MainPageModel(
+            INavigationService navigationService,
+            ISessionRepository sessionRepository)
 		{
-            this.navigationService = navigationService;
+            _sessionRepository = sessionRepository;
+            _navigationService = navigationService;
+
             HeaderViewModel = new MainPageHeaderViewModel()
             {
                 Title = "Main Page"
@@ -35,10 +43,26 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
             };
         }
 
+        public override void Appearing(object? sender, EventArgs e)
+        {
+            base.Appearing(sender, e);
+            VerifyUserSessionAsync().FireAndForgetSafeAsync();
+        }
+
+        private async Task VerifyUserSessionAsync()
+        {
+            var sessionStatus = await _sessionRepository.GetSessionStateAsync().ConfigureAwait(false);
+            if (!sessionStatus.IsValid)
+            {
+                // If yes, go straight to MainPageModel
+                await _navigationService.NavigateToAsync<LoginPageModel>().ConfigureAwait(false);
+            }
+        }
+
         private Task OnShowInventory()
-            => navigationService.NavigateToAsync<InventoryPageModel>();
+            => _navigationService.NavigateToAsync<InventoryPageModel>();
 
         private Task OnShowPointOfSale()
-            => navigationService.NavigateToAsync<ScannerPageModel>();
+            => _navigationService.NavigateToAsync<ScannerPageModel>();
     }
 }

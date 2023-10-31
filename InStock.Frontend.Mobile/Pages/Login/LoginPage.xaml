@@ -6,6 +6,8 @@
     xmlns:pm="clr-namespace:InStock.Frontend.Core.PageModels.Login;assembly=InStock.Frontend.Core"
     xmlns:converters="clr-namespace:InStock.Frontend.Mobile.Converters"
     xmlns:inputViews="clr-namespace:InStock.Frontend.Mobile.Views.Input"
+    NavigationPage.HasNavigationBar="False"
+    NavigationPage.HasBackButton="False"
     BackgroundColor="{StaticResource Gray100}"
     x:DataType="pm:LoginPageModel"
     Title="LoginPage">

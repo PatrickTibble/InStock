@@ -15,6 +15,11 @@ namespace InStock.Frontend.Mobile.Services.Navigation
         public Task NavigateToAsync<TPageModel>(object navigationData = null, bool setRoot = false)
             where TPageModel : class, IBasePageModel
         {
+            if (Application.Current.Dispatcher.IsDispatchRequired)
+            {
+                return Application.Current.Dispatcher.DispatchAsync(() => NavigateToAsync<TPageModel>(navigationData, setRoot));
+            }
+
             var page = _locator.CreatePageFor<TPageModel>();
             var tasks = new List<Task> { ((IBasePageModel)page.BindingContext).InitializeAsync(navigationData) };
 

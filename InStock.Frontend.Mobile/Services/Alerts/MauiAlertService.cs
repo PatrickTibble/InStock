@@ -4,9 +4,8 @@ namespace InStock.Frontend.Mobile.Services.Alerts
 {
     public class MauiAlertService : IAlertService
 	{
-		public MauiAlertService()
-		{
-		}
-	}
+        public Task ShowServiceAlert(string title, string message, string confirm)
+            => Application.Current.MainPage.DisplayAlert(title, message, confirm);
+    }
 }
 

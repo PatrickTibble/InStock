@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InStock.Frontend.Abstraction.Repositories;
+using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.PageModels.Base;
-using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.ViewModels.Input;
 
@@ -12,8 +12,8 @@ namespace InStock.Frontend.Core.PageModels.Login
 {
     public partial class LoginPageModel : BasePageModel
 	{
+        private readonly IAlertService _alertService;
         private readonly INavigationService _navigationService;
-        private readonly ISessionRepository _sessionRepository;
         private readonly IAccountRepository _accountRepository;
 
         [ObservableProperty]
@@ -25,11 +25,11 @@ namespace InStock.Frontend.Core.PageModels.Login
         public LoginPageModel(
             INavigationService navigationService,
             IClientInfoService infoService,
-            ISessionRepository sessionRepository,
+            IAlertService alertService,
             IAccountRepository accountRepository)
 		{
+            _alertService = alertService;
             _navigationService = navigationService;
-            _sessionRepository = sessionRepository;
             _accountRepository = accountRepository;
 
             AppVersion = infoService.AppVersion.ToString();
@@ -58,28 +58,17 @@ namespace InStock.Frontend.Core.PageModels.Login
 
         public ButtonViewModel LoginViewModel { get; }
 
-        public override async Task InitializeAsync(object? navigationData = null)
+        private async Task TryLoginWithCredentialsAsync()
         {
             IsLoading = true;
-            await base.InitializeAsync(navigationData);
-            // Determine if user is logged in and if current
-            // session is active.
-            var sessionStatus = await _sessionRepository.GetSessionStateAsync().ConfigureAwait(false);
-            if (sessionStatus.IsValid)
-            {
-                // If yes, go straight to MainPageModel
-                await _navigationService.NavigateToAsync<MainPageModel>(setRoot: true);
-                return;
-            }
-            // else, stop loading and show Login/Signup
-            IsLoading = false;
-        }
-
-        private async Task<bool> TryLoginWithCredentialsAsync()
-        {
             var loginResult = await _accountRepository.LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text).ConfigureAwait(false);
+            if (loginResult.IsSuccessful)
+            {
+                await _navigationService.PopAsync().ConfigureAwait(false);
+            }
 
-            return loginResult.IsSuccessful;
+            IsLoading = false;
+            await _alertService.ShowServiceAlert(Strings.AlertTitle_LoginFailed, Strings.AlertBody_LoginFailed, Strings.AlertAction_Confirm).ConfigureAwait(false);
         }
     }
 }

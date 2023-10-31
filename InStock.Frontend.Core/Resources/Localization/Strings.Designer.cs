@@ -61,6 +61,33 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string AlertAction_Confirm {
+            get {
+                return ResourceManager.GetString("AlertAction_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It looks like something went wrong. Please check your credentials and try again..
+        /// </summary>
+        internal static string AlertBody_LoginFailed {
+            get {
+                return ResourceManager.GetString("AlertBody_LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login Failed.
+        /// </summary>
+        internal static string AlertTitle_LoginFailed {
+            get {
+                return ResourceManager.GetString("AlertTitle_LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to log in.
         /// </summary>
         internal static string ButtonTitle_Login {
