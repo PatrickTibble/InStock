@@ -153,4 +153,10 @@
   <data name="AlertTitle_LoginFailed" xml:space="preserve">
     <value>Login Failed</value>
   </data>
+  <data name="PageTitle_InventoryPage" xml:space="preserve">
+    <value>Inventory Page</value>
+  </data>
+  <data name="PageTitle_MainPage" xml:space="preserve">
+    <value>Main Page</value>
+  </data>
 </root>

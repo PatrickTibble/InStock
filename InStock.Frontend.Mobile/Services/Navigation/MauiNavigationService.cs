@@ -37,6 +37,10 @@ namespace InStock.Frontend.Mobile.Services.Navigation
 
         public Task PopAsync()
         {
+            if (Application.Current.Dispatcher.IsDispatchRequired)
+            {
+                return Application.Current.Dispatcher.DispatchAsync(PopAsync);
+            }
             return Application.Current.MainPage.Navigation.PopAsync();
         }
     }

@@ -142,6 +142,24 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inventory Page.
+        /// </summary>
+        internal static string PageTitle_InventoryPage {
+            get {
+                return ResourceManager.GetString("PageTitle_InventoryPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Page.
+        /// </summary>
+        internal static string PageTitle_MainPage {
+            get {
+                return ResourceManager.GetString("PageTitle_MainPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to password.
         /// </summary>
         internal static string Placeholder_Password {

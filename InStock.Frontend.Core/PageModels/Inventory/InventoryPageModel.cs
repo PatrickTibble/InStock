@@ -4,6 +4,7 @@ using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.PageModels.Base;
+using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.ViewModels.Headers;
 using InStock.Frontend.Core.ViewModels.ListItems;
 
@@ -26,7 +27,7 @@ namespace InStock.Frontend.Core.PageModels.Inventory
 
             HeaderViewModel = new PrimaryHeaderViewModel
             {
-                Title = "Inventory Page"
+                Title = Strings.PageTitle_InventoryPage
             };
 		}
 

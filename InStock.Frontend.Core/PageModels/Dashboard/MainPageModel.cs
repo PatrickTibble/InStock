@@ -26,7 +26,7 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
 
             HeaderViewModel = new MainPageHeaderViewModel()
             {
-                Title = "Main Page"
+                Title = Strings.PageTitle_MainPage
             };
 
             Items = new System.Collections.ObjectModel.ObservableCollection<MenuItemViewModel>
@@ -54,7 +54,6 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
             var sessionStatus = await _sessionRepository.GetSessionStateAsync().ConfigureAwait(false);
             if (!sessionStatus.IsValid)
             {
-                // If yes, go straight to MainPageModel
                 await _navigationService.NavigateToAsync<LoginPageModel>().ConfigureAwait(false);
             }
         }

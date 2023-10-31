@@ -1,11 +1,13 @@
-﻿using System;
+﻿using InStock.Frontend.API.Models.Base;
+
 namespace InStock.Frontend.API.Models.Inventory.Get
 {
-	public class Response
+    public class Response : IResponse
 	{
-		public Response()
-		{
-		}
-	}
-}
+        public int Id { get; internal set; }
+        public string? Name { get; internal set; }
+        public string? Description { get; internal set; }
 
+        public bool IsSuccessfulStatusCode { get; internal set; }
+    }
+}

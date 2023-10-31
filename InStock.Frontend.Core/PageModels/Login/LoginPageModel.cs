@@ -65,6 +65,7 @@ namespace InStock.Frontend.Core.PageModels.Login
             if (loginResult.IsSuccessful)
             {
                 await _navigationService.PopAsync().ConfigureAwait(false);
+                return;
             }
 
             IsLoading = false;
