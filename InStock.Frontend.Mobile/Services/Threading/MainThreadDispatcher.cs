@@ -1,6 +1,6 @@
 ﻿using InStock.Frontend.Abstraction.Services.Threading;
 
-namespace InStock.Fontend.Mobile.Services.Threading
+namespace InStock.Frontend.Mobile.Services.Threading
 {
     public class MainThreadDispatcher : IMainThreadDispatcher
 	{

@@ -24,7 +24,12 @@ namespace InStock.Frontend.Core.Repositories
 
             if (response.IsSuccessfulStatusCode)
             {
-                return new List<InventoryItem>();
+                return response.Items?.Select(i => new InventoryItem
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                }) ?? new List<InventoryItem>();
             }
 
             return default;

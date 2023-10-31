@@ -1,4 +1,5 @@
 ﻿using InStock.Common.Abstraction.Repositories.Base;
+using InStock.Frontend.Abstraction.Models;
 
 namespace InStock.Frontend.Core.Repositories.Base
 {

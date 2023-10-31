@@ -1,7 +1,7 @@
-﻿using InStock.Fontend.Mobile.Views.Headers;
+﻿using InStock.Frontend.Mobile.Views.Headers;
 using InStock.Frontend.Core.ViewModels.Headers;
 
-namespace InStock.Fontend.Mobile.TemplateSelectors
+namespace InStock.Frontend.Mobile.TemplateSelectors
 {
     public class CollectionViewHeaderTemplateSelector : MappableTemplateSelector
     {

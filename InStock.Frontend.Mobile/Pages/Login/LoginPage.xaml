@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InStock.Frontend.Mobile.Pages.Login.LoginPage"
+    xmlns:pm="clr-namespace:InStock.Frontend.Core.PageModels.Login;assembly=InStock.Frontend.Core"
+    xmlns:converters="clr-namespace:InStock.Frontend.Mobile.Converters"
+    xmlns:inputViews="clr-namespace:InStock.Frontend.Mobile.Views.Input"
+    NavigationPage.HasNavigationBar="False"
+    NavigationPage.HasBackButton="False"
+    BackgroundColor="{StaticResource Gray100}"
+    x:DataType="pm:LoginPageModel"
+    Title="LoginPage">
+    <ContentPage.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <ActivityIndicator
+            IsRunning="{Binding IsLoading}"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand"
+            WidthRequest="40"
+            HeightRequest="40" />
+        <Frame
+            IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+            BackgroundColor="{StaticResource White}"
+            BorderColor="{StaticResource Gray200}"
+            VerticalOptions="Center"
+            WidthRequest="320"
+            HasShadow="True"
+            Margin="20"
+            CornerRadius="12">
+            <VerticalStackLayout
+                HorizontalOptions="FillAndExpand"
+                Spacing="12">
+                <inputViews:PrimaryEntryView
+                    BindingContext="{Binding UsernameViewModel}" />
+                <inputViews:PrimaryEntryView
+                    BindingContext="{Binding PasswordViewModel}" />
+                <inputViews:PrimaryRoundButton
+                    BindingContext="{Binding LoginViewModel}" />
+            </VerticalStackLayout>
+        </Frame>
+        <Label
+            Text="{Binding AppVersion, StringFormat='version {0}'}"
+            TextColor="{StaticResource Gray300}"
+            FontSize="12"
+            HorizontalOptions="Center"/>
+    </VerticalStackLayout>
+</ContentPage>

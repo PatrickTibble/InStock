@@ -4,6 +4,8 @@ using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.PageModels.Base;
+using InStock.Frontend.Core.Resources.Localization;
+using InStock.Frontend.Core.ViewModels.Headers;
 using InStock.Frontend.Core.ViewModels.ListItems;
 
 namespace InStock.Frontend.Core.PageModels.Inventory
@@ -22,6 +24,11 @@ namespace InStock.Frontend.Core.PageModels.Inventory
             _dispatcher = dispatcher;
             _navigationService = navigationService;
             _repository = repository;
+
+            HeaderViewModel = new PrimaryHeaderViewModel
+            {
+                Title = Strings.PageTitle_InventoryPage
+            };
 		}
 
         public override async Task InitializeAsync(object? navigationData = null)
@@ -31,12 +38,15 @@ namespace InStock.Frontend.Core.PageModels.Inventory
                 base.InitializeAsync(navigationData),
                 _dispatcher.DispatchOnMainThreadAsync(() =>
                 {
-                    Items = new ObservableCollection<MenuItemViewModel>(
-                        items.Select(
-                            item => new MenuItemViewModel(
-                                item.Name,
-                                item.Description,
-                                new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
+                    if (items != null)
+                    {
+                        Items = new ObservableCollection<MenuItemViewModel>(
+                            items.Select(
+                                item => new MenuItemViewModel(
+                                    item.Name,
+                                    item.Description,
+                                    new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
+                    }
                 })).ConfigureAwait(false);
         }
     }
