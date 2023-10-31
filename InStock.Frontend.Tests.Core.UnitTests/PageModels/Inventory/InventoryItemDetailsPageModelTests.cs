@@ -45,14 +45,14 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Inventory
         public async Task NavigationData_NotNull_NameIsNotNull()
         {
             await _pageModel.InitializeAsync(_item);
-            Assert.That(_pageModel.Name, Is.Null);
+            Assert.That(_pageModel.Name, Is.Not.Null);
         }
 
         [Test]
         public async Task NavigationData_NotNull_DescriptionIsNotNull()
         {
             await _pageModel.InitializeAsync(_item);
-            Assert.That(_pageModel.Description, Is.Null);
+            Assert.That(_pageModel.Description, Is.Not.Null);
         }
     }
 }
