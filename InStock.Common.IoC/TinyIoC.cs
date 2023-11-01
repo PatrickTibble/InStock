@@ -13,6 +13,17 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8601 // Possible null reference assignment.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable	CS8604 // Possible null reference argument for parameter 'name' in 'RegisterOptions TinyIoCContainer.Register(Type registerType, Type registerImplementation, string name)'.
+#pragma warning disable	CS8618 // Non-nullable property 'Constructor' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
+#pragma warning disable	CS8619 // Nullability of reference types in value of type 'Type?[]' doesn't match target type 'Type[]'.
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+#pragma warning disable CS8765 // Nullability of type of parameter 'obj' doesn't match overridden member (possibly because of nullability attributes).
+
 #region Preprocessor Directives
 // Uncomment this line if you want the container to automatically
 // register the TinyMessenger messenger/event aggregator
@@ -4480,3 +4491,14 @@ namespace TinyIoC
         }
     }
 }
+
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8601 // Possible null reference assignment.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8603 // Possible null reference return.
+#pragma warning restore CS8604 // Possible null reference argument for parameter 'name' in 'RegisterOptions TinyIoCContainer.Register(Type registerType, Type registerImplementation, string name)'.
+#pragma warning restore CS8618 // Non-nullable property 'Constructor' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
+#pragma warning restore CS8619 // Nullability of reference types in value of type 'Type?[]' doesn't match target type 'Type[]'.
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
+#pragma warning restore CS8765 // Nullability of type of parameter 'obj' doesn't match overridden member (possibly because of nullability attributes).
