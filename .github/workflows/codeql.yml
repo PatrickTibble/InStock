@@ -79,10 +79,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
-
-    - name: Restore dependencies
-      run: dotnet restore
-
+        
     - name: Install .NET workloads
       shell: pwsh
       run: |
@@ -90,6 +87,9 @@ jobs:
         dotnet workload install ios
         dotnet workload install maccatalyst
         dotnet workload install maui
+
+    - name: Restore dependencies
+      run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore
