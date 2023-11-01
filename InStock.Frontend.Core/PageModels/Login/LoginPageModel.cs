@@ -61,7 +61,10 @@ namespace InStock.Frontend.Core.PageModels.Login
         private async Task TryLoginWithCredentialsAsync()
         {
             IsLoading = true;
-            var loginResult = await _accountRepository.LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text).ConfigureAwait(false);
+            var loginResult = await _accountRepository
+                .LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text)
+                .ConfigureAwait(false);
+
             if (loginResult.IsSuccessful)
             {
                 await _navigationService.PopAsync().ConfigureAwait(false);
@@ -69,7 +72,9 @@ namespace InStock.Frontend.Core.PageModels.Login
             }
 
             IsLoading = false;
-            await _alertService.ShowServiceAlert(Strings.AlertTitle_LoginFailed, Strings.AlertBody_LoginFailed, Strings.AlertAction_Confirm).ConfigureAwait(false);
+            await _alertService
+                .ShowServiceAlert(Strings.AlertTitle_LoginFailed, Strings.AlertBody_LoginFailed, Strings.AlertAction_Confirm)
+                .ConfigureAwait(false);
         }
     }
 }

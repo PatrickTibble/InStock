@@ -12,7 +12,7 @@ namespace InStock.Frontend.Mobile.Services.Navigation
             _locator = locator;
         }
 
-        public Task NavigateToAsync<TPageModel>(object navigationData = null, bool setRoot = false)
+        public Task NavigateToAsync<TPageModel>(object? navigationData = null, bool setRoot = false)
             where TPageModel : class, IBasePageModel
         {
             if (Application.Current.Dispatcher.IsDispatchRequired)
