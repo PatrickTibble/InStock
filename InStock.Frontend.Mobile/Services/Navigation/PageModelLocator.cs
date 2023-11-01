@@ -40,4 +40,3 @@ namespace InStock.Frontend.Mobile.Services.Navigation
         }
     }
 }
-
