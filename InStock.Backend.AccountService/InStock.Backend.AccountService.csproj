@@ -19,6 +19,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InStock.Backend.AccountService.Abstraction\InStock.Backend.AccountService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj" />
     <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
   </ItemGroup>
 

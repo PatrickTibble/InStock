@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InStock.Backend.AccountService.Abstraction.Services;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
@@ -7,11 +8,11 @@ namespace InStock.Backend.AccountService.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
+        private readonly IAccountService _accountService;
 
-        public AccountController(ILogger<AccountController> logger)
+        public AccountController(IAccountService accountService)
         {
-            _logger = logger;
+            _accountService = accountService;
         }
 
         [HttpGet]
@@ -21,14 +22,17 @@ namespace InStock.Backend.AccountService.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Common.Models.Account.SessionStatus.Response), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSessionStateAsync()
+        public async Task<IActionResult> GetSessionStateAsync(
+            [FromHeader(Name = "accessToken")] string accessToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            return Ok();
+            var response = await _accountService.GetSessionStateAsync(accessToken);
+
+            return Ok(response);
         }
     }
 }
