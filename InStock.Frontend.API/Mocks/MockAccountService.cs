@@ -7,7 +7,16 @@ namespace InStock.Frontend.API.Mocks
     {
         private bool _sessionIsActive = false;
 
-        public Task<Models.Account.SessionStatus.Response> GetSessionStatus(CancellationToken token)
+        public Task<Models.Account.CreateAccount.Response> CreateAccountAsync([Body] Models.Account.CreateAccount.Request request, CancellationToken token)
+        {
+            return Delay(token)
+                .ContinueWith(t => new Models.Account.CreateAccount.Response
+                {
+
+                });
+        }
+
+        public Task<Models.Account.SessionStatus.Response> GetSessionStatusAsync(CancellationToken token)
         {
             return Delay(token)
                 .ContinueWith(_ => new Models.Account.SessionStatus.Response

@@ -20,7 +20,7 @@ namespace InStock.Frontend.Core.Repositories
 
         public async Task<SessionState> GetSessionStateAsync()
         {
-            var response = await _accountService.GetSessionStatus(_token).ConfigureAwait(false);
+            var response = await _accountService.GetSessionStatusAsync(_token).ConfigureAwait(false);
 
             if (response.IsSuccessfulStatusCode)
             {
