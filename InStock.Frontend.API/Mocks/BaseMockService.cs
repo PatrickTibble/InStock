@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace InStock.Frontend.API.Mocks
+﻿namespace InStock.Frontend.API.Mocks
 {
-    internal abstract class BaseMockService
+    public abstract class BaseMockService
     {
         private readonly Random _random = new Random(DateTime.UtcNow.Millisecond);
 

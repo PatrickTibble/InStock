@@ -1,6 +1,6 @@
-﻿namespace InStock.Frontend.API.Models.Mocks
+﻿namespace InStock.Common.Models.Mocks
 {
-    internal class MockInventoryItem
+    public class MockInventoryItem
     {
         public int Id { get; set; }
         public string? Name { get; set; }

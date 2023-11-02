@@ -1,6 +1,6 @@
-﻿using InStock.Frontend.API.Models.Base;
+﻿using InStock.Common.Models.Base;
 
-namespace InStock.Frontend.API.Models.Account.CreateAccount
+namespace InStock.Common.Models.Account.CreateAccount
 {
     public class Request : BaseRequest
     {

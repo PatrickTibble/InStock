@@ -18,7 +18,7 @@ namespace InStock.Frontend.Core.Repositories
 
         public async Task<CreateAccountResult> CreateAccountAsync(string? firstName, string? lastName, string? username, string? password)
         {
-            var request = new API.Models.Account.CreateAccount.Request
+            var request = new Common.Models.Account.CreateAccount.Request
             {
                 FirstName = firstName,
                 LastName = lastName,
@@ -41,7 +41,7 @@ namespace InStock.Frontend.Core.Repositories
 
         public async Task<LoginResult> LoginAsync(string? username, string? password)
         {
-            var loginRequest = new API.Models.Account.Login.Request()
+            var loginRequest = new Common.Models.Account.Login.Request()
             {
                 Username = username,
                 Password = password
