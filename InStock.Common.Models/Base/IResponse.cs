@@ -1,4 +1,4 @@
-﻿namespace InStock.Frontend.API.Models.Base
+﻿namespace InStock.Common.Models.Base
 {
 	public interface IResponse
 	{

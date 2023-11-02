@@ -1,5 +1,5 @@
 ﻿using System;
-namespace InStock.Frontend.API.Models.Inventory.Delete
+namespace InStock.Common.Models.Inventory.Delete
 {
 	public class Response
 	{

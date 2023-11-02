@@ -1,7 +1,7 @@
 ﻿using System;
-using InStock.Frontend.API.Models.Base;
+using InStock.Common.Models.Base;
 
-namespace InStock.Frontend.API.Models.Account.SessionStatus
+namespace InStock.Common.Models.Account.SessionStatus
 {
     public class Response : IResponse
 	{

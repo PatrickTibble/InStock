@@ -1,5 +1,5 @@
 ﻿using System;
-namespace InStock.Frontend.API.Models.Inventory.Insert
+namespace InStock.Common.Models.Inventory.Insert
 {
 	public class Request
 	{

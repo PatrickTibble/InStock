@@ -1,7 +1,7 @@
 ﻿using System;
-using InStock.Frontend.API.Models.Base;
+using InStock.Common.Models.Base;
 
-namespace InStock.Frontend.API.Models.Account.Signout
+namespace InStock.Common.Models.Account.Signout
 {
     public class Response : IResponse
 	{
