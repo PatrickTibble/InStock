@@ -70,11 +70,29 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uh oh. We weren&apos;t able to create this account. Please try again..
+        /// </summary>
+        internal static string AlertBody_CreateAccount_Failed {
+            get {
+                return ResourceManager.GetString("AlertBody_CreateAccount_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It looks like something went wrong. Please check your credentials and try again..
         /// </summary>
         internal static string AlertBody_LoginFailed {
             get {
                 return ResourceManager.GetString("AlertBody_LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to Create Account.
+        /// </summary>
+        internal static string AlertTitle_CreateAccount_Failed {
+            get {
+                return ResourceManager.GetString("AlertTitle_CreateAccount_Failed", resourceCulture);
             }
         }
         
@@ -88,11 +106,29 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to cancel.
+        /// </summary>
+        internal static string ButtonTitle_Cancel {
+            get {
+                return ResourceManager.GetString("ButtonTitle_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to log in.
         /// </summary>
         internal static string ButtonTitle_Login {
             get {
                 return ResourceManager.GetString("ButtonTitle_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to submit.
+        /// </summary>
+        internal static string ButtonTitle_Submit {
+            get {
+                return ResourceManager.GetString("ButtonTitle_Submit", resourceCulture);
             }
         }
         
@@ -156,6 +192,24 @@ namespace InStock.Frontend.Core.Resources.Localization {
         internal static string PageTitle_MainPage {
             get {
                 return ResourceManager.GetString("PageTitle_MainPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to first name.
+        /// </summary>
+        internal static string Placeholder_FirstName {
+            get {
+                return ResourceManager.GetString("Placeholder_FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to last name.
+        /// </summary>
+        internal static string Placeholder_LastName {
+            get {
+                return ResourceManager.GetString("Placeholder_LastName", resourceCulture);
             }
         }
         

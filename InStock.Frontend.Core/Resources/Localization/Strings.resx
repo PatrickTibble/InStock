@@ -159,4 +159,22 @@
   <data name="PageTitle_MainPage" xml:space="preserve">
     <value>Main Page</value>
   </data>
+  <data name="AlertBody_CreateAccount_Failed" xml:space="preserve">
+    <value>Uh oh. We weren't able to create this account. Please try again.</value>
+  </data>
+  <data name="AlertTitle_CreateAccount_Failed" xml:space="preserve">
+    <value>Unable to Create Account</value>
+  </data>
+  <data name="ButtonTitle_Cancel" xml:space="preserve">
+    <value>cancel</value>
+  </data>
+  <data name="ButtonTitle_Submit" xml:space="preserve">
+    <value>submit</value>
+  </data>
+  <data name="Placeholder_FirstName" xml:space="preserve">
+    <value>first name</value>
+  </data>
+  <data name="Placeholder_LastName" xml:space="preserve">
+    <value>last name</value>
+  </data>
 </root>
