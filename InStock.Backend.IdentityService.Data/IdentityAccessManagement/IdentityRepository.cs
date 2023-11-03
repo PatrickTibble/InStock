@@ -8,24 +8,61 @@ using System.Security.Cryptography;
 
 namespace InStock.Backend.AccountService.Data.IdentityAccessManagement
 {
+    public class HashedUser
+    {
+        public string Username { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+    }
+
     internal class IdentityRepository : IIdentityRepository
     {
         private readonly IConfiguration _configuration;
+        private readonly IList<HashedUser> _users;
 
         public IdentityRepository(IConfiguration configuration)
         {
             _configuration = configuration;
+            _users = new List<HashedUser>();
         }
 
         public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken)
         {
-            throw new NotImplementedException();
+            var token = ReadToken(accessToken);
+            
+            if (token == null)
+            {
+                return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
+            }
+
+            return Task.FromResult(token.Claims.Select(c => c.ToUserClaim()));
         }
 
-        public Task<string> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
+        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
         {
+            var user = _users.FirstOrDefault(u => u.Username.Equals(username));
+            if (user == null)
+            {
+                return Task.FromResult<string?>(default);
+            }
 
-            throw new NotImplementedException();
+            var passVerified = VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
+
+            if (!passVerified)
+            {
+                return Task.FromResult<string?>(default);
+            }
+
+            var token = CreateToken(new UserToken
+            {
+                Username = username,
+                Claims = new List<UserClaim>
+                {
+                    UserClaim.Session_Read
+                }
+            });
+
+            return Task.FromResult(token);
         }
 
         // The following methods were taken from ais.com
@@ -67,12 +104,14 @@ namespace InStock.Backend.AccountService.Data.IdentityAccessManagement
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private string CreateToken(UserAccount user)
+        private string? CreateToken(UserToken userToken)
         {
+            var userClaims = userToken.Claims.Select(c => c.ToString().Replace("_", ".").ToLower());
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username!),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, userToken.Username!),
+                new Claim(ClaimTypes.Role, userToken.Role),
+                new Claim("claims", string.Join(",", userClaims))
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -80,11 +119,32 @@ namespace InStock.Backend.AccountService.Data.IdentityAccessManagement
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                                    claims: claims,
-                                   expires: DateTime.UtcNow.AddDays(1),
-                                   signingCredentials: cred
-   );
+                                   expires: userToken.Expiry,
+                                   signingCredentials: cred);
+
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        // Except this one
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private JwtSecurityToken? ReadToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(token);
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                    _configuration.GetSection("AppSettings:Token").Value));
+
+            if (jwt.SigningCredentials.Equals(key))
+            {
+                return jwt;
+            }
+            return default;
         }
     }
 }
