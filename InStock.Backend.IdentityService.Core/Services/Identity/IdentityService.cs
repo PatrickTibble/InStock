@@ -1,7 +1,7 @@
-﻿using InStock.Backend.AccountService.Abstraction.Services;
-using InStock.Backend.AccountService.Data.IdentityAccessManagement;
+﻿using InStock.Backend.IdentityService.Abstraction.Repositories;
+using InStock.Backend.IdentityService.Abstraction.Services;
 
-namespace InStock.Backend.AccountService.Core.Services.Identity
+namespace InStock.Backend.IdentityService.Core.Services.Identity
 {
     public class IdentityService : IIdentityService
     {

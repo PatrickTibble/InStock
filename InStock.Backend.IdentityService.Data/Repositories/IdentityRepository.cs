@@ -1,20 +1,15 @@
-﻿using InStock.Backend.AccountService.Abstraction.Entities;
-using InStock.Backend.AccountService.Abstraction.Services;
+﻿using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.Repositories;
+using InStock.Backend.IdentityService.Abstraction.Services;
+using InStock.Backend.IdentityService.Data.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace InStock.Backend.AccountService.Data.IdentityAccessManagement
+namespace InStock.Backend.IdentityService.Data.Repositories
 {
-    public class HashedUser
-    {
-        public string Username { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-    }
-
     internal class IdentityRepository : IIdentityRepository
     {
         private readonly IConfiguration _configuration;

@@ -1,4 +1,4 @@
-﻿namespace InStock.Backend.AccountService.Abstraction.Services
+﻿namespace InStock.Backend.IdentityService.Abstraction.Services
 {
     public enum UserClaim
     {
