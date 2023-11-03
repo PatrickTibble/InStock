@@ -1,4 +1,10 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using InStock.Backend.AccountService.Abstraction.Repositories;
+using InStock.Backend.AccountService.Abstraction.Services;
+using InStock.Backend.AccountService.Core.Services.Account;
+using InStock.Backend.AccountService.Core.Services.Identity;
+using InStock.Backend.AccountService.Data.AccountManagement;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -6,6 +12,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+    .AddSingleton<IAccountRepository, AccountRepository>()
+    .AddSingleton<IAccountService, AccountService>()
+    .AddSingleton<IIdentityService, IdentityService>();
 
 var app = builder.Build();
 

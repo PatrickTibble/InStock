@@ -5,17 +5,26 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Configurations>Debug;Release;DebugWithMocks</Configurations>
+    <UserSecretsId>75fbfb23-1437-4dcc-a006-69c600cb6a27</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InStock.Backend.AccountService.Abstraction\InStock.Backend.AccountService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj" />
+    <ProjectReference Include="..\InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj" />
+    <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
   </ItemGroup>
 
 </Project>

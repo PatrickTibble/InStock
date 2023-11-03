@@ -2,6 +2,6 @@
 {
     public class BaseResponse : IResponse
 	{
-        public bool IsSuccessfulStatusCode { get; protected set; }
+        public bool IsSuccessfulStatusCode { get; set; }
     }
 }
