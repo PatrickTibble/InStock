@@ -1,4 +1,5 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Repositories;
+﻿using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.Repositories;
 using InStock.Backend.IdentityService.Abstraction.Services;
 
 namespace InStock.Backend.IdentityService.Core.Services.Identity
@@ -18,10 +19,24 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             return claims;
         }
 
-        public async Task<string> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
+        public async Task<Abstraction.TransferObjects.Register.Response> RegisterUserAsync(Abstraction.TransferObjects.Register.Request request)
         {
-            var accessToken = await _identityRepository.VerifyUserCredentialsAsync(username, password, claims);
-            return accessToken;
+            var user = await _identityRepository.RegisterUserAsync(request);
+        }
+
+        public Task<Abstraction.TransferObjects.SendVerificationLink.Response> SendVerificationLinkAsync(Abstraction.TransferObjects.SendVerificationLink.Request request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Abstraction.TransferObjects.VerifyEmail.Response> VerifyEmailAsync(Abstraction.TransferObjects.VerifyEmail.Request request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Abstraction.TransferObjects.Authenticate.Response> VerifyUserCredentialsAsync(Abstraction.TransferObjects.Authenticate.Request request, List<string> claims)
+        {
+            throw new NotImplementedException();
         }
     }
 }

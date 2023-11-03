@@ -1,4 +1,4 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Services;
+﻿using InStock.Backend.IdentityService.Abstraction.Entities;
 
 namespace InStock.Backend.IdentityService.Abstraction.Repositories
 {
