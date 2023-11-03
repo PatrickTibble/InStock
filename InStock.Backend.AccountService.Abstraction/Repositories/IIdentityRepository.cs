@@ -1,12 +1,8 @@
-﻿namespace InStock.Backend.AccountService.Abstraction.Services
-{
-    public enum UserClaim
-    {
-        Session_Read,
-        Account_Create
-    }
+﻿using InStock.Backend.AccountService.Abstraction.Services;
 
-    public interface IIdentityService
+namespace InStock.Backend.AccountService.Data.IdentityAccessManagement
+{
+    public interface IIdentityRepository
     {
         Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken);
         Task<string> VerifyUserCredentialsAsync(string username, string password, IList<string> claims);

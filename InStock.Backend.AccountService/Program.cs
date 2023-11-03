@@ -1,5 +1,8 @@
-﻿using InStock.Backend.AccountService.Abstraction.Services;
+﻿using InStock.Backend.AccountService.Abstraction.Repositories;
+using InStock.Backend.AccountService.Abstraction.Services;
 using InStock.Backend.AccountService.Core.Services.Account;
+using InStock.Backend.AccountService.Core.Services.Identity;
+using InStock.Backend.AccountService.Data.AccountManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,15 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-#if DEBUGWITHMOCKS
-
-builder.Services.AddSingleton<IAccountService, MockAccountService>();
-
-#else
-
-builder.Services.AddSingleton<IAccountService, AccountService>();
-
-#endif
+builder.Services
+    .AddSingleton<IAccountRepository, AccountRepository>()
+    .AddSingleton<IAccountService, AccountService>()
+    .AddSingleton<IIdentityService, IdentityService>();
 
 var app = builder.Build();
 

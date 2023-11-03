@@ -45,7 +45,7 @@ namespace InStock.Backend.AccountService.Controllers
 
             return Ok(response);
         }
-
+        
         [HttpGet]
         [Route("api/v1/Account/Login")]
         [SwaggerOperation(Description = "Attempt account log in with credentials")]
@@ -54,16 +54,19 @@ namespace InStock.Backend.AccountService.Controllers
         [ProducesResponseType(typeof(Common.Models.Account.Login.Response), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> LoginAsync(
-            [FromBody] string username,
-            [FromBody] string password,
-            [FromBody] IList<string> claims)
+            [FromBody] Common.Models.Account.Login.Request request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var accessToken = await _identityService.VerifyUserCredentialsAsync(username, password, claims);
+            if (!request.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var accessToken = await _identityService.VerifyUserCredentialsAsync(request.Username!, request.Password!, request.Claims);
 
             if (string.IsNullOrEmpty(accessToken))
             {
@@ -75,6 +78,39 @@ namespace InStock.Backend.AccountService.Controllers
                 IsSuccessfulStatusCode = true,
                 AccessToken = accessToken
             });
+        }
+
+        [HttpPost]
+        [Route("api/v1/Account/CreateAccount")]
+        [SwaggerOperation(Description = "Create a User Account")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(Common.Models.Account.CreateAccount.Response), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> CreateUserAccountAsync(
+            [FromHeader(Name = "accessToken")] string accessToken,
+            [FromBody] Common.Models.Account.CreateAccount.Request request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!request.IsValid)
+            {
+                return BadRequest();
+            }
+
+
+            var claims = await _identityService.GetUserClaimsAsync(accessToken);
+            if (!claims.Any() || !claims.Contains(UserClaim.Account_Create))
+            {
+                return Unauthorized();
+            }
+
+            var result = await _accountService.CreateAccountAsync(request);
+            return Ok(result);
         }
     }
 }
