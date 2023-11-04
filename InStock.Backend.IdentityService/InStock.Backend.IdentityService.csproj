@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>79c25e74-6c9b-42ac-b449-49e39f6f3fdc</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj" />
+    <ProjectReference Include="..\InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj" />
+  </ItemGroup>
+
+</Project>

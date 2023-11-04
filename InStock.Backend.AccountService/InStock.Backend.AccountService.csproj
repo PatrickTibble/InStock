@@ -24,6 +24,7 @@
     <ProjectReference Include="..\InStock.Backend.AccountService.Abstraction\InStock.Backend.AccountService.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj" />
     <ProjectReference Include="..\InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj" />
+    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
   </ItemGroup>
 
