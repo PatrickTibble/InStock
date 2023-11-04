@@ -4,6 +4,7 @@ using Authenticate = InStock.Backend.IdentityService.Abstraction.TransferObjects
 using Register = InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
 using SendVerificationLink = InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
 using VerifyEmail = InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
+using InStock.Backend.IdentityService.Abstraction;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -12,48 +13,39 @@ namespace InStock.Backend.IdentityService.Controllers
     {
         private readonly IIdentityService _identityService;
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(
+            IIdentityService identityService)
         {
             _identityService = identityService;
         }
 
         [HttpPost]
-        [Route("api/v1/Identity/Authenticate")]
-        [ProducesResponseType(typeof(Authenticate.Response), StatusCodes.Status200OK)]
+        [Route(Constants.Authenticate)]
+        [ProducesResponseType(typeof(Authenticate.AuthenticationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AuthenticateAsync(
-            [FromBody] Authenticate.Request request)
+            [FromBody] Authenticate.AuthenticationRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (!request.IsValid)
-            {
-                return BadRequest(request.ValidationErrors);
-            }
-
             var claims = new List<string>();
-            var response = await _identityService.VerifyUserCredentialsAsync(request, claims);
+            var response = await _identityService.AuthenticateAsync(request, claims);
             return Ok(response);
         }
 
         [HttpPost]
-        [Route("api/v1/Identity/Register")]
-        [ProducesResponseType(typeof(Register.Response), StatusCodes.Status200OK)]
+        [Route(Constants.Register)]
+        [ProducesResponseType(typeof(Register.RegistrationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterAsync(
-            [FromBody] Register.Request request)
+            [FromBody] Register.RegistrationRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (!request.IsValid)
-            {
-                return BadRequest(request.ValidationErrors);
             }
 
             var response = await _identityService.RegisterUserAsync(request);
@@ -61,20 +53,23 @@ namespace InStock.Backend.IdentityService.Controllers
         }
 
         [HttpPost]
-        [Route("api/v1/Identity/SendVerificationLink")]
-        [ProducesResponseType(typeof(SendVerificationLink.Response), StatusCodes.Status200OK)]
+        [Route(Constants.SendVerificationLink)]
+        [ProducesResponseType(typeof(SendVerificationLink.VerificationLinkResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> SendVerificationLinkAsync(
-            [FromBody] SendVerificationLink.Request request)
+            [FromHeader] string accessToken,
+            [FromBody] SendVerificationLink.VerificationLinkRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (!request.IsValid)
+            var claims = await _identityService.GetUserClaimsAsync(accessToken);
+            if (claims == null || !claims.Any())
             {
-                return BadRequest(request.ValidationErrors);
+                return Unauthorized("Invalid access token");
             }
 
             var response = await _identityService.SendVerificationLinkAsync(request);
@@ -82,20 +77,15 @@ namespace InStock.Backend.IdentityService.Controllers
         }
 
         [HttpPost]
-        [Route("api/v1/Identity/VerifyEmail")]
-        [ProducesResponseType(typeof(VerifyEmail.Response), StatusCodes.Status200OK)]
+        [Route(Constants.VerifyEmail)]
+        [ProducesResponseType(typeof(VerifyEmail.VerifyEmailResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> VerifyEmailAsync(
-            [FromBody] VerifyEmail.Request request)
+            [FromBody] VerifyEmail.VerifyEmailRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (!request.IsValid)
-            {
-                return BadRequest(request.ValidationErrors);
             }
 
             var response = await _identityService.VerifyEmailAsync(request);
