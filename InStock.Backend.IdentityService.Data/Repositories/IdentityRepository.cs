@@ -1,6 +1,5 @@
 ﻿using InStock.Backend.IdentityService.Abstraction.Entities;
 using InStock.Backend.IdentityService.Abstraction.Repositories;
-using InStock.Backend.IdentityService.Abstraction.Services;
 using InStock.Backend.IdentityService.Data.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace InStock.Backend.IdentityService.Data.Repositories
 {
-    internal class IdentityRepository : IIdentityRepository
+    public class IdentityRepository : IIdentityRepository
     {
         private readonly IConfiguration _configuration;
         private readonly IList<HashedUser> _users;
@@ -21,19 +20,47 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             _users = new List<HashedUser>();
         }
 
-        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken)
+        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken, CancellationToken? token = null)
         {
-            var token = ReadToken(accessToken);
+            var jwt = ReadToken(accessToken);
             
-            if (token == null)
+            if (jwt == null)
             {
                 return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
             }
 
-            return Task.FromResult(token.Claims.Select(c => c.ToUserClaim()));
+            return Task.FromResult(jwt.Claims.Select(c => c.ToUserClaim()));
         }
 
-        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
+        public Task<bool> RegisterUserAsync(string username, string password, CancellationToken? token = null)
+        {
+            var user = _users.FirstOrDefault(u => u.Username.Equals(username));
+            if (user != null)
+            {
+                return Task.FromResult(false);
+            }
+
+            var passwordHash = default(byte[]);
+            var passwordSalt = default(byte[]);
+
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+
+            user = new HashedUser
+            {
+                Username = username,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
+
+            _users.Add(user);
+            return Task.FromResult(true);
+        }
+
+        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims, CancellationToken? token = null)
         {
             var user = _users.FirstOrDefault(u => u.Username.Equals(username));
             if (user == null)
@@ -41,105 +68,92 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 return Task.FromResult<string?>(default);
             }
 
-            var passVerified = VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
+            var passVerified = false;
+            using (var hmac = new HMACSHA512(user.PasswordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passVerified = computedHash.SequenceEqual(user.PasswordHash);
+            }
 
             if (!passVerified)
             {
                 return Task.FromResult<string?>(default);
             }
 
-            var token = CreateToken(new UserToken
+            var jwt = CreateToken(new UserToken
             {
                 Username = username,
+                Role = "Member",
+                Expiry = DateTime.UtcNow.AddHours(1),
                 Claims = new List<UserClaim>
                 {
                     UserClaim.Session_Read
                 }
             });
 
-            return Task.FromResult(token);
+            return Task.FromResult(jwt);
         }
 
-        // The following methods were taken from ais.com
-        // https://www.ais.com/how-to-generate-a-jwt-token-using-net-6/
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="passwordHash"></param>
-        /// <param name="passwordSalt"></param>
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="passwordHash"></param>
-        /// <param name="passwordSalt"></param>
-        /// <returns></returns>
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
         private string? CreateToken(UserToken userToken)
         {
-            var userClaims = userToken.Claims.Select(c => c.ToString().Replace("_", ".").ToLower());
+            var userClaims = userToken.Claims.Select(c => c.ToClaimType());
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, userToken.Username!),
-                new Claim(ClaimTypes.Role, userToken.Role),
+                new Claim(ClaimTypes.Name, userToken.Username!),    // todo: replace with session id that can be mapped to a user?
+                new Claim(ClaimTypes.Role, userToken.Role),         // todo: do we need roles here?
+                                                                    // todo: what other claims do we need?
                 new Claim("claims", string.Join(",", userClaims))
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                    _configuration.GetSection("AppSettings:Token").Value));
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var key = GetKey();
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                                    claims: claims,
                                    expires: userToken.Expiry,
-                                   signingCredentials: cred);
+                                   signingCredentials: credentials);
 
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.WriteToken(token);
             return jwt;
         }
 
-        // Except this one
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
         private JwtSecurityToken? ReadToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            var jwt = handler.ReadJwtToken(token);
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                    _configuration.GetSection("AppSettings:Token").Value));
-
-            if (jwt.SigningCredentials.Equals(key))
+            if (handler.CanValidateToken)
             {
-                return jwt;
+                // validate the token
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = GetKey(),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+
+                try
+                {
+                    var result = handler.ValidateToken(token, validationParameters, out var validatedToken);
+                    return validatedToken as JwtSecurityToken;
+                }
+                catch (SecurityTokenSignatureKeyNotFoundException ex)
+                {
+                    // don't throw. Log invalid key
+                }
+                catch (SecurityTokenMalformedException ex)
+                {
+                    // don't throw. Log invalid token
+                }
             }
+
             return default;
         }
+
+        private SymmetricSecurityKey GetKey()
+            => new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetKeyValue()));
+
+        private string GetKeyValue()
+            => _configuration.GetSection("AppSettings:Token").Value!;
     }
 }
