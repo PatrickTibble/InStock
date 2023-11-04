@@ -1,4 +1,5 @@
 ﻿using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.Extensions;
 using InStock.Backend.IdentityService.Abstraction.Repositories;
 using InStock.Backend.IdentityService.Abstraction.Services;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
@@ -63,9 +64,10 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             return response;
         }
 
-        public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request, List<string> claims, CancellationToken? token = null)
+        public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request, List<UserClaim> claims, CancellationToken? token = null)
         {
-            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, claims, token);
+            var userClaims = claims?.Select(c => c.ToClaimType())?.ToList() ?? new List<string>();
+            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, userClaims, token);
 
             var response = new AuthenticationResponse
             {

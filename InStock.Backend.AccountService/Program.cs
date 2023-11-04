@@ -1,7 +1,6 @@
 ﻿using InStock.Backend.AccountService.Abstraction.Repositories;
 using InStock.Backend.AccountService.Abstraction.Services;
 using InStock.Backend.AccountService.Core.Services.Account;
-using InStock.Backend.AccountService.Core.Services.Identity;
 using InStock.Backend.AccountService.Data.AccountManagement;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddSingleton<IAccountRepository, AccountRepository>()
-    .AddSingleton<IAccountService, AccountService>()
-    .AddSingleton<IIdentityService, IdentityService>();
+    .AddSingleton<IAccountService, AccountService>();
 
 var app = builder.Build();
 

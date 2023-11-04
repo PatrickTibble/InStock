@@ -6,6 +6,6 @@ namespace InStock.Common.Models.Account.Login
 	{
         public static object? Default { get; set; }
         public bool IsSuccessfulStatusCode { get; set; }
-        public string AccessToken { get; set; }
+        public string? AccessToken { get; set; }
     }
 }

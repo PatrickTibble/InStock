@@ -31,14 +31,14 @@ namespace InStock.Backend.AccountService.Data.AccountManagement
 
         public Task<UserAccount?> GetUserByUsernameAsync(string? username)
         {
-            var account = _accounts.FirstOrDefault(a => a.Username?.Equals(username) ?? false);
+            var account = GetUser(username);
 
             return Task.FromResult(account);
         }
 
         public Task<bool> AddUserAsync(UserAccount user)
         {
-            if (_accounts.Any(u => u.Id == user.Id || u.Username.Equals(user.Username)))
+            if (_accounts.Any(u => u.Id == user.Id || u.Username!.Equals(user.Username)))
             {
                 // Collision
                 return Task.FromResult(false);
@@ -51,7 +51,7 @@ namespace InStock.Backend.AccountService.Data.AccountManagement
 
         public Task<bool> UpdateUserAsync(UserAccount user)
         {
-            var userToReplace = _accounts.FirstOrDefault(u => u.Id == user.Id && u.Username.Equals(user.Username));
+            var userToReplace = GetUser(user.Username);
             if (userToReplace == null)
             {
                 // User account not found
@@ -68,7 +68,7 @@ namespace InStock.Backend.AccountService.Data.AccountManagement
 
         public Task<bool> DeleteUserAsync(UserAccount user)
         {
-            var userToDelete = _accounts.FirstOrDefault(u => u.Id == user.Id && u.Username.Equals(user.Username));
+            var userToDelete = GetUser(user.Username);
 
             if (userToDelete == null)
             {
@@ -80,5 +80,7 @@ namespace InStock.Backend.AccountService.Data.AccountManagement
 
             return Task.FromResult(removalResult);
         }
+
+        private UserAccount? GetUser(string? username) => _accounts.FirstOrDefault(u => u.Username!.Equals(username!));
     }
 }

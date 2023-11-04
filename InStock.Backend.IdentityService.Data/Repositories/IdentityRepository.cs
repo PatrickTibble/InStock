@@ -1,4 +1,5 @@
 ﻿using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.Extensions;
 using InStock.Backend.IdentityService.Abstraction.Repositories;
 using InStock.Backend.IdentityService.Data.Extensions;
 using Microsoft.Extensions.Configuration;

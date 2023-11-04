@@ -5,6 +5,7 @@ using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
+using InStock.Backend.IdentityService.Abstraction.Entities;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -31,7 +32,7 @@ namespace InStock.Backend.IdentityService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var claims = new List<string>();
+            var claims = new List<UserClaim>();
             var response = await _identityService.AuthenticateAsync(request, claims);
             return Ok(response);
         }

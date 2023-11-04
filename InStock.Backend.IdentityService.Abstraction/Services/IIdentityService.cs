@@ -13,7 +13,7 @@ namespace InStock.Backend.IdentityService.Abstraction.Services
         Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken, CancellationToken? token = null);
 
         [Post(Constants.Authenticate)]
-        Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request, List<string> claims, CancellationToken? token = null);
+        Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request, List<UserClaim> claims, CancellationToken? token = null);
 
         [Post(Constants.Register)]
         Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest request, CancellationToken? token = null);

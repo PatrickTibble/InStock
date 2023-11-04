@@ -1,4 +1,6 @@
 ﻿using InStock.Backend.AccountService.Abstraction.Services;
+using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -66,9 +68,19 @@ namespace InStock.Backend.AccountService.Controllers
                 return BadRequest();
             }
 
-            var accessToken = await _identityService.VerifyUserCredentialsAsync(request.Username!, request.Password!, request.Claims);
+            var response = await _identityService.AuthenticateAsync(
+                request: new IdentityService.Abstraction.TransferObjects.Authenticate.AuthenticationRequest
+                {
+                    Username = request.Username,
+                    Password = request.Password
+                },
+                claims: new List<UserClaim>
+                {
+                    UserClaim.Session_Read
+                }
+            );
 
-            if (string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrEmpty(response.AccessToken))
             {
                 return Ok(Common.Models.Account.Login.Response.Default);
             }
@@ -76,7 +88,7 @@ namespace InStock.Backend.AccountService.Controllers
             return Ok(new Common.Models.Account.Login.Response
             {
                 IsSuccessfulStatusCode = true,
-                AccessToken = accessToken
+                AccessToken = response.AccessToken
             });
         }
 
