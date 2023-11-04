@@ -137,11 +137,11 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                     var result = handler.ValidateToken(token, validationParameters, out var validatedToken);
                     return validatedToken as JwtSecurityToken;
                 }
-                catch (SecurityTokenSignatureKeyNotFoundException ex)
+                catch (SecurityTokenSignatureKeyNotFoundException)
                 {
                     // don't throw. Log invalid key
                 }
-                catch (SecurityTokenMalformedException ex)
+                catch (SecurityTokenMalformedException)
                 {
                     // don't throw. Log invalid token
                 }
