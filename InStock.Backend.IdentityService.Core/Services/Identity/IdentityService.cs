@@ -30,7 +30,7 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
 
         public async Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest request, CancellationToken? token = null)
         {
-            var result = await _identityRepository.RegisterUserAsync(request.Username, request.Password, token);
+            var result = await _identityRepository.RegisterUserAsync(request.Username!, request.Password!, token);
 
             var response = new RegistrationResponse
             {
