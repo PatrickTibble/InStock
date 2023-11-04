@@ -65,7 +65,7 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
 
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request, List<string> claims, CancellationToken? token = null)
         {
-            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username, request.Password, claims, token);
+            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, claims, token);
 
             var response = new AuthenticationResponse
             {
