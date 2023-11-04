@@ -23,8 +23,9 @@ namespace InStock.Backend.IdentityService.Data.Repositories
         public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken, CancellationToken? token = null)
         {
             var jwt = ReadToken(accessToken);
-            
-            if (jwt == null)
+
+            // if token is null or expired, return empty claims
+            if (jwt == default || DateTime.UtcNow.CompareTo(DateTimeOffset.FromUnixTimeSeconds(jwt.Payload.Expiration ?? 0)) >= 0)
             {
                 return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
             }
@@ -52,6 +53,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             user = new HashedUser
             {
                 Username = username,
+                Role = UserRole.User,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
@@ -83,7 +85,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             var jwt = CreateToken(new UserToken
             {
                 Username = username,
-                Role = "Member",
+                Role = user.Role.ToString(),
                 Expiry = DateTime.UtcNow.AddHours(1),
                 Claims = new List<UserClaim>
                 {
