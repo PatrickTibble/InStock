@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using InStock.Backend.IdentityService.Abstraction.Services;
-using Authenticate = InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
-using Register = InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
-using SendVerificationLink = InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using VerifyEmail = InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 using InStock.Backend.IdentityService.Abstraction;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -21,10 +21,10 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.Authenticate)]
-        [ProducesResponseType(typeof(Authenticate.AuthenticationResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AuthenticateAsync(
-            [FromBody] Authenticate.AuthenticationRequest request)
+            [FromBody] AuthenticationRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -38,10 +38,10 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.Register)]
-        [ProducesResponseType(typeof(Register.RegistrationResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RegistrationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterAsync(
-            [FromBody] Register.RegistrationRequest request)
+            [FromBody] RegistrationRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -54,22 +54,15 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.SendVerificationLink)]
-        [ProducesResponseType(typeof(SendVerificationLink.VerificationLinkResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(VerificationLinkResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> SendVerificationLinkAsync(
-            [FromHeader] string accessToken,
-            [FromBody] SendVerificationLink.VerificationLinkRequest request)
+            [FromBody] VerificationLinkRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            var claims = await _identityService.GetUserClaimsAsync(accessToken);
-            if (claims == null || !claims.Any())
-            {
-                return Unauthorized("Invalid access token");
             }
 
             var response = await _identityService.SendVerificationLinkAsync(request);
@@ -78,10 +71,10 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.VerifyEmail)]
-        [ProducesResponseType(typeof(VerifyEmail.VerifyEmailResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(VerifyEmailResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> VerifyEmailAsync(
-            [FromBody] VerifyEmail.VerifyEmailRequest request)
+            [FromBody] VerifyEmailRequest request)
         {
             if (!ModelState.IsValid)
             {
