@@ -2,7 +2,8 @@
 
 namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate
 {
-    public class Request : BaseRequest
+    public class AuthenticationResponse : BaseResponse
     {
+        public string? AccessToken { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail
 {
-    public class Response : BaseResponse
+    public class VerifyEmailRequest : BaseRequest
     {
     }
 }

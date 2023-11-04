@@ -54,13 +54,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountServ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{976DF22D-8DAF-4E00-B275-C61EA4F4CA0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.IdentityService", "InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj", "{31885676-ADDA-4BCC-BE13-6160D26AEC43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService", "InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj", "{31885676-ADDA-4BCC-BE13-6160D26AEC43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.IdentityService.Abstraction", "InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj", "{A5900D2A-62B7-4999-A7D4-CA2DF5E14BA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Abstraction", "InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj", "{A5900D2A-62B7-4999-A7D4-CA2DF5E14BA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.IdentityService.Core", "InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj", "{88D1B52B-9558-442A-9CAA-50E4F374EFA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Core", "InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj", "{88D1B52B-9558-442A-9CAA-50E4F374EFA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.IdentityService.Data", "InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj", "{0EF505CB-C7EC-4448-B7AB-A7903E2FF1C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Data", "InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj", "{0EF505CB-C7EC-4448-B7AB-A7903E2FF1C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

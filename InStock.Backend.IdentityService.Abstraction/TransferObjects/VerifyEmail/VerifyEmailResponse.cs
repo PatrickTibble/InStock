@@ -2,7 +2,8 @@
 
 namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail
 {
-    public class Request : BaseRequest
+    public class VerifyEmailResponse : BaseResponse
     {
+        public bool IsVerified { get; set; }
     }
 }

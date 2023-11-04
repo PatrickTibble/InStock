@@ -2,7 +2,8 @@
 
 namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink
 {
-    public class Request : BaseRequest
+    public class VerificationLinkResponse : BaseResponse
     {
+        public bool IsSent { get; set; }
     }
 }
