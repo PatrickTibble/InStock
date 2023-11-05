@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using InStock.Backend.AccountService.Abstraction;
 using InStock.Backend.AccountService.Abstraction.Services;
 using InStock.Backend.AccountService.Abstraction.TransferObjects.SessionState;
 using InStock.Backend.IdentityService.Abstraction.Entities;
@@ -24,7 +25,7 @@ namespace InStock.Backend.AccountService.Controllers
         }
 
         [HttpGet]
-        [Route("api/v1/Account/SessionState")]
+        [Route(Constants.SessionState)]
         [SwaggerOperation(Description = "Returns user session state")]
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
