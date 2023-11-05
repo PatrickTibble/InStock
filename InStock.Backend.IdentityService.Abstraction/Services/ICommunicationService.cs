@@ -5,7 +5,7 @@ namespace InStock.Backend.IdentityService.Abstraction.Services
 {
     public interface ICommunicationService
     {
-        Task<bool> SendVerificationLinkAsync(VerificationLinkRequest request, CancellationToken? token);
-        Task<bool> VerifyEmailAsync(VerifyEmailRequest request, CancellationToken? token);
+        Task<bool> SendVerificationLinkAsync(VerificationLinkRequest request);
+        Task<bool> VerifyEmailAsync(VerifyEmailRequest request);
     }
 }

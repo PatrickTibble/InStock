@@ -1,4 +1,5 @@
-﻿using InStock.Backend.IdentityService.Abstraction.TransferObjects.Base;
+﻿using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate
@@ -12,5 +13,6 @@ namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.Authentica
         [Required]
         [MinLength(8, ErrorMessage = "Password is too short")]
         public string? Password { get; set; }
+        public List<UserClaim>? Claims { get; set; }
     }
 }
