@@ -5,6 +5,7 @@ using InStock.Backend.IdentityService.Abstraction.Services;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.UserClaims;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 
 namespace InStock.Backend.IdentityService.Core.Services.Identity
@@ -22,15 +23,16 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             _identityRepository = identityRepository;
         }
 
-        public async Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken, CancellationToken? token = null)
+        public async Task<IEnumerable<string>> GetUserClaimsAsync(UserClaimsRequest request)
         {
-            var claims = await _identityRepository.GetUserClaimsAsync(accessToken, token);
-            return claims;
+            var claims = await _identityRepository.GetUserClaimsAsync(request.AccessToken!);
+            var response = claims?.Select(c => c.ToClaimType())?.ToList() ?? new List<string>();
+            return response;
         }
 
-        public async Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest request, CancellationToken? token = null)
+        public async Task<RegistrationResponse> RegisterUserAsync(RegistrationRequest request)
         {
-            var result = await _identityRepository.RegisterUserAsync(request.Username, request.Password, token);
+            var result = await _identityRepository.RegisterUserAsync(request.Username!, request.Password!);
 
             var response = new RegistrationResponse
             {
@@ -40,9 +42,9 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             return response;
         }
 
-        public async Task<VerificationLinkResponse> SendVerificationLinkAsync(VerificationLinkRequest request, CancellationToken? token = null)
+        public async Task<VerificationLinkResponse> SendVerificationLinkAsync(VerificationLinkRequest request)
         {
-            var result = await _communicationService.SendVerificationLinkAsync(request, token);
+            var result = await _communicationService.SendVerificationLinkAsync(request);
 
             var response = new VerificationLinkResponse
             {
@@ -52,9 +54,9 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             return response;
         }
 
-        public async Task<VerifyEmailResponse> VerifyEmailAsync(VerifyEmailRequest request, CancellationToken? token = null)
+        public async Task<VerifyEmailResponse> VerifyEmailAsync(VerifyEmailRequest request)
         {
-            var result = await _communicationService.VerifyEmailAsync(request, token);
+            var result = await _communicationService.VerifyEmailAsync(request);
 
             var response = new VerifyEmailResponse
             {
@@ -64,10 +66,11 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             return response;
         }
 
-        public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request, List<UserClaim> claims, CancellationToken? token = null)
+        public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
+            var claims = request.Claims?.ToList();
             var userClaims = claims?.Select(c => c.ToClaimType())?.ToList() ?? new List<string>();
-            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, userClaims, token);
+            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, userClaims);
 
             var response = new AuthenticationResponse
             {

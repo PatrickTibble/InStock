@@ -21,12 +21,12 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             _users = new List<HashedUser>();
         }
 
-        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken, CancellationToken? token = null)
+        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken)
         {
             var jwt = ReadToken(accessToken);
 
             // if token is null or expired, return empty claims
-            if (jwt == default || DateTime.UtcNow.CompareTo(DateTimeOffset.FromUnixTimeSeconds(jwt.Payload.Expiration ?? 0)) >= 0)
+            if (jwt == default || DateTime.UtcNow.CompareTo(DateTimeOffset.FromUnixTimeSeconds(jwt.Payload.Expiration ?? 0).UtcDateTime) >= 0)
             {
                 return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
             }
@@ -34,7 +34,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             return Task.FromResult(jwt.Claims.Select(c => c.ToUserClaim()));
         }
 
-        public Task<bool> RegisterUserAsync(string username, string password, CancellationToken? token = null)
+        public Task<bool> RegisterUserAsync(string username, string password)
         {
             var user = _users.FirstOrDefault(u => u.Username.Equals(username));
             if (user != null)
@@ -63,7 +63,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             return Task.FromResult(true);
         }
 
-        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims, CancellationToken? token = null)
+        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
         {
             var user = _users.FirstOrDefault(u => u.Username.Equals(username));
             if (user == null)

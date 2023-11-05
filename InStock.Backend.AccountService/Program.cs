@@ -2,10 +2,17 @@
 using InStock.Backend.AccountService.Abstraction.Services;
 using InStock.Backend.AccountService.Core.Services.Account;
 using InStock.Backend.AccountService.Data.AccountManagement;
+using InStock.Backend.IdentityService.Abstraction.Services;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services
+    .AddRefitClient<IIdentityService>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:44315"));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

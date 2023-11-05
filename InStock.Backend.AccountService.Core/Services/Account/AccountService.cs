@@ -44,8 +44,11 @@ namespace InStock.Backend.AccountService.Core.Services.Account
             // retrieve session information using user info
 
             // return session info as response
-
-            throw new NotImplementedException();
+            return Task.FromResult(new Common.Models.Account.SessionStatus.Response
+            {
+                CurrentSessionId = Guid.NewGuid(),
+                IsCurrentSessionActive = true,
+            });
         }
     }
 }
