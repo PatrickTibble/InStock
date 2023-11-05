@@ -1,6 +1,8 @@
 ﻿using InStock.Backend.AccountService.Abstraction.Entities;
 using InStock.Backend.AccountService.Abstraction.Repositories;
 using InStock.Backend.AccountService.Abstraction.Services;
+using InStock.Backend.AccountService.Abstraction.TransferObjects.CreateAccount;
+using InStock.Backend.AccountService.Abstraction.TransferObjects.SessionState;
 
 namespace InStock.Backend.AccountService.Core.Services.Account
 {
@@ -13,9 +15,9 @@ namespace InStock.Backend.AccountService.Core.Services.Account
             _accountRepository = accountRepository;
         }
 
-        public async Task<Common.Models.Account.CreateAccount.Response> CreateAccountAsync(Common.Models.Account.CreateAccount.Request request)
+        public async Task<CreateAccountResponse> CreateAccountAsync(CreateAccountRequest request)
         {
-            var response = new Common.Models.Account.CreateAccount.Response();
+            var response = new CreateAccountResponse();
 
             var user = await _accountRepository.GetUserByUsernameAsync(request.Username);
 
@@ -30,21 +32,20 @@ namespace InStock.Backend.AccountService.Core.Services.Account
                 };
 
                 var result = await _accountRepository.AddUserAsync(user);
-                response.IsSuccessfulStatusCode = result;
-
+                
             }
 
             return response;
         }
 
-        public Task<Common.Models.Account.SessionStatus.Response> GetSessionStateAsync(string accessToken)
+        public Task<SessionStateResponse> GetSessionStateAsync(string accessToken)
         {
             // retrieve user information using access token
 
             // retrieve session information using user info
 
             // return session info as response
-            return Task.FromResult(new Common.Models.Account.SessionStatus.Response
+            return Task.FromResult(new SessionStateResponse
             {
                 CurrentSessionId = Guid.NewGuid(),
                 IsCurrentSessionActive = true,

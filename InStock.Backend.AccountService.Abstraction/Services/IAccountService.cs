@@ -1,9 +1,12 @@
-﻿namespace InStock.Backend.AccountService.Abstraction.Services
+﻿using InStock.Backend.AccountService.Abstraction.TransferObjects.CreateAccount;
+using InStock.Backend.AccountService.Abstraction.TransferObjects.SessionState;
+
+namespace InStock.Backend.AccountService.Abstraction.Services
 {
     public interface IAccountService
     {
-        Task<Common.Models.Account.CreateAccount.Response> CreateAccountAsync(Common.Models.Account.CreateAccount.Request request);
+        Task<CreateAccountResponse> CreateAccountAsync(CreateAccountRequest request);
 
-        Task<Common.Models.Account.SessionStatus.Response> GetSessionStateAsync(string accessToken);
+        Task<SessionStateResponse> GetSessionStateAsync(string accessToken);
     }
 }
