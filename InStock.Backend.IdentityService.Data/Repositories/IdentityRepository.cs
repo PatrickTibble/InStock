@@ -148,6 +148,10 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 {
                     // don't throw. Log invalid token
                 }
+                catch (SecurityTokenExpiredException)
+                {
+                    // don't throw. Notify expired token?
+                }
             }
 
             return default;
