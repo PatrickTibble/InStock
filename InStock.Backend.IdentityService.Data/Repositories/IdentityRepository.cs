@@ -36,7 +36,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
         public Task<bool> RegisterUserAsync(string username, string password, CancellationToken? token = null)
         {
-            var user = _users.FirstOrDefault(u => u.Username.Equals(username));
+            var user = _users.FirstOrDefault(u => u.Username!.Equals(username));
             if (user != null)
             {
                 return Task.FromResult(false);
@@ -65,17 +65,17 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
         public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims, CancellationToken? token = null)
         {
-            var user = _users.FirstOrDefault(u => u.Username.Equals(username));
+            var user = _users.FirstOrDefault(u => u.Username!.Equals(username));
             if (user == null)
             {
                 return Task.FromResult<string?>(default);
             }
 
             var passVerified = false;
-            using (var hmac = new HMACSHA512(user.PasswordSalt))
+            using (var hmac = new HMACSHA512(user.PasswordSalt!))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                passVerified = computedHash.SequenceEqual(user.PasswordHash);
+                passVerified = computedHash.SequenceEqual(user.PasswordHash!);
             }
 
             if (!passVerified)
@@ -99,11 +99,11 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
         private string? CreateToken(UserToken userToken)
         {
-            var userClaims = userToken.Claims.Select(c => c.ToClaimType());
+            var userClaims = userToken.Claims!.Select(c => c.ToClaimType());
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userToken.Username!),    // todo: replace with session id that can be mapped to a user?
-                new Claim(ClaimTypes.Role, userToken.Role),         // todo: do we need roles here?
+                new Claim(ClaimTypes.Role, userToken.Role!),         // todo: do we need roles here?
                                                                     // todo: what other claims do we need?
                 new Claim("claims", string.Join(",", userClaims))
             };

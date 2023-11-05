@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.Services;
 
 namespace InStock.Backend.IdentityService.Data.Extensions
 {
