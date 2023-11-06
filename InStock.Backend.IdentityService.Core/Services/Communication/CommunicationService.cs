@@ -1,6 +1,6 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
+﻿using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 
 namespace InStock.Backend.IdentityService.Core.Services.Communication
 {

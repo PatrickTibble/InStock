@@ -1,5 +1,5 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.Repositories;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

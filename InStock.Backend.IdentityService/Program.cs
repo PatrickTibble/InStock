@@ -1,5 +1,5 @@
-using InStock.Backend.IdentityService.Abstraction.Repositories;
-using InStock.Backend.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.Repositories;
+using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Backend.IdentityService.Core.Services.Communication;
 using InStock.Backend.IdentityService.Core.Services.Identity;
 using InStock.Backend.IdentityService.Data.Repositories;

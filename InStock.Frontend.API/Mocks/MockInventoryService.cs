@@ -1,5 +1,8 @@
-﻿using InStock.Frontend.API.Inventory;
-using InStock.Common.Models.Mocks;
+﻿using InStock.Common.InventoryService.Abstraction.TransferObjects.Get;
+using InStock.Common.InventoryService.Abstraction.TransferObjects.GetAll;
+using InStock.Common.InventoryService.Abstraction.TransferObjects.Delete;
+using InStock.Common.InventoryService.Abstraction.TransferObjects.Insert;
+using InStock.Common.InventoryService.Abstraction.Services;
 
 namespace InStock.Frontend.API.Mocks
 {
@@ -15,29 +18,29 @@ namespace InStock.Frontend.API.Mocks
             new MockInventoryItem(5, "Test inventory item 6", "Test inventory item description. Lorem ipsum")
         };
 
-        public Task<Common.Models.Inventory.Insert.Response> AddOrUpdateAsync(Common.Models.Inventory.Insert.Request request, CancellationToken token)
+        public Task<InsertResponse> AddOrUpdateAsync(InsertRequest request)
         {
-            return Delay(token)
-                .ContinueWith(_ => new Common.Models.Inventory.Insert.Response
+            return Delay()
+                .ContinueWith(_ => new InsertResponse
                 {
 
                 });
         }
 
-        public Task<Common.Models.Inventory.Delete.Response> DeleteAsync(int id, CancellationToken token)
+        public Task<DeleteResponse> DeleteAsync(int id)
         {
-            return Delay(token)
-                .ContinueWith(_ => new Common.Models.Inventory.Delete.Response
+            return Delay()
+                .ContinueWith(_ => new DeleteResponse
                 {
 
                 });
         }
 
-        public Task<Common.Models.Inventory.GetAll.Response> GetAllAsync(CancellationToken token)
+        public Task<GetAllResponse> GetAllAsync()
         {
-            var model = new Common.Models.Inventory.GetAll.Response
+            var model = new GetAllResponse
             {
-                Items = new List<Common.Models.Inventory.Get.Response>(),
+                Items = new List<GetResponse>(),
                 IsSuccessfulStatusCode = true
             };
 
@@ -46,13 +49,13 @@ namespace InStock.Frontend.API.Mocks
                 model.Items.Add(item.ToResponseModel());
             }
 
-            return Delay(token)
+            return Delay()
                 .ContinueWith(_ => model);
         }
 
-        public Task<Common.Models.Inventory.Get.Response> GetAsync(int id, CancellationToken token)
+        public Task<GetResponse> GetAsync(int id)
         {
-            var model = new Common.Models.Inventory.Get.Response();
+            var model = new GetResponse();
             var item = _inventoryItems.FirstOrDefault(i => i.Id == id);
 
             if (item != null)
@@ -60,7 +63,7 @@ namespace InStock.Frontend.API.Mocks
                 model = item.ToResponseModel();
             }
 
-            return Delay(token)
+            return Delay()
                 .ContinueWith(_ => model);
         }
     }

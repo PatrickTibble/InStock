@@ -1,5 +1,5 @@
-﻿using InStock.Backend.AccountService.Abstraction.Entities;
-using InStock.Backend.AccountService.Abstraction.Repositories;
+﻿using InStock.Common.AccountService.Abstraction.Entities;
+using InStock.Common.AccountService.Abstraction.Repositories;
 
 namespace InStock.Backend.AccountService.Data.AccountManagement
 {

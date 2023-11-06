@@ -1,4 +1,9 @@
-﻿using InStock.Frontend.API.Account;
+﻿using InStock.Common.AccountService.Abstraction.Services;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
+using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
+using InStock.Common.AccountService.Abstraction.TransferObjects.SessionState;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Signout;
 using Refit;
 
 namespace InStock.Frontend.API.Mocks
@@ -7,43 +12,42 @@ namespace InStock.Frontend.API.Mocks
     {
         private bool _sessionIsActive = false;
 
-        public Task<Common.Models.Account.CreateAccount.Response> CreateAccountAsync([Body] Common.Models.Account.CreateAccount.Request request, CancellationToken token)
+        public Task<Result<CreateAccountResponse>> CreateAccountAsync([Body] CreateAccountRequest request)
         {
-            return Delay(token)
-                .ContinueWith(t => new Common.Models.Account.CreateAccount.Response
+            return Delay()
+                .ContinueWith(t => new Result<CreateAccountResponse>(new CreateAccountResponse
                 {
 
-                });
+                }));
         }
 
-        public Task<Common.Models.Account.SessionStatus.Response> GetSessionStatusAsync(CancellationToken token)
+        public Task<Result<SessionStateResponse>> GetSessionStateAsync(string? accessToken)
         {
-            return Delay(token)
-                .ContinueWith(_ => new Common.Models.Account.SessionStatus.Response
+            return Delay()
+                .ContinueWith(_ => new Result<SessionStateResponse>(new SessionStateResponse
                 {
-                    IsCurrentSessionActive = _sessionIsActive,
-                    CurrentSessionId = _sessionIsActive ? new Guid() : null
-                });
+                    IsCurrentSessionActive = _sessionIsActive
+                }));
         }
 
-        public Task<Common.Models.Account.Login.Response> LoginAsync([Body] Common.Models.Account.Login.Request request, CancellationToken token)
+        public Task<Result<LoginResponse>> LoginAsync([Body] LoginRequest request)
         {
             _sessionIsActive = true;
-            return Delay(token)
-                .ContinueWith(_ => new Common.Models.Account.Login.Response
+            return Delay()
+                .ContinueWith(_ => new Result<LoginResponse>(new LoginResponse
                 {
 
-                });
+                }));
         }
 
-        public Task<Common.Models.Account.Signout.Response> SignoutAsync([Body] Common.Models.Account.Signout.Request request, CancellationToken token)
+        public Task<Result<SignoutResponse>> SignoutAsync([Body] SignoutRequest request)
         {
             _sessionIsActive = false;
-            return Delay(token)
-                .ContinueWith(_ => new Common.Models.Account.Signout.Response
+            return Delay()
+                .ContinueWith(_ => new Result<SignoutResponse>(new SignoutResponse
                 {
 
-                });
+                }));
         }
     }
 }

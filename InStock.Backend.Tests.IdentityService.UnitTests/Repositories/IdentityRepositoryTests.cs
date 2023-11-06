@@ -1,5 +1,6 @@
 ﻿using InStock.Backend.IdentityService.Data.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using Moq;
 
 namespace InStock.Backend.Tests.IdentityService.UnitTests.Repositories
@@ -9,13 +10,21 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Repositories
         private Mock<IConfiguration> _configuration;
         private IdentityRepository _repository;
 
+        [SetUp]
         public void Setup()
         {
             _configuration = new Mock<IConfiguration>();
 
-            _ = _configuration
-                .Setup(config => config.GetSection("AppSettings.Token").Value)
+            var section = new Mock<IConfigurationSection>();
+
+            _ = section
+                .Setup(s => s.Value)
                 .Returns("ThisIsATestTokenThisIsATestTokenThisIsATestTokenThisIsATestTokenThisIsATestTokenThisIsATestTokenThisIsATestTokenThisIsATestToken");
+
+            _ = _configuration
+                .Setup(config => config.GetSection(It.IsAny<string>()))
+                .Returns(section.Object);
+                
 
             _repository = new IdentityRepository(_configuration.Object);
         }

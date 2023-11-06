@@ -1,7 +1,7 @@
-﻿using InStock.Frontend.Abstraction.Models;
+﻿using InStock.Common.InventoryService.Abstraction.Services;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Threading;
-using InStock.Frontend.API.Inventory;
 
 namespace InStock.Frontend.Core.Repositories
 {
@@ -20,7 +20,7 @@ namespace InStock.Frontend.Core.Repositories
 
         public async Task<IEnumerable<InventoryItem>?> GetFullInventoryAsync()
         {
-            var response = await _inventoryService.GetAllAsync(_token);
+            var response = await _inventoryService.GetAllAsync();
 
             if (response.IsSuccessfulStatusCode)
             {

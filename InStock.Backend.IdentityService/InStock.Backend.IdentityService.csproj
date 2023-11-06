@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj" />
     <ProjectReference Include="..\InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj" />
   </ItemGroup>

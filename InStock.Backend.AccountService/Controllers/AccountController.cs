@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
-using InStock.Backend.AccountService.Abstraction;
-using InStock.Backend.AccountService.Abstraction.Services;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.CreateAccount;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.Login;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.SessionState;
+using InStock.Common.AccountService.Abstraction;
+using InStock.Common.AccountService.Abstraction.Services;
+using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
+using InStock.Common.AccountService.Abstraction.TransferObjects.SessionState;
 using InStock.Backend.AccountService.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

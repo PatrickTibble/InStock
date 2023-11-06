@@ -1,7 +1,7 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Backend.IdentityService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -44,14 +44,14 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Controllers
             _identityService = new Mock<IIdentityService>();
 
             _ = _identityService
-                .Setup(s => s.AuthenticateAsync(_authentication_GoodRequest, It.IsAny<List<UserClaim>>(), It.IsAny<CancellationToken>()))
+                .Setup(s => s.AuthenticateAsync(_authentication_GoodRequest))
                 .ReturnsAsync(new AuthenticationResponse()
                 {
                     AccessToken = "token"
                 });
 
             _ = _identityService
-                .Setup(s => s.AuthenticateAsync(_authentication_BadRequest, It.IsAny<List<UserClaim>>(), It.IsAny<CancellationToken>()))
+                .Setup(s => s.AuthenticateAsync(_authentication_BadRequest))
                 .ReturnsAsync(new AuthenticationResponse()
                 {
                     AccessToken = null
