@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Backend.AccountService.Abstraction\InStock.Backend.AccountService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Backend.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj" />
   </ItemGroup>
 
