@@ -1,6 +1,6 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
 
-namespace InStock.Backend.IdentityService.Abstraction.Extensions
+namespace InStock.Common.IdentityService.Abstraction.Extensions
 {
     public static class UserClaimExtensions
     {

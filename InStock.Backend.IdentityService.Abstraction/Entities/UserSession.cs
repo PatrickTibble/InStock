@@ -1,4 +1,4 @@
-﻿namespace InStock.Backend.IdentityService.Abstraction.Entities
+﻿namespace InStock.Common.IdentityService.Abstraction.Entities
 {
     public class UserSession
     {

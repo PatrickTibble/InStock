@@ -1,6 +1,6 @@
-﻿using InStock.Backend.IdentityService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.IdentityService.Abstraction.TransferObjects.Base;
 
-namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink
+namespace InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink
 {
     public class VerificationLinkRequest : BaseRequest
     {

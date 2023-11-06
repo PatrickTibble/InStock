@@ -1,8 +1,8 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate
+namespace InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate
 {
     public class AuthenticationRequest : BaseRequest
     {

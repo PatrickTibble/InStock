@@ -1,4 +1,4 @@
-﻿namespace InStock.Backend.IdentityService.Abstraction
+﻿namespace InStock.Common.IdentityService.Abstraction
 {
     public class Constants
     {

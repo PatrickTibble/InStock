@@ -1,13 +1,13 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.UserClaims;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
 
-namespace InStock.Backend.IdentityService.Abstraction.Services
+namespace InStock.Common.IdentityService.Abstraction.Services
 {
     public interface IIdentityService
     {

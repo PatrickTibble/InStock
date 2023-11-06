@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.Base
+namespace InStock.Common.IdentityService.Abstraction.TransferObjects.Base
 {
     public abstract class BaseRequest
     {

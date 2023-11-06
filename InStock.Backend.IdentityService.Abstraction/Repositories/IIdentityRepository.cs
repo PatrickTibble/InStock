@@ -1,7 +1,7 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 
-namespace InStock.Backend.IdentityService.Abstraction.Repositories
+namespace InStock.Common.IdentityService.Abstraction.Repositories
 {
     public interface IIdentityRepository
     {

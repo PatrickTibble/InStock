@@ -1,6 +1,6 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Services;
+﻿using InStock.Common.IdentityService.Abstraction.Services;
 
-namespace InStock.Backend.IdentityService.Abstraction.Entities
+namespace InStock.Common.IdentityService.Abstraction.Entities
 {
     public class UserToken
     {
