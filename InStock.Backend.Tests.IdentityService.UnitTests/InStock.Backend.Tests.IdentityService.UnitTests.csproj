@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj" />
     <ProjectReference Include="..\InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj" />
     <ProjectReference Include="..\InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj" />

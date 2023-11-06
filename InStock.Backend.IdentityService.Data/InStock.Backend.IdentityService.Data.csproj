@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Backend.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

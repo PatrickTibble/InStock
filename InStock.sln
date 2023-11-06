@@ -56,7 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "Identity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService", "InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj", "{31885676-ADDA-4BCC-BE13-6160D26AEC43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Abstraction", "InStock.Backend.IdentityService.Abstraction\InStock.Backend.IdentityService.Abstraction.csproj", "{A5900D2A-62B7-4999-A7D4-CA2DF5E14BA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IdentityService.Abstraction", "InStock.Backend.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj", "{A5900D2A-62B7-4999-A7D4-CA2DF5E14BA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Core", "InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj", "{88D1B52B-9558-442A-9CAA-50E4F374EFA4}"
 EndProject
