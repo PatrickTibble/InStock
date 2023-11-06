@@ -6,8 +6,6 @@ using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Threading;
-using InStock.Frontend.API.Account;
-using InStock.Frontend.API.Inventory;
 using InStock.Frontend.Core.Extensions;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Inventory;
@@ -21,6 +19,8 @@ using InStock.Frontend.Mobile.Services.Alerts;
 using InStock.Frontend.Mobile.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.Services.Platform;
+using InStock.Common.AccountService.Abstraction.Services;
+using InStock.Common.InventoryService.Abstraction.Services;
 
 namespace InStock.Frontend.Mobile;
 

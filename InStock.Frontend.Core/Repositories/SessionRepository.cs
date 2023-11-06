@@ -1,12 +1,12 @@
-﻿using InStock.Frontend.Abstraction.Models;
+﻿using InStock.Common.AccountService.Abstraction.Services;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Threading;
-using InStock.Frontend.API.Account;
 
 namespace InStock.Frontend.Core.Repositories
 {
-	public class SessionRepository : ISessionRepository
-	{
+    public class SessionRepository : ISessionRepository
+    {
         private readonly IAccountService _accountService;
         private readonly CancellationToken _token;
 
@@ -20,18 +20,13 @@ namespace InStock.Frontend.Core.Repositories
 
         public async Task<SessionState> GetSessionStateAsync()
         {
-            var response = await _accountService.GetSessionStatusAsync(_token).ConfigureAwait(false);
+            var accessToken = string.Empty; // TODO: Need to get access token from login
+            var response = await _accountService.GetSessionStateAsync(accessToken).ConfigureAwait(false);
 
-            if (response.IsSuccessfulStatusCode)
+            return new SessionState
             {
-                return new SessionState
-                {
-                    IsValid = response.IsCurrentSessionActive,
-                    SessionId = response.CurrentSessionId
-                };
-            }
 
-            return SessionState.Default;
+            };
         }
     }
 }

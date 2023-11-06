@@ -11,11 +11,11 @@
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        protected Task Delay(CancellationToken token, int min = 100, int max = 250)
+        protected Task Delay(int min = 100, int max = 250)
         {
             var millisecondDelay = _random.Next(min, max);
             var timespanDelay = TimeSpan.FromMilliseconds(millisecondDelay);
-            return Task.Delay(timespanDelay, token);
+            return Task.Delay(timespanDelay);
         }
     }
 }

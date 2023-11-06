@@ -1,4 +1,5 @@
-﻿namespace InStock.Common.Models.Mocks
+﻿using InStock.Common.InventoryService.Abstraction.TransferObjects.Get;
+namespace InStock.Frontend.API.Mocks
 {
     public class MockInventoryItem
     {
@@ -13,8 +14,8 @@
             Description = description;
         }
 
-        public Inventory.Get.Response ToResponseModel()
-            => new Inventory.Get.Response
+        public GetResponse ToResponseModel()
+            => new GetResponse
             {
                 Id = Id,
                 Name = Name,

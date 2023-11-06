@@ -1,5 +1,5 @@
-﻿using InStock.Frontend.API.Account;
-using InStock.Frontend.API.Inventory;
+﻿using InStock.Common.AccountService.Abstraction.Services;
+using InStock.Common.InventoryService.Abstraction.Services;
 using InStock.Frontend.API.Mocks;
 
 namespace InStock.Frontend.API
