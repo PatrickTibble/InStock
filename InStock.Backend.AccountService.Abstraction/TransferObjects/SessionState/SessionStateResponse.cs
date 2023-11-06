@@ -1,4 +1,4 @@
-﻿namespace InStock.Backend.AccountService.Abstraction.TransferObjects.SessionState
+﻿namespace InStock.Common.AccountService.Abstraction.TransferObjects.SessionState
 {
     public class SessionStateResponse
     {

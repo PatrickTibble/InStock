@@ -1,4 +1,4 @@
-﻿namespace InStock.Backend.AccountService.Abstraction.Entities
+﻿namespace InStock.Common.AccountService.Abstraction.Entities
 {
     public class UserAccount
     {

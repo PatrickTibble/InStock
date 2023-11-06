@@ -1,4 +1,4 @@
-﻿namespace InStock.Backend.AccountService.Abstraction.TransferObjects.Base
+﻿namespace InStock.Common.AccountService.Abstraction.TransferObjects.Base
 {
     public class Result<T> where T : class
     {

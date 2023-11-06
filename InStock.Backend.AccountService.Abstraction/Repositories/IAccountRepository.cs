@@ -1,6 +1,6 @@
-﻿using InStock.Backend.AccountService.Abstraction.Entities;
+﻿using InStock.Common.AccountService.Abstraction.Entities;
 
-namespace InStock.Backend.AccountService.Abstraction.Repositories
+namespace InStock.Common.AccountService.Abstraction.Repositories
 {
     public interface IAccountRepository
     {
