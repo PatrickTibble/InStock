@@ -44,14 +44,14 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Controllers
             _identityService = new Mock<IIdentityService>();
 
             _ = _identityService
-                .Setup(s => s.AuthenticateAsync(_authentication_GoodRequest, It.IsAny<List<UserClaim>>(), It.IsAny<CancellationToken>()))
+                .Setup(s => s.AuthenticateAsync(_authentication_GoodRequest))
                 .ReturnsAsync(new AuthenticationResponse()
                 {
                     AccessToken = "token"
                 });
 
             _ = _identityService
-                .Setup(s => s.AuthenticateAsync(_authentication_BadRequest, It.IsAny<List<UserClaim>>(), It.IsAny<CancellationToken>()))
+                .Setup(s => s.AuthenticateAsync(_authentication_BadRequest))
                 .ReturnsAsync(new AuthenticationResponse()
                 {
                     AccessToken = null
