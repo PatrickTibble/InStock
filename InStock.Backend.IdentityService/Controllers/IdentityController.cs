@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using InStock.Backend.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Abstraction;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
-using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.UserClaims;
+using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
+using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 
 namespace InStock.Backend.IdentityService.Controllers
 {

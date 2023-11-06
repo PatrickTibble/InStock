@@ -1,4 +1,4 @@
-﻿using InStock.Backend.AccountService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InStock.Backend.AccountService.Extensions

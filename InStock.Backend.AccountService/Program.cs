@@ -1,8 +1,8 @@
-﻿using InStock.Backend.AccountService.Abstraction.Repositories;
-using InStock.Backend.AccountService.Abstraction.Services;
+﻿using InStock.Common.AccountService.Abstraction.Repositories;
+using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Backend.AccountService.Core.Services.Account;
 using InStock.Backend.AccountService.Data.AccountManagement;
-using InStock.Backend.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.Services;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);

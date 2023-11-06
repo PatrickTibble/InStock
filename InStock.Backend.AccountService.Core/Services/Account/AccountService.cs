@@ -1,14 +1,15 @@
-﻿using InStock.Backend.AccountService.Abstraction.Entities;
-using InStock.Backend.AccountService.Abstraction.Repositories;
-using InStock.Backend.AccountService.Abstraction.Services;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.Base;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.CreateAccount;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.Login;
-using InStock.Backend.AccountService.Abstraction.TransferObjects.SessionState;
-using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.Extensions;
-using InStock.Backend.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
+﻿using InStock.Common.AccountService.Abstraction.Entities;
+using InStock.Common.AccountService.Abstraction.Repositories;
+using InStock.Common.AccountService.Abstraction.Services;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
+using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
+using InStock.Common.AccountService.Abstraction.TransferObjects.SessionState;
+using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.Extensions;
+using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 using Refit;
 
 namespace InStock.Backend.AccountService.Core.Services.Account
@@ -66,7 +67,7 @@ namespace InStock.Backend.AccountService.Core.Services.Account
             try
             {
                 // verify access token
-                var claimsResponse = await _identityService.GetUserClaimsAsync(new IdentityService.Abstraction.TransferObjects.UserClaims.UserClaimsRequest
+                var claimsResponse = await _identityService.GetUserClaimsAsync(new UserClaimsRequest
                 {
                     AccessToken = accessToken
                 });

@@ -1,7 +1,7 @@
-﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Backend.IdentityService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
