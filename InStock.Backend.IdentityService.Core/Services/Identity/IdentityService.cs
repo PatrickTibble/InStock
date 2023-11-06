@@ -23,10 +23,16 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             _identityRepository = identityRepository;
         }
 
-        public async Task<IEnumerable<string>> GetUserClaimsAsync(UserClaimsRequest request)
+        public async Task<UserClaimsResponse> GetUserClaimsAsync(UserClaimsRequest request)
         {
-            var claims = await _identityRepository.GetUserClaimsAsync(request.AccessToken!);
-            var response = claims?.Select(c => c.ToClaimType())?.ToList() ?? new List<string>();
+            var claimsTask = _identityRepository.GetUserClaimsAsync(request.AccessToken!);
+            var usernameTask = _identityRepository.GetUsernameAsync(request.AccessToken!);
+            await Task.WhenAll(claimsTask, usernameTask);
+            var response = new UserClaimsResponse
+            {
+                Username = usernameTask.Result,
+                Claims = claimsTask.Result?.Select(c => c.ToClaimType()).ToList() ?? new List<string>()
+            };
             return response;
         }
 
@@ -69,8 +75,7 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
             var claims = request.Claims?.ToList();
-            var userClaims = claims?.Select(c => c.ToClaimType())?.ToList() ?? new List<string>();
-            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, userClaims);
+            var result = await _identityRepository.VerifyUserCredentialsAsync(request.Username!, request.Password!, claims!);
 
             var response = new AuthenticationResponse
             {

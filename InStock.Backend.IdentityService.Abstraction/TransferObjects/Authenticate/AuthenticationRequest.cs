@@ -13,6 +13,6 @@ namespace InStock.Backend.IdentityService.Abstraction.TransferObjects.Authentica
         [Required]
         [MinLength(8, ErrorMessage = "Password is too short")]
         public string? Password { get; set; }
-        public List<UserClaim>? Claims { get; set; }
+        public List<string>? Claims { get; set; }
     }
 }

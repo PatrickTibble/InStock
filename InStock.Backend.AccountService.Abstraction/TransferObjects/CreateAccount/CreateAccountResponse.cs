@@ -2,6 +2,6 @@
 {
     public class CreateAccountResponse
     {
-
+        public bool Success { get; set; }
     }
 }

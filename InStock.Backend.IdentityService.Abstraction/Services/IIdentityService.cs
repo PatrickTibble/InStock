@@ -12,7 +12,7 @@ namespace InStock.Backend.IdentityService.Abstraction.Services
     public interface IIdentityService
     {
         [Post($"/{Constants.UserClaims}")]
-        Task<IEnumerable<string>> GetUserClaimsAsync([Body] UserClaimsRequest request);
+        Task<UserClaimsResponse> GetUserClaimsAsync([Body] UserClaimsRequest request);
 
         [Post($"/{Constants.Authenticate}")]
         Task<AuthenticationResponse> AuthenticateAsync([Body] AuthenticationRequest request);
