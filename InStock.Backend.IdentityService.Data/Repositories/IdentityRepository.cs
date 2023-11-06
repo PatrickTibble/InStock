@@ -1,12 +1,11 @@
 ﻿using InStock.Backend.IdentityService.Abstraction.Entities;
-using InStock.Backend.IdentityService.Abstraction.Extensions;
 using InStock.Backend.IdentityService.Abstraction.Repositories;
-using InStock.Backend.IdentityService.Data.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace InStock.Backend.IdentityService.Data.Repositories
 {
@@ -21,20 +20,68 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             _users = new List<HashedUser>();
         }
 
-        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken, CancellationToken? token = null)
+        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken)
         {
             var jwt = ReadToken(accessToken);
 
             // if token is null or expired, return empty claims
-            if (jwt == default || DateTime.UtcNow.CompareTo(DateTimeOffset.FromUnixTimeSeconds(jwt.Payload.Expiration ?? 0)) >= 0)
+            if (jwt == default)
             {
                 return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
             }
-
-            return Task.FromResult(jwt.Claims.Select(c => c.ToUserClaim()));
+            var claims = jwt.Claims.FirstOrDefault(c => c.Type.Equals("claims"))?.Value;
+            return Task.FromResult(Parse(claims));
         }
 
-        public Task<bool> RegisterUserAsync(string username, string password, CancellationToken? token = null)
+        private IEnumerable<UserClaim> Parse(string? claims)
+        {
+            var claimList = claims?.Split(',');
+            if (claimList == null)
+            {
+                yield break;
+            }
+            foreach (var claim in claimList)
+            {
+                var formatted = new StringBuilder();
+                int index = 0;
+                foreach (var character in claim)
+                {
+                    if (index == 0)
+                    {
+                        formatted.Append(character.ToString().ToUpper());
+                    }
+                    else if (character == '.')
+                    {
+                        formatted.Append('_');
+                        index = 0;
+                        continue;
+                    }
+                    else
+                    {
+                        formatted.Append(character);
+                    }
+                    index++;
+                }
+                if (Enum.TryParse<UserClaim>(formatted.ToString(), out var userClaim))
+                {
+                    yield return userClaim;
+                }
+            }
+        }
+
+        public Task<string?> GetUsernameAsync(string accessToken)
+        {
+            var jwt = ReadToken(accessToken);
+
+            if (jwt == default)
+            {
+                return Task.FromResult<string?>(null);
+            }
+
+            return Task.FromResult(jwt.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name))?.Value);
+        }
+
+        public Task<bool> RegisterUserAsync(string username, string password)
         {
             var user = _users.FirstOrDefault(u => u.Username!.Equals(username));
             if (user != null)
@@ -63,19 +110,19 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             return Task.FromResult(true);
         }
 
-        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims, CancellationToken? token = null)
+        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
         {
-            var user = _users.FirstOrDefault(u => u.Username!.Equals(username));
+            var user = _users.FirstOrDefault(u => u.Username.Equals(username));
             if (user == null)
             {
                 return Task.FromResult<string?>(default);
             }
 
             var passVerified = false;
-            using (var hmac = new HMACSHA512(user.PasswordSalt!))
+            using (var hmac = new HMACSHA512(user.PasswordSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                passVerified = computedHash.SequenceEqual(user.PasswordHash!);
+                passVerified = computedHash.SequenceEqual(user.PasswordHash);
             }
 
             if (!passVerified)
@@ -88,10 +135,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 Username = username,
                 Role = user.Role.ToString(),
                 Expiry = DateTime.UtcNow.AddHours(1),
-                Claims = new List<UserClaim>
-                {
-                    UserClaim.Session_Read
-                }
+                Claims = claims
             });
 
             return Task.FromResult(jwt);
@@ -99,11 +143,11 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
         private string? CreateToken(UserToken userToken)
         {
-            var userClaims = userToken.Claims!.Select(c => c.ToClaimType());
+            var userClaims = userToken.Claims;
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userToken.Username!),    // todo: replace with session id that can be mapped to a user?
-                new Claim(ClaimTypes.Role, userToken.Role!),         // todo: do we need roles here?
+                new Claim(ClaimTypes.Role, userToken.Role),         // todo: do we need roles here?
                                                                     // todo: what other claims do we need?
                 new Claim("claims", string.Join(",", userClaims))
             };
@@ -147,6 +191,10 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 catch (SecurityTokenMalformedException)
                 {
                     // don't throw. Log invalid token
+                }
+                catch (SecurityTokenExpiredException)
+                {
+                    // don't throw. Notify expired token?
                 }
             }
 

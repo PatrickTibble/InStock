@@ -6,7 +6,7 @@ namespace InStock.Backend.IdentityService.Abstraction.Entities
     {
         public string? Role { get; set; }
         public DateTime Expiry { get; set; }
-        public IList<UserClaim>? Claims { get; set; }
+        public IList<string>? Claims { get; set; }
         public string? Username { get; set; }
     }
 }

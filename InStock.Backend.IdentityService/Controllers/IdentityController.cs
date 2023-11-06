@@ -6,6 +6,7 @@ using InStock.Backend.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
 using InStock.Backend.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 using InStock.Backend.IdentityService.Abstraction.Entities;
+using InStock.Backend.IdentityService.Abstraction.TransferObjects.UserClaims;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -21,6 +22,22 @@ namespace InStock.Backend.IdentityService.Controllers
         }
 
         [HttpPost]
+        [Route(Constants.UserClaims)]
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetUserClaimsAsync(
+            [FromBody] UserClaimsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var claims = await _identityService.GetUserClaimsAsync(request);
+            return Ok(claims);
+        }
+
+        [HttpPost]
         [Route(Constants.Authenticate)]
         [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,8 +49,7 @@ namespace InStock.Backend.IdentityService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var claims = new List<UserClaim>();
-            var response = await _identityService.AuthenticateAsync(request, claims);
+            var response = await _identityService.AuthenticateAsync(request);
             return Ok(response);
         }
 
