@@ -1,4 +1,5 @@
-﻿using InStock.Frontend.Abstraction.Repositories;
+﻿using InStock.Frontend.Abstraction.Models;
+using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Login;
@@ -87,7 +88,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void ConfirmViewModel_CreateAccountAsync_FailsAndAlerts()
         {
-            var result = Abstraction.Models.CreateAccountResult.Default;
+            var result = new CreateAccountResult();
 
             _ = _alertService
                 .Setup(a => a.ShowServiceAlert(_anyString, _anyString, _anyString))
@@ -113,9 +114,9 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void ConfirmViewModel_CreateAccountAsync_SucceedsAndNavigates()
         {
-            var result = new Abstraction.Models.CreateAccountResult
+            var result = new CreateAccountResult
             {
-                IsSuccessful = true
+                AccountCreationSuccessful = true
             };
 
             _ = _alertService

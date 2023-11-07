@@ -18,18 +18,6 @@ namespace InStock.Frontend.Core.PageModels.Login
         [ObservableProperty]
         private bool _isLoading;
 
-        public PrimaryEntryViewModel FirstNameViewModel { get; }
-
-		public PrimaryEntryViewModel LastNameViewModel { get; }
-
-		public PrimaryEntryViewModel UsernameViewModel { get; }
-
-		public PrimaryEntryViewModel PasswordViewModel { get; }
-
-        public ButtonViewModel CancelViewModel { get; }
-
-        public ButtonViewModel ConfirmViewModel { get; }
-
 		public CreateAccountPageModel(
             INavigationService navigationService,
             IAccountRepository accountRepository,
@@ -73,6 +61,18 @@ namespace InStock.Frontend.Core.PageModels.Login
             };
         }
 
+        public PrimaryEntryViewModel FirstNameViewModel { get; }
+
+        public PrimaryEntryViewModel LastNameViewModel { get; }
+
+        public PrimaryEntryViewModel UsernameViewModel { get; }
+
+        public PrimaryEntryViewModel PasswordViewModel { get; }
+
+        public ButtonViewModel CancelViewModel { get; }
+
+        public ButtonViewModel ConfirmViewModel { get; }
+
         private async Task TryCreateAccountAsync()
         {
             IsLoading = true;
@@ -85,11 +85,10 @@ namespace InStock.Frontend.Core.PageModels.Login
                     password: PasswordViewModel.Text)
                 .ConfigureAwait(false);
 
-            if (!result.IsSuccessful)
+            if (!result.AccountCreationSuccessful)
             {
                 IsLoading = false;
 
-                // Alert the user, perhaps
                 await _alertService
                     .ShowServiceAlert(
                         title: Strings.AlertTitle_CreateAccount_Failed,

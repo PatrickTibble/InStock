@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
+using InStock.Frontend.Abstraction.Services.Settings;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.ViewModels.Input;
@@ -12,6 +14,7 @@ namespace InStock.Frontend.Core.PageModels.Login
 {
     public partial class LoginPageModel : BasePageModel
 	{
+        private readonly ISettingsService _settingsService;
         private readonly IAlertService _alertService;
         private readonly INavigationService _navigationService;
         private readonly IAccountRepository _accountRepository;
@@ -26,8 +29,10 @@ namespace InStock.Frontend.Core.PageModels.Login
             INavigationService navigationService,
             IClientInfoService infoService,
             IAlertService alertService,
-            IAccountRepository accountRepository)
+            IAccountRepository accountRepository,
+            ISettingsService settingsService)
 		{
+            _settingsService = settingsService;
             _alertService = alertService;
             _navigationService = navigationService;
             _accountRepository = accountRepository;
@@ -50,6 +55,12 @@ namespace InStock.Frontend.Core.PageModels.Login
                 Command = new AsyncRelayCommand(TryLoginWithCredentialsAsync, () => !IsLoading),
                 Title = Strings.ButtonTitle_Login
             };
+
+            CreateAccountViewModel = new ButtonViewModel
+            {
+                Command = new AsyncRelayCommand(TryNavigateToCreateAccountAsync, () => !IsLoading),
+                Title = Strings.ButtonTitle_CreateAccount
+            };
         }
 
         public PrimaryEntryViewModel UsernameViewModel { get; }
@@ -58,6 +69,8 @@ namespace InStock.Frontend.Core.PageModels.Login
 
         public ButtonViewModel LoginViewModel { get; }
 
+        public ButtonViewModel CreateAccountViewModel { get; }
+
         private async Task TryLoginWithCredentialsAsync()
         {
             IsLoading = true;
@@ -65,9 +78,16 @@ namespace InStock.Frontend.Core.PageModels.Login
                 .LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text)
                 .ConfigureAwait(false);
 
-            if (loginResult.IsSuccessful)
+            if (!string.IsNullOrWhiteSpace(loginResult.AccessToken))
             {
-                await _navigationService.PopAsync().ConfigureAwait(false);
+                _ = await _settingsService
+                    .TrySetValueAsync(nameof(LoginResult.AccessToken), loginResult.AccessToken)
+                    .ConfigureAwait(false);
+
+                await _navigationService
+                    .PopAsync()
+                    .ConfigureAwait(false);
+
                 return;
             }
 
@@ -76,5 +96,8 @@ namespace InStock.Frontend.Core.PageModels.Login
                 .ShowServiceAlert(Strings.AlertTitle_LoginFailed, Strings.AlertBody_LoginFailed, Strings.AlertAction_Confirm)
                 .ConfigureAwait(false);
         }
+
+        private Task TryNavigateToCreateAccountAsync()
+            => _navigationService.NavigateToAsync<CreateAccountPageModel>();
     }
 }

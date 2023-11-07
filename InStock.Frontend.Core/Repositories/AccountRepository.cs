@@ -4,6 +4,7 @@ using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
 using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Threading;
+using InStock.Frontend.Core.Extensions;
 
 namespace InStock.Frontend.Core.Repositories
 {
@@ -28,11 +29,22 @@ namespace InStock.Frontend.Core.Repositories
                 Password = password
             };
 
-            var response = await _accountService.CreateAccountAsync(request).ConfigureAwait(false);
+            var result = await _accountService
+                .CreateAccountAsync(request)
+                .ConfigureAwait(false);
+
+            if (result.IsSuccessfulStatusCode()
+                && result.Data != null)
+            {
+                return new CreateAccountResult
+                {
+                    AccountCreationSuccessful = result.Data.Success
+                };
+            }
 
             return new CreateAccountResult
             {
-
+                ErrorMessage = result.Error
             };
         }
 
@@ -44,11 +56,21 @@ namespace InStock.Frontend.Core.Repositories
                 Password = password
             };
 
-            var response = await _accountService.LoginAsync(loginRequest).ConfigureAwait(false);
+            var result = await _accountService
+                .LoginAsync(loginRequest)
+                .ConfigureAwait(false);
+
+            if (result.IsSuccessfulStatusCode())
+            {
+                return new LoginResult
+                {
+                    AccessToken = result.Data?.AccessToken
+                };
+            }
 
             return new LoginResult
             {
-
+                ErrorMessage = result.Error
             };
         }
     }

@@ -115,6 +115,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to create an account.
+        /// </summary>
+        internal static string ButtonTitle_CreateAccount {
+            get {
+                return ResourceManager.GetString("ButtonTitle_CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to log in.
         /// </summary>
         internal static string ButtonTitle_Login {

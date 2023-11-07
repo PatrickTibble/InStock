@@ -1,9 +1,9 @@
-﻿namespace InStock.Frontend.Abstraction.Models
-{
-    public class CreateAccountResult
-    {
-        public bool IsSuccessful { get; set; }
+﻿using InStock.Frontend.Abstraction.Models.Base;
 
-        public static CreateAccountResult Default { get; } = new CreateAccountResult {  IsSuccessful = false };
+namespace InStock.Frontend.Abstraction.Models
+{
+    public class CreateAccountResult : BaseResult
+    {
+        public bool AccountCreationSuccessful { get; set; }
     }
 }

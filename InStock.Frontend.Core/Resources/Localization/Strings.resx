@@ -177,4 +177,7 @@
   <data name="Placeholder_LastName" xml:space="preserve">
     <value>last name</value>
   </data>
+  <data name="ButtonTitle_CreateAccount" xml:space="preserve">
+    <value>create an account</value>
+  </data>
 </root>
