@@ -3,8 +3,6 @@ using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 

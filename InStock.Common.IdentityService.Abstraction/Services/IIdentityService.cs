@@ -1,8 +1,6 @@
 ﻿using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
-using Microsoft.AspNetCore.Mvc;
 using Refit;
 
 namespace InStock.Common.IdentityService.Abstraction.Services
