@@ -45,7 +45,6 @@
     <Folder Include="Repositories\Base\" />
     <Folder Include="Resources\" />
     <Folder Include="Resources\Localization\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Extensions\Navigation\" />
     <Folder Include="PageModels\Inventory\" />
     <Folder Include="ViewModels\ListItems\" />

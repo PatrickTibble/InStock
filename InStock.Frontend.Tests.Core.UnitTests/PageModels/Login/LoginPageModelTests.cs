@@ -3,6 +3,7 @@ using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
+using InStock.Frontend.Abstraction.Services.Settings;
 using InStock.Frontend.Core.PageModels.Login;
 using Moq;
 
@@ -14,6 +15,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         private Mock<IClientInfoService> _clientInfoService;
         private Mock<INavigationService> _navigationService;
         private Mock<IAccountRepository> _accountRepository;
+        private Mock<ISettingsService> _settingsService;
         private SoftwareVersion _version;
         private LoginPageModel _pageModel;
 
@@ -24,6 +26,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
             _clientInfoService = new Mock<IClientInfoService>();
             _navigationService = new Mock<INavigationService>();
             _accountRepository = new Mock<IAccountRepository>();
+            _settingsService = new Mock<ISettingsService>();
 
             _version = new SoftwareVersion(1, 1, 0, 1);
             _ = _clientInfoService.Setup(c => c.AppVersion).Returns(_version);
@@ -32,7 +35,8 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
 				_navigationService.Object,
                 _clientInfoService.Object,
                 _alertService.Object,
-				_accountRepository.Object);
+				_accountRepository.Object,
+                _settingsService.Object);
 		}
 
         [Test]
@@ -85,7 +89,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void TryLogin_Fail_DoesNotNavigate()
         {
-            var loginResult = LoginResult.Default;
+            var loginResult = new LoginResult();
             _ = _accountRepository
                 .Setup(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(loginResult));
@@ -105,7 +109,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         {
             var loginResult = new LoginResult
             {
-                IsSuccessful = true
+                AccessToken = "123"
             };
 
             _ = _accountRepository

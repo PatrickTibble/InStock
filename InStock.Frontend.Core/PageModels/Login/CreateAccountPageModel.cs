@@ -85,11 +85,10 @@ namespace InStock.Frontend.Core.PageModels.Login
                     password: PasswordViewModel.Text)
                 .ConfigureAwait(false);
 
-            if (!result.IsSuccessful)
+            if (!result.AccountCreationSuccessful)
             {
                 IsLoading = false;
 
-                // Alert the user, perhaps
                 await _alertService
                     .ShowServiceAlert(
                         title: Strings.AlertTitle_CreateAccount_Failed,
