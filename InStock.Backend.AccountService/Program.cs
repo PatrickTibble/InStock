@@ -1,9 +1,11 @@
 ﻿using InStock.Common.AccountService.Abstraction.Repositories;
 using InStock.Common.AccountService.Abstraction.Services;
-using InStock.Backend.AccountService.Core.Services.Account;
-using InStock.Backend.AccountService.Data.AccountManagement;
 using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Backend.AccountService.Core.Services;
+using InStock.Backend.AccountService.Data.Repositories;
 using Refit;
+using InStock.Common.Abstraction.Logger;
+using ILogger = InStock.Common.Abstraction.Logger.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddRefitClient<IIdentityService>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:44315"));
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(InStock.Common.IdentityService.Abstraction.Constants.BaseUrl));
 
 
 builder.Services.AddControllers();
@@ -20,6 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
+    .AddSingleton<ILogger, LocalSessionLogger>()
     .AddSingleton<IAccountRepository, AccountRepository>()
     .AddSingleton<IAccountService, AccountService>();
 
