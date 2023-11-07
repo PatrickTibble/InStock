@@ -1,7 +1,7 @@
 ﻿using InStock.Common.AccountService.Abstraction.Entities;
 using InStock.Common.AccountService.Abstraction.Repositories;
 
-namespace InStock.Backend.AccountService.Data.AccountManagement
+namespace InStock.Backend.AccountService.Data.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
@@ -81,6 +81,7 @@ namespace InStock.Backend.AccountService.Data.AccountManagement
             return Task.FromResult(removalResult);
         }
 
-        private UserAccount? GetUser(string? username) => _accounts.FirstOrDefault(u => u.Username!.Equals(username!));
+        private UserAccount? GetUser(string? username)
+            => _accounts.FirstOrDefault(u => u.Username!.Equals(username!));
     }
 }

@@ -1,4 +1,5 @@
-﻿using InStock.Common.AccountService.Abstraction.Entities;
+﻿using InStock.Common.Abstraction.Logger;
+using InStock.Common.AccountService.Abstraction.Entities;
 using InStock.Common.AccountService.Abstraction.Repositories;
 using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
@@ -9,13 +10,15 @@ using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Extensions;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 using Refit;
 
-namespace InStock.Backend.AccountService.Core.Services.Account
+namespace InStock.Backend.AccountService.Core.Services
 {
     public class AccountService : IAccountService
     {
+        private readonly ILogger _logger;
         private readonly IIdentityService _identityService;
         private readonly IAccountRepository _accountRepository;
 
@@ -23,8 +26,10 @@ namespace InStock.Backend.AccountService.Core.Services.Account
 
         public AccountService(
             IAccountRepository accountRepository,
-            IIdentityService identityService)
+            IIdentityService identityService,
+            ILogger logger)
         {
+            _logger = logger;
             _identityService = identityService;
             _accountRepository = accountRepository;
         }
@@ -33,30 +38,49 @@ namespace InStock.Backend.AccountService.Core.Services.Account
         {
             try
             {
-                var user = await _accountRepository.GetUserByUsernameAsync(request.Username);
+                var user = await _accountRepository
+                    .GetUserByUsernameAsync(request.Username)
+                    .ConfigureAwait(false);
 
                 if (user == null)
                 {
-                    // Try to create the account
-                    user = new UserAccount
-                    {
-                        FirstName = request.FirstName,
-                        LastName = request.LastName,
-                        Username = request.Username
-                    };
-
-                    var result = await _accountRepository.AddUserAsync(user);
-                    return new Result<CreateAccountResponse>(
-                        new CreateAccountResponse
+                    // try to register the user with Identity Server
+                    var registrationResult = await _identityService
+                        .RegisterUserAsync(new RegistrationRequest
                         {
-                            Success = result
-                        });
+                            Username = request.Username,
+                            Password = request.Password
+                        })
+                        .ConfigureAwait(false);
+
+                    if ((registrationResult?.IsRegistered ?? false))
+                    {
+                        // Try to create the account
+                        user = new UserAccount
+                        {
+                            FirstName = request.FirstName,
+                            LastName = request.LastName,
+                            Username = request.Username
+                        };
+
+                        var result = await _accountRepository
+                            .AddUserAsync(user)
+                            .ConfigureAwait(false);
+
+                        return new Result<CreateAccountResponse>(
+                            new CreateAccountResponse
+                            {
+                                Success = result
+                            });
+                    }
                 }
+
                 return new Result<CreateAccountResponse>(400, "User already exists.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // log it
+                await _logger.LogExceptionAsync(ex);
             }
 
             return new Result<CreateAccountResponse>(500, "Unable to create account.");
@@ -72,9 +96,8 @@ namespace InStock.Backend.AccountService.Core.Services.Account
                     AccessToken = accessToken
                 });
 
-                if (claimsResponse == null
-                    || !(claimsResponse.Claims?.Any(c => c.Equals(UserClaim.Session_Read.ToClaimType())) ?? false)
-                    || string.IsNullOrWhiteSpace(claimsResponse.Username))
+                if (!(claimsResponse?.Claims?.Any(c => c.Equals(UserClaim.Session_Read.ToClaimType())) ?? false)
+                    || string.IsNullOrWhiteSpace(claimsResponse?.Username))
                 {
                     return new Result<SessionStateResponse>(401, "Invalid access token.");
                 }
@@ -94,9 +117,10 @@ namespace InStock.Backend.AccountService.Core.Services.Account
                         IsCurrentSessionActive = true
                     });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // log it
+                await _logger.LogExceptionAsync(ex);
             }
 
             return new Result<SessionStateResponse>(500, "Unable to get session state.");
@@ -116,7 +140,7 @@ namespace InStock.Backend.AccountService.Core.Services.Account
                     }
                 });
 
-                if (result == null || string.IsNullOrWhiteSpace(result.AccessToken))
+                if (string.IsNullOrWhiteSpace(result?.AccessToken))
                 {
                     return new Result<LoginResponse>(401, "Invalid username or password.");
                 }
@@ -134,12 +158,13 @@ namespace InStock.Backend.AccountService.Core.Services.Account
                         AccessToken = result.AccessToken
                     });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // log it
+                await _logger.LogExceptionAsync(ex);
             }
 
-            return new Result<LoginResponse>(500, "Unable to login at this time."); 
+            return new Result<LoginResponse>(500, "Unable to login at this time.");
         }
     }
 }
