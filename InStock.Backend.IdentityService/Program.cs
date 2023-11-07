@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
+    .AddSingleton<IHashService, HmacSha512HashService>()
+    .AddSingleton<ITokenService, JwtSecurityTokenService>()
     .AddSingleton<IIdentityRepository, IdentityRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     
