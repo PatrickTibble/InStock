@@ -75,7 +75,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\Shared\" />
-	  <Folder Include="Services\" />
 	  <Folder Include="Pages\Inventory\" />
 	  <Folder Include="Views\ListItems\" />
 	  <Folder Include="Pages\PointOfSale\" />

@@ -1,12 +1,9 @@
-﻿namespace InStock.Frontend.Abstraction.Models
-{
-	public class LoginResult
-	{
-        public bool IsSuccessful { get; set; }
+﻿using InStock.Frontend.Abstraction.Models.Base;
 
-        public static LoginResult Default { get; } = new LoginResult
-        {
-            IsSuccessful = false
-        };
+namespace InStock.Frontend.Abstraction.Models
+{
+    public class LoginResult : BaseResult
+	{
+        public string? AccessToken { get; set; }
     }
 }
