@@ -1,25 +1,19 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
-using InStock.Common.IdentityService.Abstraction.Extensions;
+﻿using InStock.Common.IdentityService.Abstraction.Extensions;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 
-namespace InStock.Backend.IdentityService.Core.Services.Identity
+namespace InStock.Backend.IdentityService.Core.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly ICommunicationService _communicationService;
         private readonly IIdentityRepository _identityRepository;
 
         public IdentityService(
-            IIdentityRepository identityRepository,
-            ICommunicationService communicationService)
+            IIdentityRepository identityRepository)
         {
-            _communicationService = communicationService;
             _identityRepository = identityRepository;
         }
 
@@ -43,30 +37,6 @@ namespace InStock.Backend.IdentityService.Core.Services.Identity
             var response = new RegistrationResponse
             {
                 IsRegistered = result
-            };
-
-            return response;
-        }
-
-        public async Task<VerificationLinkResponse> SendVerificationLinkAsync(VerificationLinkRequest request)
-        {
-            var result = await _communicationService.SendVerificationLinkAsync(request);
-
-            var response = new VerificationLinkResponse
-            {
-                IsSent = result
-            };
-
-            return response;
-        }
-
-        public async Task<VerifyEmailResponse> VerifyEmailAsync(VerifyEmailRequest request)
-        {
-            var result = await _communicationService.VerifyEmailAsync(request);
-
-            var response = new VerifyEmailResponse
-            {
-                IsVerified = result
             };
 
             return response;

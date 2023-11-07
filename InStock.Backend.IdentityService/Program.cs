@@ -1,14 +1,12 @@
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Core.Services.Communication;
-using InStock.Backend.IdentityService.Core.Services.Identity;
 using InStock.Backend.IdentityService.Data.Repositories;
+using InStock.Backend.IdentityService.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddSingleton<ICommunicationService, CommunicationService>()
     .AddSingleton<IIdentityRepository, IdentityRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     

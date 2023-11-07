@@ -3,8 +3,6 @@ using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
 using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 
@@ -66,39 +64,6 @@ namespace InStock.Backend.IdentityService.Controllers
             }
 
             var response = await _identityService.RegisterUserAsync(request);
-            return Ok(response);
-        }
-
-        [HttpPost]
-        [Route(Constants.SendVerificationLink)]
-        [ProducesResponseType(typeof(VerificationLinkResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> SendVerificationLinkAsync(
-            [FromBody] VerificationLinkRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var response = await _identityService.SendVerificationLinkAsync(request);
-            return Ok(response);
-        }
-
-        [HttpPost]
-        [Route(Constants.VerifyEmail)]
-        [ProducesResponseType(typeof(VerifyEmailResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> VerifyEmailAsync(
-            [FromBody] VerifyEmailRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var response = await _identityService.VerifyEmailAsync(request);
             return Ok(response);
         }
     }
