@@ -9,11 +9,14 @@ namespace InStock.Backend.IdentityService.Core.Services
 {
     public class IdentityService : IIdentityService
     {
+        private readonly IHashService _hashService;
         private readonly IIdentityRepository _identityRepository;
 
         public IdentityService(
-            IIdentityRepository identityRepository)
+            IIdentityRepository identityRepository,
+            IHashService hashService)
         {
+            _hashService = hashService;
             _identityRepository = identityRepository;
         }
 
