@@ -1,5 +1,4 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.IdentityService.Abstraction.TransferObjects.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate

@@ -5,7 +5,6 @@ using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
-using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 
 namespace InStock.Backend.IdentityService.Controllers

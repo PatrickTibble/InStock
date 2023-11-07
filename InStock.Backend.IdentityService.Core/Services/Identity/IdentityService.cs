@@ -1,5 +1,4 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
-using InStock.Common.IdentityService.Abstraction.Extensions;
+﻿using InStock.Common.IdentityService.Abstraction.Extensions;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
