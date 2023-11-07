@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddSingleton<ILogger, LocalSessionLogger>()
-    .AddSingleton<IAccountRepository, AccountRepository>()
+    .AddSingleton<IAccountRepository, DBAccountRepository>()
     .AddSingleton<IAccountService, AccountService>();
 
 var app = builder.Build();
