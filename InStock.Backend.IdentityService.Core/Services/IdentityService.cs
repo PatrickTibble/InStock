@@ -1,4 +1,5 @@
-﻿using InStock.Common.IdentityService.Abstraction.Repositories;
+﻿using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
@@ -107,18 +108,31 @@ namespace InStock.Backend.IdentityService.Core.Services
         {
             try
             {
+                // authenticate user with username and password
                 var result = await _identityRepository
                     .VerifyUserCredentialsAsync(request.Username!, request.Password!, request.Claims!)
                     .ConfigureAwait(false);
+                request.Password = null;
 
-                if (string.IsNullOrWhiteSpace(result))
+                if (!result)
                 {
                     return new Result<AuthenticationResponse>(401, "Authentication Error");
                 }
+                // generate jwt token
+                var jwt = _tokenService
+                    .CreateToken(new UserToken
+                    {
+                        Expiry = DateTime.UtcNow.AddMinutes(15),
+                        Username = request.Username,
+                        Claims = request.Claims
+                    });
+                // TODO: Refresh tokens?
+
+                // create user session
 
                 var response = new AuthenticationResponse
                 {
-                    AccessToken = result
+                    AccessToken = jwt
                 };
 
                 return new Result<AuthenticationResponse>(response);
@@ -129,6 +143,7 @@ namespace InStock.Backend.IdentityService.Core.Services
                     .LogExceptionAsync(e)
                     .ConfigureAwait(false);
             }
+
             return new Result<AuthenticationResponse>(500, "Internal Server Error");
         }
     }

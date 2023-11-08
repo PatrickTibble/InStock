@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.AccountService.Abstraction", "InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj", "{BFED4D7F-83BD-4A42-8AD4-E9C7AD11186A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountManagement", "AccountManagement", "{8B1DDB0A-7BF7-42BE-9483-E54155B7419D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountService", "AccountService", "{8B1DDB0A-7BF7-42BE-9483-E54155B7419D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Data", "InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj", "{E1E4C7F0-92F8-4BFC-95BE-2C42A40F3168}"
 EndProject
@@ -88,7 +88,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryService", "Invento
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{5617D614-F588-4DE8-AF4D-947BADD09442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.Common", "InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Common", "InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
