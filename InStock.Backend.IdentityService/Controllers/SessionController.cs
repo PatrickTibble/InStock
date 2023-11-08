@@ -49,24 +49,6 @@ namespace InStock.Backend.IdentityService.Controllers
             return result.ToActionResult();
         }
 
-        // Login should create the session... I think
-        //[HttpPost]
-        //[Route(Constants.CreateSession)]
-        //public async Task<IActionResult> CreateSessionAsync(
-        //               [FromHeader] string accessToken)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(accessToken))
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var result = await _sessionService
-        //        .CreateSessionAsync(accessToken)
-        //        .ConfigureAwait(false);
-
-        //    return result.ToActionResult();
-        //}
-
         [HttpPost]
         [Route(Constants.EndSession)]
         public async Task<IActionResult> EndSessionAsync(

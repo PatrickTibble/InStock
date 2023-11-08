@@ -12,10 +12,6 @@ namespace InStock.Common.IdentityService.Abstraction.Services
         [Post($"/{Constants.SessionState}")]
         Task<Result<ContinueSessionResponse>> ContinueSessionAsync([AccessTokenHeader] string accessToken);
 
-        // Login should create the session... I think
-        //[Post($"/{Constants.CreateSession}")]
-        //Task<Result<CreateSessionResponse>> CreateSessionAsync([AccessTokenHeader] string accessToken);
-
         [Post($"/{Constants.EndSession}")]
         Task<Result<EndSessionResponse>> EndSessionAsync([AccessTokenHeader] string accessToken);
 
