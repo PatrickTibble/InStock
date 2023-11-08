@@ -20,15 +20,18 @@ namespace InStock.Backend.AccountService.Core.Services
     {
         private readonly ILogger _logger;
         private readonly IIdentityService _identityService;
+        private readonly IUserService userService,
         private readonly IAccountRepository _accountRepository;
 
         public AccountService(
             IAccountRepository accountRepository,
+            IUserService userService,
             IIdentityService identityService,
             ILogger logger)
         {
             _logger = logger;
             _identityService = identityService;
+            _userService = userService;
             _accountRepository = accountRepository;
         }
 
@@ -43,7 +46,7 @@ namespace InStock.Backend.AccountService.Core.Services
                 if (user == null)
                 {
                     // try to register the user with Identity Server
-                    var registrationResult = await _identityService
+                    var registrationResult = await _userService
                         .RegisterUserAsync(new RegistrationRequest
                         {
                             Username = request.Username,
