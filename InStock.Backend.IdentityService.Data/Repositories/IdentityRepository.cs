@@ -27,6 +27,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             {
                 return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
             }
+
             return Task.FromResult(Parse(jwt.Claims));
         }
 
@@ -99,6 +100,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             };
 
             _users.Add(user);
+
             return Task.FromResult(true);
         }
 
