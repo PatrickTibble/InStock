@@ -4,6 +4,7 @@ namespace InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticat
 {
     public class AuthenticationResponse : BaseResponse
     {
+        public string? IdToken { get; set; }
         public string? AccessToken { get; set; }
     }
 }
