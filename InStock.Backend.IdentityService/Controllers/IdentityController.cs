@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using InStock.Common.IdentityService.Abstraction.Services;
-using InStock.Common.IdentityService.Abstraction;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 using InStock.Backend.Common.Extensions;
+using InStock.Common.IdentityService.Abstraction;
+using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -20,11 +21,11 @@ namespace InStock.Backend.IdentityService.Controllers
         }
 
         [HttpPost]
-        [Route(Constants.UserClaims)]
-        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [Route(Constants.GetToken)]
+        [ProducesResponseType(typeof(GetTokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetUserClaimsAsync(
-            [FromBody] UserClaimsRequest request)
+        public async Task<IActionResult> GetTokenAsync(
+            [FromBody] GetTokenRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -32,18 +33,18 @@ namespace InStock.Backend.IdentityService.Controllers
             }
 
             var result = await _identityService
-                .GetUserClaimsAsync(request)
+                .GetTokenAsync(request)
                 .ConfigureAwait(false);
 
             return result.ToActionResult();
         }
 
         [HttpPost]
-        [Route(Constants.Authenticate)]
-        [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+        [Route(Constants.ValidateToken)]
+        [ProducesResponseType(typeof(ValidateTokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AuthenticateAsync(
-            [FromBody] AuthenticationRequest request)
+        public async Task<IActionResult> ValidateTokenAsync(
+                       [FromBody] ValidateTokenRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -51,18 +52,18 @@ namespace InStock.Backend.IdentityService.Controllers
             }
 
             var result = await _identityService
-                .AuthenticateAsync(request)
+                .ValidateTokenAsync(request)
                 .ConfigureAwait(false);
 
             return result.ToActionResult();
         }
 
         [HttpPost]
-        [Route(Constants.Register)]
-        [ProducesResponseType(typeof(RegistrationResponse), StatusCodes.Status200OK)]
+        [Route(Constants.RefreshToken)]
+        [ProducesResponseType(typeof(AccessRefreshTokenPair), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterAsync(
-            [FromBody] RegistrationRequest request)
+        public async Task<IActionResult> RefreshTokenAsync(
+                       [FromBody] AccessRefreshTokenPair request)
         {
             if (!ModelState.IsValid)
             {
@@ -70,7 +71,7 @@ namespace InStock.Backend.IdentityService.Controllers
             }
 
             var result = await _identityService
-                .RegisterUserAsync(request)
+                .RefreshTokenAsync(request)
                 .ConfigureAwait(false);
 
             return result.ToActionResult();

@@ -1,55 +1,118 @@
 ﻿using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 using InStock.Common.Models.Base;
+using Refit;
 using ILogger = InStock.Common.Abstraction.Logger.ILogger;
 
 namespace InStock.Backend.IdentityService.Core.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly ITokenService _tokenService;
-        private readonly IHashService _hashService;
-        private readonly IUserRepository _userRepository;
-        private readonly ILogger _logger;
         private readonly IIdentityRepository _identityRepository;
+        private readonly ILogger _logger;
+        private readonly ITokenService _tokenService;
 
         public IdentityService(
             IIdentityRepository identityRepository,
-            IUserRepository userRepository,
             ITokenService tokenService,
-            IHashService hashService,
             ILogger logger)
         {
             _identityRepository = identityRepository;
             _tokenService = tokenService;
-            _hashService = hashService;
-            _userRepository = userRepository;
             _logger = logger;
         }
 
-        public async Task<Result<UserClaimsResponse>> GetUserClaimsAsync(UserClaimsRequest request)
+        public async Task<Result<GetTokenResponse>> GetTokenAsync([Body] GetTokenRequest request)
         {
             try
             {
-                var userToken = _tokenService
-                    .ReadToken(request.AccessToken!);
+                var badRequestResponse = new Result<GetTokenResponse>(400, "Unable to create token");
 
-                if (userToken == default)
+                var tokenPair = _tokenService.CreateAccessRefreshTokenPair(new UserToken
                 {
-                    return new Result<UserClaimsResponse>(401, "Access token is invalid");
+                    Expiry = request.Expiry,
+                    Claims = request.Claims
+                });
+
+                if (tokenPair == default)
+                {
+                    return badRequestResponse;
                 }
 
-                var response = new UserClaimsResponse
-                {
-                    Username = userToken.Username,
-                    Claims = userToken.Claims
-                };
+                var idToken = await _identityRepository.GetIdTokenAsync(request.Username);
 
-                return new Result<UserClaimsResponse>(response!);
+                if (string.IsNullOrWhiteSpace(idToken))
+                {
+                    idToken = _tokenService.CreateIdToken(request.Username, tokenPair);
+                }
+
+                if (string.IsNullOrWhiteSpace(idToken))
+                {
+                    return badRequestResponse;
+                }
+
+                var saveResult = await _identityRepository
+                    .StoreTokensAsync(idToken, tokenPair)
+                    .ConfigureAwait(false);
+
+                if (!saveResult)
+                {
+                    return badRequestResponse;
+                }
+
+                return new Result<GetTokenResponse>(new GetTokenResponse
+                {
+                    AccessToken = tokenPair.AccessToken,
+                    IdentityToken = idToken,
+                    RefreshToken = tokenPair.RefreshToken
+                });
+            }
+            catch (Exception ex)
+            {
+                await _logger
+                    .LogExceptionAsync(ex)
+                    .ConfigureAwait(false);
+            }
+            
+            return new Result<GetTokenResponse>(500, "Unable to create token");
+        }
+
+        public async Task<Result<AccessRefreshTokenPair>> RefreshTokenAsync([Body] AccessRefreshTokenPair request)
+        {
+            try
+            {
+                var badRequest = BadRequest<AccessRefreshTokenPair>("Unable to refresh token");
+
+                var validationResult = await _identityRepository
+                    .ValidateTokenPairAsync(request)
+                    .ConfigureAwait(false);
+
+                if (!validationResult)
+                {
+                    return badRequest;
+                }
+
+                var refreshResult = _tokenService.RefreshWithTokenPair(request);
+                
+                if (refreshResult == default)
+                {
+                    return badRequest;
+                }
+
+                var saveResult = await _identityRepository
+                    .SaveTokenPairAsync(request)
+                    .ConfigureAwait(false);
+
+                if (!saveResult)
+                {
+                    return badRequest;
+                }
+
+                return new Result<AccessRefreshTokenPair>(refreshResult);
             }
             catch (Exception ex)
             {
@@ -58,41 +121,25 @@ namespace InStock.Backend.IdentityService.Core.Services
                     .ConfigureAwait(false);
             }
 
-            return new Result<UserClaimsResponse>(500, "Internal Server Error");
+            return InternalServerError<AccessRefreshTokenPair>("Unable to refresh token");
         }
 
-        public async Task<Result<RegistrationResponse>> RegisterUserAsync(RegistrationRequest request)
+        public async Task<Result<ValidateTokenResponse>> ValidateTokenAsync([Body] ValidateTokenRequest request)
         {
             try
             {
-                _hashService.CreateHash(request.Password!, out var passwordHash, out var passwordSalt);
-                // get rid of their password as quickly as possible.
-                request.Password = null;
+                // confirm that we made the token.
+                var validationResult = _tokenService.ValidateToken(request.Token);
 
-                var isUsernameAvailable = await _userRepository
-                    .GetUsernameAvailableAsync(request.Username)
+                // confirm that we know we made it
+                validationResult &= await _identityRepository
+                    .ValidateTokenAsync(request.Token)
                     .ConfigureAwait(false);
 
-                if (!isUsernameAvailable)
+                return new Result<ValidateTokenResponse>(new ValidateTokenResponse
                 {
-                    return new Result<RegistrationResponse>(400, "Username is already taken");
-                }
-
-                var userId = await _userRepository
-                    .CreateUserAsync(request.Username!, request.FirstName!, request.LastName!, passwordHash, passwordSalt)
-                    .ConfigureAwait(false);
-
-                if (userId <= 0)
-                {
-                    return new Result<RegistrationResponse>(400, "Failed to create user");
-                }
-
-                var response = new RegistrationResponse
-                {
-                    IsRegistered = true
-                };
-
-                return new Result<RegistrationResponse>(response);
+                    IsValid = validationResult
+                });
             }
             catch (Exception ex)
             {
@@ -101,50 +148,15 @@ namespace InStock.Backend.IdentityService.Core.Services
                     .ConfigureAwait(false);
             }
 
-            return new Result<RegistrationResponse>(500, "Internal Server Error");
+            return InternalServerError<ValidateTokenResponse>("Unable to validate token");
         }
 
-        public async Task<Result<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request)
-        {
-            try
-            {
-                // authenticate user with username and password
-                var result = await _identityRepository
-                    .VerifyUserCredentialsAsync(request.Username!, request.Password!, request.Claims!)
-                    .ConfigureAwait(false);
-                request.Password = null;
+        private Result<T> BadRequest<T>(string message)
+            where T : class
+            => new Result<T>(400, message);
 
-                if (!result)
-                {
-                    return new Result<AuthenticationResponse>(401, "Authentication Error");
-                }
-                // generate jwt token
-                var jwt = _tokenService
-                    .CreateToken(new UserToken
-                    {
-                        Expiry = DateTime.UtcNow.AddMinutes(15),
-                        Username = request.Username,
-                        Claims = request.Claims
-                    });
-                // TODO: Refresh tokens?
-
-                // create user session
-
-                var response = new AuthenticationResponse
-                {
-                    AccessToken = jwt
-                };
-
-                return new Result<AuthenticationResponse>(response);
-            }
-            catch (Exception e)
-            {
-                await _logger
-                    .LogExceptionAsync(e)
-                    .ConfigureAwait(false);
-            }
-
-            return new Result<AuthenticationResponse>(500, "Internal Server Error");
-        }
+        private Result<T> InternalServerError<T>(string message)
+            where T : class
+            => new Result<T>(500, message);
     }
 }

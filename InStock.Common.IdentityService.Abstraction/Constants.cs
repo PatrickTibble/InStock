@@ -17,6 +17,10 @@
         public const string EndSession = "api/v1/Session/End";
         public const string CreateSession = "api/v1/Session/Create";
 
+        public const string GetToken = "api/v1/Identity/Token";
+        public const string ValidateToken = "api/v1/Identity/Validate";
+        public const string RefreshToken = "api/v1/Identity/Refresh";
+
         public const string BaseUrl = "https://localhost:44315";
     }
 }
