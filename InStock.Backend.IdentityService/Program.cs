@@ -2,6 +2,8 @@ using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Backend.IdentityService.Data.Repositories;
 using InStock.Backend.IdentityService.Core.Services;
+using InStock.Common.Abstraction.Logger;
+using ILogger = InStock.Common.Abstraction.Logger.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddSingleton<IHashService, HmacSha512HashService>()
     .AddSingleton<ITokenService, JwtSecurityTokenService>()
+    .AddSingleton<ILogger, LocalSessionLogger>()
+    .AddSingleton<IUserRepository, UserRepository>()
     .AddSingleton<IIdentityRepository, IdentityRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     
