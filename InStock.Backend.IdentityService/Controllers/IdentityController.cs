@@ -3,8 +3,8 @@ using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
+using InStock.Backend.Common.Extensions;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -31,8 +31,11 @@ namespace InStock.Backend.IdentityService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var claims = await _identityService.GetUserClaimsAsync(request);
-            return Ok(claims);
+            var result = await _identityService
+                .GetUserClaimsAsync(request)
+                .ConfigureAwait(false);
+
+            return result.ToActionResult();
         }
 
         [HttpPost]
@@ -47,8 +50,11 @@ namespace InStock.Backend.IdentityService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _identityService.AuthenticateAsync(request);
-            return Ok(response);
+            var result = await _identityService
+                .AuthenticateAsync(request)
+                .ConfigureAwait(false);
+
+            return result.ToActionResult();
         }
 
         [HttpPost]
@@ -63,8 +69,11 @@ namespace InStock.Backend.IdentityService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _identityService.RegisterUserAsync(request);
-            return Ok(response);
+            var result = await _identityService
+                .RegisterUserAsync(request)
+                .ConfigureAwait(false);
+
+            return result.ToActionResult();
         }
     }
 }
