@@ -90,6 +90,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Common", "InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{340CEC96-E1CD-4A58-B758-0D3386145FA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoredProcedures", "StoredProcedures", "{9C3BE68D-9F7F-4043-B007-8427F185302C}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\SQL\StoredProcedures\GetIdentityTokenFromAccessToken.sql = Solution Items\SQL\StoredProcedures\GetIdentityTokenFromAccessToken.sql
+		Solution Items\SQL\StoredProcedures\InsertAccessRefreshTokenPair.sql = Solution Items\SQL\StoredProcedures\InsertAccessRefreshTokenPair.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queries", "Queries", "{774905AC-391B-4854-810D-028ED2E78390}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\SQL\Queries\CreateIdentityServerTables.sql = Solution Items\SQL\Queries\CreateIdentityServerTables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -316,6 +331,9 @@ Global
 		{0FF21B1C-99DE-4EEE-8C36-16B31EBB31B3} = {3E8361A9-1725-4382-9B0C-BA7410FC754B}
 		{5617D614-F588-4DE8-AF4D-947BADD09442} = {3E8361A9-1725-4382-9B0C-BA7410FC754B}
 		{0DF89807-9635-42F9-8855-AE62ECBE9E9A} = {5617D614-F588-4DE8-AF4D-947BADD09442}
+		{9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6} = {340CEC96-E1CD-4A58-B758-0D3386145FA2}
+		{9C3BE68D-9F7F-4043-B007-8427F185302C} = {9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6}
+		{774905AC-391B-4854-810D-028ED2E78390} = {9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B14AA0FA-0172-43EF-B23B-D530886CB34C}
