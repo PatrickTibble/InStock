@@ -1,9 +1,10 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
-using InStock.Common.IdentityService.Abstraction.Services;
+﻿using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
 using InStock.Backend.IdentityService.Controllers;
 using Microsoft.AspNetCore.Mvc;
+
+using Base = InStock.Common.Models.Base;
 using Moq;
 
 namespace InStock.Backend.Tests.IdentityService.UnitTests.Controllers
@@ -45,17 +46,17 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Controllers
 
             _ = _identityService
                 .Setup(s => s.AuthenticateAsync(_authentication_GoodRequest))
-                .ReturnsAsync(new AuthenticationResponse()
+                .ReturnsAsync(new Base.Result<AuthenticationResponse>(new AuthenticationResponse()
                 {
                     AccessToken = "token"
-                });
+                }));
 
             _ = _identityService
                 .Setup(s => s.AuthenticateAsync(_authentication_BadRequest))
-                .ReturnsAsync(new AuthenticationResponse()
+                .ReturnsAsync(new Base.Result<AuthenticationResponse>(new AuthenticationResponse()
                 {
                     AccessToken = null
-                });
+                }));
 
             _controller = new IdentityController(
                 _identityService.Object);

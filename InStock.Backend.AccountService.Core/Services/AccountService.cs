@@ -2,7 +2,6 @@
 using InStock.Common.AccountService.Abstraction.Entities;
 using InStock.Common.AccountService.Abstraction.Repositories;
 using InStock.Common.AccountService.Abstraction.Services;
-using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
 using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
 using InStock.Common.AccountService.Abstraction.TransferObjects.SessionState;
@@ -22,8 +21,6 @@ namespace InStock.Backend.AccountService.Core.Services
         private readonly ILogger _logger;
         private readonly IIdentityService _identityService;
         private readonly IAccountRepository _accountRepository;
-
-        private IList<UserSession> _sessions = new List<UserSession>();
 
         public AccountService(
             IAccountRepository accountRepository,
@@ -54,7 +51,14 @@ namespace InStock.Backend.AccountService.Core.Services
                         })
                         .ConfigureAwait(false);
 
-                    if ((registrationResult?.IsRegistered ?? false))
+                    if (registrationResult?.StatusCode != 200)
+                    {
+                        return new Result<CreateAccountResponse>(registrationResult?.StatusCode ?? 400, "Unable to create account.");
+                    }
+
+                    var response = registrationResult.Data;
+
+                    if ((response?.IsRegistered ?? false))
                     {
                         // Try to create the account
                         user = new UserAccount
@@ -92,25 +96,23 @@ namespace InStock.Backend.AccountService.Core.Services
             try
             {
                 // verify access token
-                var claimsResponse = await _identityService.GetUserClaimsAsync(new UserClaimsRequest
+                var claimsResult = await _identityService.GetUserClaimsAsync(new UserClaimsRequest
                 {
                     AccessToken = accessToken
                 });
+
+                if (claimsResult?.StatusCode != 200)
+                {
+                    return new Result<SessionStateResponse>(claimsResult?.StatusCode ?? 401, "Invalid access token.");
+                }
+
+                var claimsResponse = claimsResult.Data;
 
                 if (!(claimsResponse?.Claims?.Any(c => c.Equals(UserClaim.Session_Read.ToClaimType())) ?? false)
                     || string.IsNullOrWhiteSpace(claimsResponse?.Username))
                 {
                     return new Result<SessionStateResponse>(401, "Invalid access token.");
                 }
-
-                var session = _sessions.FirstOrDefault(s => s.Username!.Equals(claimsResponse.Username));
-
-                if (session == null)
-                {
-                    return new Result<SessionStateResponse>(404, "Session not found.");
-                }
-
-                session.AccessToken = accessToken!;
 
                 return new Result<SessionStateResponse>(
                     new SessionStateResponse
@@ -141,22 +143,22 @@ namespace InStock.Backend.AccountService.Core.Services
                     }
                 });
 
-                if (string.IsNullOrWhiteSpace(result?.AccessToken))
+                if (result.StatusCode != 200 || result.Data == null)
+                {
+                    return new Result<LoginResponse>(result.StatusCode, "Invalid username or password.");
+                }
+
+                var response = result.Data;
+
+                if (string.IsNullOrWhiteSpace(response.AccessToken))
                 {
                     return new Result<LoginResponse>(401, "Invalid username or password.");
                 }
 
-                _sessions.Add(new UserSession
-                {
-                    Username = request.Username!,
-                    SessionId = Guid.NewGuid(),
-                    AccessToken = result.AccessToken
-                });
-
                 return new Result<LoginResponse>(
                     new LoginResponse
                     {
-                        AccessToken = result.AccessToken
+                        AccessToken = response.AccessToken
                     });
             }
             catch (Exception ex)
