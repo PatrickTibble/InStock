@@ -3,7 +3,7 @@ using InStock.Common.AccountService.Abstraction.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace InStock.Backend.AccountService.Data.Repositories
+namespace InStock.Backend.AccountService.Data.Repositories.Account
 {
     public class DBAccountRepository : IAccountRepository
     {
