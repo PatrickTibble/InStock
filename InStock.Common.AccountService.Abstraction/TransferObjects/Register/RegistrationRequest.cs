@@ -1,9 +1,8 @@
-﻿using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace InStock.Common.AccountService.Abstraction.TransferObjects.Register
 {
-    public class RegistrationRequest : BaseRequest
+    public class RegistrationRequest
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Username is required.")]
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Username must be between 5 and 50 characters long.")]

@@ -1,4 +1,4 @@
-﻿using InStock.Common.IdentityService.Abstraction.Repositories;
+﻿using InStock.Common.AccountService.Abstraction.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 

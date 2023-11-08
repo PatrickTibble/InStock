@@ -1,9 +1,8 @@
-﻿using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace InStock.Common.AccountService.Abstraction.TransferObjects.Authenticate
 {
-    public class AuthenticationRequest : BaseRequest
+    public class AuthenticationRequest 
     {
         [Required]
         [MinLength(8, ErrorMessage = "Username is too short")]

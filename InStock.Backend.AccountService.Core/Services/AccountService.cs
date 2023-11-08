@@ -5,12 +5,7 @@ using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
 using InStock.Common.AccountService.Abstraction.TransferObjects.SessionState;
-using InStock.Common.IdentityService.Abstraction.Entities;
-using InStock.Common.IdentityService.Abstraction.Extensions;
 using InStock.Common.IdentityService.Abstraction.Services;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 using InStock.Common.Models.Base;
 using Refit;
 
@@ -20,7 +15,7 @@ namespace InStock.Backend.AccountService.Core.Services
     {
         private readonly ILogger _logger;
         private readonly IIdentityService _identityService;
-        private readonly IUserService userService,
+        private readonly IUserService _userService;
         private readonly IAccountRepository _accountRepository;
 
         public AccountService(
