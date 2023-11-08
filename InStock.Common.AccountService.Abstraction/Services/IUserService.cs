@@ -1,11 +1,11 @@
 ﻿using InStock.Backend.Common.Attributes;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.AddAddress;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Addresses;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.UserProfile;
+using InStock.Common.AccountService.Abstraction.TransferObjects.AddAddress;
+using InStock.Common.AccountService.Abstraction.TransferObjects.Addresses;
+using InStock.Common.AccountService.Abstraction.TransferObjects.UserProfile;
 using InStock.Common.Models.Base;
 using Refit;
 
-namespace InStock.Common.IdentityService.Abstraction.Services
+namespace InStock.Common.AccountService.Abstraction.Services
 {
     public interface IUserService
     {

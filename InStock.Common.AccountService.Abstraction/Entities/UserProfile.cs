@@ -1,4 +1,4 @@
-﻿namespace InStock.Common.IdentityService.Abstraction.Entities
+﻿namespace InStock.Common.AccountService.Abstraction.Entities
 {
     public class UserProfile
     {

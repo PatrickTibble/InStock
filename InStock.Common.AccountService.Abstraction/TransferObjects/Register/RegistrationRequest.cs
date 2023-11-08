@@ -1,7 +1,7 @@
-﻿using InStock.Common.IdentityService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace InStock.Common.IdentityService.Abstraction.TransferObjects.Register
+namespace InStock.Common.AccountService.Abstraction.TransferObjects.Register
 {
     public class RegistrationRequest : BaseRequest
     {

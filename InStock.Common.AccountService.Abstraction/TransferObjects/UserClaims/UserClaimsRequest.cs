@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims
+namespace InStock.Common.AccountService.Abstraction.TransferObjects.UserClaims
 {
     public class UserClaimsRequest
     {

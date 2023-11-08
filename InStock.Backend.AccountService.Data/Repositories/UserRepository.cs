@@ -2,7 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace InStock.Backend.IdentityService.Data.Repositories
+namespace InStock.Backend.AccountService.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {

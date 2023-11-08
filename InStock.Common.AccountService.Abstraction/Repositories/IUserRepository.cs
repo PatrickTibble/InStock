@@ -1,4 +1,4 @@
-﻿namespace InStock.Common.IdentityService.Abstraction.Repositories
+﻿namespace InStock.Common.AccountService.Abstraction.Repositories
 {
     public interface IUserRepository
     {

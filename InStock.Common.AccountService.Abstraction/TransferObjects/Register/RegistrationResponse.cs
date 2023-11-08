@@ -1,6 +1,6 @@
-﻿using InStock.Common.IdentityService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
 
-namespace InStock.Common.IdentityService.Abstraction.TransferObjects.Register
+namespace InStock.Common.AccountService.Abstraction.TransferObjects.Register
 {
     public class RegistrationResponse : BaseResponse
     {

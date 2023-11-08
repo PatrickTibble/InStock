@@ -1,6 +1,6 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
+﻿using InStock.Common.AccountService.Abstraction.Entities;
 
-namespace InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims
+namespace InStock.Common.AccountService.Abstraction.TransferObjects.UserClaims
 {
     public class UserClaimsResponse
     {

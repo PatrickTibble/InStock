@@ -1,4 +1,4 @@
-﻿namespace InStock.Common.IdentityService.Abstraction.TransferObjects.UserProfile
+﻿namespace InStock.Common.AccountService.Abstraction.TransferObjects.UserProfile
 {
     public class UserProfileResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace InStock.Common.IdentityService.Abstraction.TransferObjects.AddAddress
+﻿namespace InStock.Common.AccountService.Abstraction.TransferObjects.AddAddress
 {
     public class AddAddressResponse
     {
