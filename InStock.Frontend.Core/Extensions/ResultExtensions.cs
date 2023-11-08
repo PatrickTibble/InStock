@@ -1,4 +1,4 @@
-﻿using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
+﻿using InStock.Common.Models.Base;
 
 namespace InStock.Frontend.Core.Extensions
 {
