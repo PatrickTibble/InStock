@@ -4,7 +4,7 @@ namespace InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims
 {
     public class UserClaimsRequest
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string? AccessToken { get; set; }
     }
 }
