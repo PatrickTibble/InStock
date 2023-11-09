@@ -46,13 +46,6 @@ namespace InStock.Backend.IdentityService.Core.Services
         public string? CreateIdToken(UserToken userToken)
         {
             var idToken = CreateToken(userToken);
-            {
-                Expiry = DateTime.UtcNow.AddMinutes(30),
-                Claims = new Dictionary<string, string>
-                {
-                    { "username", username }
-                }
-            });
 
             return idToken;
         }
@@ -84,23 +77,8 @@ namespace InStock.Backend.IdentityService.Core.Services
                         };
                     }
                 }
-                catch (SecurityTokenSignatureKeyNotFoundException ex)
+                catch (Exception ex)
                 {
-                    // don't throw. Log invalid key
-                    _logger
-                        .LogExceptionAsync(ex)
-                        .FireAndForgetSafeAsync();
-                }
-                catch (SecurityTokenMalformedException ex)
-                {
-                    // don't throw. Log invalid token
-                    _logger
-                        .LogExceptionAsync(ex)
-                        .FireAndForgetSafeAsync();
-                }
-                catch (SecurityTokenExpiredException ex)
-                {
-                    // don't throw. Notify expired token?
                     _logger
                         .LogExceptionAsync(ex)
                         .FireAndForgetSafeAsync();
