@@ -43,7 +43,7 @@ namespace InStock.Backend.IdentityService.Core.Services
                     return badRequestResponse;
                 }
 
-                var idToken = await _identityRepository.GetIdTokenAsync(request.Username);
+                var idToken = (await _identityRepository.GetIdTokenAsync(request.Username))?.TokenValue;
 
                 if (string.IsNullOrWhiteSpace(idToken))
                 {
@@ -96,6 +96,15 @@ namespace InStock.Backend.IdentityService.Core.Services
                     return badRequest;
                 }
 
+                var idToken = await _identityRepository
+                    .GetIdTokenAsync(request.AccessToken)
+                    .ConfigureAwait(false);
+
+                if (string.IsNullOrWhiteSpace(idToken?.TokenValue))
+                {
+                    return badRequest;
+                }
+
                 var refreshResult = _tokenService.RefreshWithTokenPair(request);
                 
                 if (refreshResult == default)
@@ -104,7 +113,7 @@ namespace InStock.Backend.IdentityService.Core.Services
                 }
 
                 var saveResult = await _identityRepository
-                    .SaveTokenPairAsync(request)
+                    .SaveTokenPairAsync(request.AccessToken, idToken.Id, request.RefreshToken)
                     .ConfigureAwait(false);
 
                 if (!saveResult)

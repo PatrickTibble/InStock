@@ -1,4 +1,4 @@
-﻿namespace InStock.Frontend.Core.Extensions
+﻿namespace InStock.Common.Core.Extensions
 {
 	public static class TaskExtensions
 	{

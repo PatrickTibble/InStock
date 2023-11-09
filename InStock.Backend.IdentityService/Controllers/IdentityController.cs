@@ -4,7 +4,6 @@ using InStock.Common.IdentityService.Abstraction;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 
 namespace InStock.Backend.IdentityService.Controllers

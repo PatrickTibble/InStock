@@ -21,11 +21,8 @@ GO
 CREATE PROCEDURE InsertAccessRefreshTokenPair 
 	-- Add the parameters for the stored procedure here
 	@AccessToken nvarchar(MAX) NOT NULL, 
-	@AccessTokenClaims nvarchar(MAX) NOT NULL,
-	@AccessTokenExpiry timestamp NOT NULL,
 	@IdentityTokenId int NOT NULL,
-	@RefreshToken nvarchar(MAX) NOT NULL,
-	@RefreshTokenExpiry timestamp NOT NULL
+	@RefreshToken nvarchar(MAX) NOT NULL
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -39,8 +36,8 @@ BEGIN
 	DECLARE @AccessTokenId INT;
 	SET @AccessTokenId = SCOPE_IDENTITY();
 
-	INSERT INTO AccessTokens (TokenId, Claims, Expiry, IdentityTokenId)
-	VALUES (@AccessTokenId, @AccessTokenClaims, @AccessTokenExpiry, @IdentityTokenId);
+	INSERT INTO AccessTokens (TokenId, IdentityTokenId)
+	VALUES (@AccessTokenId, @IdentityTokenId);
 
 	INSERT INTO Tokens (TokenValue)
 	VALUES (@RefreshToken);
@@ -48,7 +45,7 @@ BEGIN
 	DECLARE @RefreshTokenId INT;
 	SET @RefreshTokenId = SCOPE_IDENTITY();
 
-	INSERT INTO RefreshTokens (TokenId, AccessTokenId, Expiry)
-	VALUES (@RefreshTokenId, @AccessTokenId, @RefreshTokenExpiry);
+	INSERT INTO RefreshTokens (TokenId, AccessTokenId)
+	VALUES (@RefreshTokenId, @AccessTokenId);
 END
 GO

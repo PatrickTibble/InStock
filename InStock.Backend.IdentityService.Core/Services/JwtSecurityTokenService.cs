@@ -1,5 +1,8 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
+﻿using InStock.Common.Abstraction.Logger;
+using InStock.Common.Core.Extensions;
+using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,33 +13,48 @@ namespace InStock.Backend.IdentityService.Core.Services
     public class JwtSecurityTokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public JwtSecurityTokenService(IConfiguration configuration)
+        public JwtSecurityTokenService(
+            IConfiguration configuration,
+            ILogger logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
-        public string? CreateToken(UserToken userToken)
+        public AccessRefreshTokenPair? CreateAccessRefreshTokenPair(UserToken userToken)
         {
-            var userClaims = userToken.Claims;
-            List<Claim> claims = new List<Claim>
+            var accessToken = CreateToken(userToken);
+            var refreshToken = CreateToken(new UserToken
             {
-                new Claim(ClaimTypes.Name, userToken.Username!),    // todo: replace with session id that can be mapped to a user?
-                new Claim(ClaimTypes.Role, userToken.Role),         // todo: do we need roles here?
-                                                                    // todo: what other claims do we need?
-                new Claim("claims", string.Join(",", userClaims))
+                Expiry = userToken.Expiry.AddHours(12)
+            });
+
+            if (accessToken is null || refreshToken is null)
+            {
+                return default;
+            }
+
+            return new AccessRefreshTokenPair
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
             };
+        }
 
-            var key = GetKey();
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            var token = new JwtSecurityToken(
-                                   claims: claims,
-                                   expires: userToken.Expiry,
-                                   signingCredentials: credentials);
+        public string? CreateIdToken(string username, AccessRefreshTokenPair token)
+        {
+            var idToken = CreateToken(new UserToken
+            {
+                Expiry = DateTime.UtcNow.AddMinutes(30),
+                Claims = new Dictionary<string, string>
+                {
+                    { "username", username }
+                }
+            });
 
-            var handler = new JwtSecurityTokenHandler();
-            var jwt = handler.WriteToken(token);
-            return jwt;
+            return idToken;
         }
 
         public UserToken ReadToken(string? token)
@@ -61,28 +79,88 @@ namespace InStock.Backend.IdentityService.Core.Services
                     {
                         return new UserToken
                         {
-                            Role = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
                             Expiry = jwt.ValidTo,
-                            Username = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
-                            Claims = jwt.Claims.FirstOrDefault(c => c.Type == "claims")?.Value?.Split(',').ToList()
+                            Claims = new Dictionary<string, string>(jwt.Claims.Select(c => new KeyValuePair<string, string>(c.Type, c.Value)))
                         };
                     }
                 }
-                catch (SecurityTokenSignatureKeyNotFoundException)
+                catch (SecurityTokenSignatureKeyNotFoundException ex)
                 {
                     // don't throw. Log invalid key
+                    _logger
+                        .LogExceptionAsync(ex)
+                        .FireAndForgetSafeAsync();
                 }
-                catch (SecurityTokenMalformedException)
+                catch (SecurityTokenMalformedException ex)
                 {
                     // don't throw. Log invalid token
+                    _logger
+                        .LogExceptionAsync(ex)
+                        .FireAndForgetSafeAsync();
                 }
-                catch (SecurityTokenExpiredException)
+                catch (SecurityTokenExpiredException ex)
                 {
                     // don't throw. Notify expired token?
+                    _logger
+                        .LogExceptionAsync(ex)
+                        .FireAndForgetSafeAsync();
                 }
             }
 
             return default;
+        }
+
+        public AccessRefreshTokenPair? RefreshWithTokenPair(AccessRefreshTokenPair request)
+        {
+            var userToken = ReadToken(request.AccessToken);
+            if (userToken == default)
+            {
+                return default;
+            }
+
+            var refreshUserToken = ReadToken(request.RefreshToken);
+            if (refreshUserToken == default)
+            {
+                return default;
+            }
+
+            userToken.Expiry = DateTime.UtcNow.AddMinutes(30);
+            var tokenPair = CreateAccessRefreshTokenPair(userToken);
+            return tokenPair;
+        }
+
+        public bool ValidateToken(string token)
+        {
+            try
+            {
+                var jwt = ReadToken(token);
+
+                return jwt != default;
+            }
+            catch (Exception ex)
+            {
+                _logger
+                    .LogExceptionAsync(ex)
+                    .FireAndForgetSafeAsync();
+            }
+
+            return false;
+        }
+
+        private string? CreateToken(UserToken userToken)
+        {
+            var claims = userToken.Claims?.Select(c => new Claim(c.Key, c.Value));
+
+            var key = GetKey();
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var token = new JwtSecurityToken(
+                                   claims: claims,
+                                   expires: userToken.Expiry,
+                                   signingCredentials: credentials);
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.WriteToken(token);
+            return jwt;
         }
 
         private SymmetricSecurityKey GetKey()

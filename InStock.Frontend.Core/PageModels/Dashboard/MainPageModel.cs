@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using InStock.Common.Core.Extensions;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.Extensions;

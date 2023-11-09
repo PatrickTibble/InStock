@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Common.Core\InStock.Common.Core.csproj" />
     <ProjectReference Include="..\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
   </ItemGroup>
 

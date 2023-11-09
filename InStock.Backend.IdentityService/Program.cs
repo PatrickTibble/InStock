@@ -12,7 +12,6 @@ builder.Services
     .AddSingleton<IHashService, HmacSha512HashService>()
     .AddSingleton<ITokenService, JwtSecurityTokenService>()
     .AddSingleton<ILogger, LocalSessionLogger>()
-    .AddSingleton<IUserRepository, UserRepository>()
     .AddSingleton<IIdentityRepository, IdentityRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     

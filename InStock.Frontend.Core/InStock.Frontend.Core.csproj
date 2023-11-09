@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
+    <ProjectReference Include="..\InStock.Common.Core\InStock.Common.Core.csproj" />
     <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
     <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj" />
     <ProjectReference Include="..\InStock.Frontend.API\InStock.Frontend.API.csproj" />

@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using Microsoft.Data.SqlClient;
@@ -16,7 +17,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             _configuration = configuration;
         }
 
-        public Task<string?> GetIdTokenAsync(string accessToken)
+        public Task<Token?> GetIdTokenAsync(string accessToken)
         {
             using var connection = GetConnection();
             var command = new SqlCommand("GetIdentityTokenFromAccessToken", connection)
@@ -29,7 +30,19 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             command.Connection.Open();
 
             var reader = command.ExecuteReader();
-            var token = reader.Read() ? reader.GetString(1) : null;
+
+            Token token = default;
+            
+            if (reader.Read())
+            {
+                token = new Token
+                {
+                    Id = reader.GetInt32(0),
+                    TokenValue = reader.GetString(1),
+                    Invalidated = reader.GetBoolean(2)
+                };
+            }
+
             reader.Close();
 
             command.Connection.Close();
@@ -37,7 +50,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             return Task.FromResult(token);
         }
 
-        public Task<bool> SaveTokenPairAsync(string accessToken, string claims, DateTime atExpiry, int idTokenId, string refreshToken, DateTime rtExpiry)
+        public Task<bool> SaveTokenPairAsync(string accessToken, int idTokenId, string refreshToken)
         {
             using var connection = GetConnection();
             var command = new SqlCommand("InsertAccessRefreshTokenPair", connection)
@@ -46,11 +59,8 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             };
 
             command.Parameters.AddWithValue("@AccessToken", accessToken);
-            command.Parameters.AddWithValue("@AccessTokenClaims", claims);
-            command.Parameters.AddWithValue("@AccessTokenExpiry", atExpiry);
             command.Parameters.AddWithValue("@IdentityTokenId", idTokenId);
             command.Parameters.AddWithValue("@RefreshToken", refreshToken);
-            command.Parameters.AddWithValue("@RefreshTokenExpiry", rtExpiry);
 
             command.Connection.Open();
 
