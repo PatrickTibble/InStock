@@ -47,7 +47,14 @@ namespace InStock.Backend.IdentityService.Core.Services
 
                 if (string.IsNullOrWhiteSpace(idToken))
                 {
-                    idToken = _tokenService.CreateIdToken(request.Username, tokenPair);
+                    idToken = _tokenService.CreateIdToken(new UserToken
+                    {
+                        Expiry = DateTime.UtcNow.AddMonths(1),
+                        Claims = new Dictionary<string, string>
+                        {
+                            { "username", request.Username }
+                        }
+                    });
                 }
 
                 if (string.IsNullOrWhiteSpace(idToken))
