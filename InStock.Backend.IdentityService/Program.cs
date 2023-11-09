@@ -1,14 +1,17 @@
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
-using InStock.Backend.IdentityService.Core.Services.Communication;
-using InStock.Backend.IdentityService.Core.Services.Identity;
 using InStock.Backend.IdentityService.Data.Repositories;
+using InStock.Backend.IdentityService.Core.Services;
+using InStock.Common.Abstraction.Logger;
+using ILogger = InStock.Common.Abstraction.Logger.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddSingleton<ICommunicationService, CommunicationService>()
+    .AddSingleton<IHashService, HmacSha512HashService>()
+    .AddSingleton<ITokenService, JwtSecurityTokenService>()
+    .AddSingleton<ILogger, LocalSessionLogger>()
     .AddSingleton<IIdentityRepository, IdentityRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     

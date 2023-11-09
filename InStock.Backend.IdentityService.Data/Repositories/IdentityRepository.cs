@@ -1,210 +1,114 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
+﻿using Azure.Core;
+using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Repositories;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using System.Data;
 
 namespace InStock.Backend.IdentityService.Data.Repositories
 {
     public class IdentityRepository : IIdentityRepository
     {
         private readonly IConfiguration _configuration;
-        private readonly IList<HashedUser> _users;
 
         public IdentityRepository(IConfiguration configuration)
         {
             _configuration = configuration;
-            _users = new List<HashedUser>();
         }
 
-        public Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken)
+        public Task<Token?> GetIdTokenAsync(string accessToken)
         {
-            var jwt = ReadToken(accessToken);
-
-            // if token is null or expired, return empty claims
-            if (jwt == default)
+            using var connection = GetConnection();
+            var command = new SqlCommand("GetIdentityTokenFromAccessToken", connection)
             {
-                return Task.FromResult<IEnumerable<UserClaim>>(new List<UserClaim>());
-            }
-            var claims = jwt.Claims.FirstOrDefault(c => c.Type.Equals("claims"))?.Value;
-            return Task.FromResult(Parse(claims));
-        }
-
-        private IEnumerable<UserClaim> Parse(string? claims)
-        {
-            var claimList = claims?.Split(',');
-            if (claimList == null)
-            {
-                yield break;
-            }
-            foreach (var claim in claimList)
-            {
-                var formatted = new StringBuilder();
-                int index = 0;
-                foreach (var character in claim)
-                {
-                    if (index == 0)
-                    {
-                        formatted.Append(character.ToString().ToUpper());
-                    }
-                    else if (character == '.')
-                    {
-                        formatted.Append('_');
-                        index = 0;
-                        continue;
-                    }
-                    else
-                    {
-                        formatted.Append(character);
-                    }
-                    index++;
-                }
-                if (Enum.TryParse<UserClaim>(formatted.ToString(), out var userClaim))
-                {
-                    yield return userClaim;
-                }
-            }
-        }
-
-        public Task<string?> GetUsernameAsync(string accessToken)
-        {
-            var jwt = ReadToken(accessToken);
-
-            if (jwt == default)
-            {
-                return Task.FromResult<string?>(null);
-            }
-
-            return Task.FromResult(jwt.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name))?.Value);
-        }
-
-        public Task<bool> RegisterUserAsync(string username, string password)
-        {
-            var user = _users.FirstOrDefault(u => u.Username!.Equals(username));
-            if (user != null)
-            {
-                return Task.FromResult(false);
-            }
-
-            var passwordHash = default(byte[]);
-            var passwordSalt = default(byte[]);
-
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-
-            user = new HashedUser
-            {
-                Username = username,
-                Role = UserRole.User,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                CommandType = CommandType.StoredProcedure
             };
 
-            _users.Add(user);
-            return Task.FromResult(true);
-        }
+            command.Parameters.AddWithValue("@AccessToken", accessToken);
 
-        public Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims)
-        {
-            var user = _users.FirstOrDefault(u => u.Username.Equals(username));
-            if (user == null)
+            command.Connection.Open();
+
+            var reader = command.ExecuteReader();
+
+            Token token = default;
+            
+            if (reader.Read())
             {
-                return Task.FromResult<string?>(default);
-            }
-
-            var passVerified = false;
-            using (var hmac = new HMACSHA512(user.PasswordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                passVerified = computedHash.SequenceEqual(user.PasswordHash);
-            }
-
-            if (!passVerified)
-            {
-                return Task.FromResult<string?>(default);
-            }
-
-            var jwt = CreateToken(new UserToken
-            {
-                Username = username,
-                Role = user.Role.ToString(),
-                Expiry = DateTime.UtcNow.AddHours(1),
-                Claims = claims
-            });
-
-            return Task.FromResult(jwt);
-        }
-
-        private string? CreateToken(UserToken userToken)
-        {
-            var userClaims = userToken.Claims;
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, userToken.Username!),    // todo: replace with session id that can be mapped to a user?
-                new Claim(ClaimTypes.Role, userToken.Role),         // todo: do we need roles here?
-                                                                    // todo: what other claims do we need?
-                new Claim("claims", string.Join(",", userClaims))
-            };
-
-            var key = GetKey();
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            var token = new JwtSecurityToken(
-                                   claims: claims,
-                                   expires: userToken.Expiry,
-                                   signingCredentials: credentials);
-
-            var handler = new JwtSecurityTokenHandler();
-            var jwt = handler.WriteToken(token);
-            return jwt;
-        }
-
-        private JwtSecurityToken? ReadToken(string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-
-            if (handler.CanValidateToken)
-            {
-                // validate the token
-                var validationParameters = new TokenValidationParameters
+                token = new Token
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = GetKey(),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    Id = reader.GetInt32(0),
+                    TokenValue = reader.GetString(1),
+                    Invalidated = reader.GetBoolean(2)
                 };
-
-                try
-                {
-                    var result = handler.ValidateToken(token, validationParameters, out var validatedToken);
-                    return validatedToken as JwtSecurityToken;
-                }
-                catch (SecurityTokenSignatureKeyNotFoundException)
-                {
-                    // don't throw. Log invalid key
-                }
-                catch (SecurityTokenMalformedException)
-                {
-                    // don't throw. Log invalid token
-                }
-                catch (SecurityTokenExpiredException)
-                {
-                    // don't throw. Notify expired token?
-                }
             }
 
-            return default;
+            reader.Close();
+
+            command.Connection.Close();
+
+            return Task.FromResult(token);
         }
 
-        private SymmetricSecurityKey GetKey()
-            => new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetKeyValue()));
+        public Task<bool> SaveTokenPairAsync(string accessToken, int idTokenId, string refreshToken)
+        {
+            using var connection = GetConnection();
+            var command = new SqlCommand("InsertAccessRefreshTokenPair", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
-        private string GetKeyValue()
-            => _configuration.GetSection("AppSettings:Token").Value!;
+            command.Parameters.AddWithValue("@AccessToken", accessToken);
+            command.Parameters.AddWithValue("@IdentityTokenId", idTokenId);
+            command.Parameters.AddWithValue("@RefreshToken", refreshToken);
+
+            command.Connection.Open();
+
+            var reader = command.ExecuteReader();
+            var result = reader.RecordsAffected > 0;
+            reader.Close();
+
+            command.Connection.Close();
+
+            return Task.FromResult(result);
+        }
+
+        public Task<bool> StoreTokensAsync(string idToken, AccessRefreshTokenPair tokenPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ValidateTokenAsync(string token)
+        {
+            // ensure the token exists in our db (and is still valid)
+            using var connection = GetConnection();
+            var command = new SqlCommand("SELECT * FROM [dbo].[Token] WHERE Value = @Token AND NOT Invalidated;", connection);
+            command.Parameters.AddWithValue("@Token", token);
+
+            command.Connection.Open();
+
+            var reader = command.ExecuteReader();
+            var isValid = reader.HasRows;
+            reader.Close();
+
+            command.Connection.Close();
+
+            return Task.FromResult(isValid);
+        }
+
+        public Task<bool> ValidateTokenPairAsync(AccessRefreshTokenPair request)
+        {
+            // ensure the tokens exist, are not invalidated, and that this refresh token is associated with the access token
+            using var connection = GetConnection();
+
+            var command = new SqlCommand(@"
+                    SELECT * FROM [dbo].[Token] WHERE Value = @RefreshToken AND NOT Invalidated 
+                    AND AccessRefreshTokenPairId = (SELECT Id FROM [dbo].[RefreshTokens] WHERE AccessToken = @AccessToken AND NOT Invalidated);
+                ", connection);
+            throw new NotImplementedException();
+        }
+
+        private SqlConnection GetConnection()
+            => new SqlConnection(_configuration.GetConnectionString("IdentityServer"));
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Backend.Common.Extensions;
 using InStock.Common.IdentityService.Abstraction;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Authenticate;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.SendVerificationLink;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.VerifyEmail;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.UserClaims;
+using InStock.Common.IdentityService.Abstraction.Services;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -21,84 +20,60 @@ namespace InStock.Backend.IdentityService.Controllers
         }
 
         [HttpPost]
-        [Route(Constants.UserClaims)]
-        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [Route(Constants.GetToken)]
+        [ProducesResponseType(typeof(GetTokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetUserClaimsAsync(
-            [FromBody] UserClaimsRequest request)
+        public async Task<IActionResult> GetTokenAsync(
+            [FromBody] GetTokenRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var claims = await _identityService.GetUserClaimsAsync(request);
-            return Ok(claims);
+            var result = await _identityService
+                .GetTokenAsync(request)
+                .ConfigureAwait(false);
+
+            return result.ToActionResult();
         }
 
         [HttpPost]
-        [Route(Constants.Authenticate)]
-        [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+        [Route(Constants.ValidateToken)]
+        [ProducesResponseType(typeof(ValidateTokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AuthenticateAsync(
-            [FromBody] AuthenticationRequest request)
+        public async Task<IActionResult> ValidateTokenAsync(
+                       [FromBody] ValidateTokenRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var response = await _identityService.AuthenticateAsync(request);
-            return Ok(response);
+            var result = await _identityService
+                .ValidateTokenAsync(request)
+                .ConfigureAwait(false);
+
+            return result.ToActionResult();
         }
 
         [HttpPost]
-        [Route(Constants.Register)]
-        [ProducesResponseType(typeof(RegistrationResponse), StatusCodes.Status200OK)]
+        [Route(Constants.RefreshToken)]
+        [ProducesResponseType(typeof(AccessRefreshTokenPair), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterAsync(
-            [FromBody] RegistrationRequest request)
+        public async Task<IActionResult> RefreshTokenAsync(
+                       [FromBody] AccessRefreshTokenPair request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var response = await _identityService.RegisterUserAsync(request);
-            return Ok(response);
-        }
+            var result = await _identityService
+                .RefreshTokenAsync(request)
+                .ConfigureAwait(false);
 
-        [HttpPost]
-        [Route(Constants.SendVerificationLink)]
-        [ProducesResponseType(typeof(VerificationLinkResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> SendVerificationLinkAsync(
-            [FromBody] VerificationLinkRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var response = await _identityService.SendVerificationLinkAsync(request);
-            return Ok(response);
-        }
-
-        [HttpPost]
-        [Route(Constants.VerifyEmail)]
-        [ProducesResponseType(typeof(VerifyEmailResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> VerifyEmailAsync(
-            [FromBody] VerifyEmailRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var response = await _identityService.VerifyEmailAsync(request);
-            return Ok(response);
+            return result.ToActionResult();
         }
     }
 }

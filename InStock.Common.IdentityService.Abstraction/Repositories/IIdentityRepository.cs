@@ -1,13 +1,14 @@
 ﻿using InStock.Common.IdentityService.Abstraction.Entities;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.Register;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 
 namespace InStock.Common.IdentityService.Abstraction.Repositories
 {
     public interface IIdentityRepository
     {
-        Task<IEnumerable<UserClaim>> GetUserClaimsAsync(string accessToken);
-        Task<string?> GetUsernameAsync(string accessToken);
-        Task<bool> RegisterUserAsync(string username, string password);
-        Task<string?> VerifyUserCredentialsAsync(string username, string password, IList<string> claims);
+        Task<Token?> GetIdTokenAsync(string accessToken);
+        Task<bool> SaveTokenPairAsync(string accessToken, int idTokenId, string refreshToken);
+        Task<bool> StoreTokensAsync(string idToken, AccessRefreshTokenPair tokenPair);
+        Task<bool> ValidateTokenAsync(string token);
+        Task<bool> ValidateTokenPairAsync(AccessRefreshTokenPair request);
     }
 }

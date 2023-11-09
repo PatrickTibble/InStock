@@ -21,6 +21,7 @@ using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.Services.Platform;
 using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.InventoryService.Abstraction.Services;
+using InStock.Common.Core.Extensions;
 
 namespace InStock.Frontend.Mobile;
 

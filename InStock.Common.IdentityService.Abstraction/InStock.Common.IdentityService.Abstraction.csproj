@@ -11,4 +11,9 @@
     <PackageReference Include="Refit" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InStock.Backend.Common\InStock.Backend.Common.csproj" />
+    <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
+  </ItemGroup>
+
 </Project>

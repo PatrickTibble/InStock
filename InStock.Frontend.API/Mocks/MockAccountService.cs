@@ -1,9 +1,9 @@
 ﻿using InStock.Common.AccountService.Abstraction.Services;
-using InStock.Common.AccountService.Abstraction.TransferObjects.Base;
 using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
 using InStock.Common.AccountService.Abstraction.TransferObjects.SessionState;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Signout;
+using InStock.Common.Models.Base;
 using Refit;
 
 namespace InStock.Frontend.API.Mocks
