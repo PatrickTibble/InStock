@@ -43,9 +43,9 @@ namespace InStock.Backend.IdentityService.Core.Services
             };
         }
 
-        public string? CreateIdToken(string username, AccessRefreshTokenPair token)
+        public string? CreateIdToken(UserToken userToken)
         {
-            var idToken = CreateToken(new UserToken
+            var idToken = CreateToken(userToken);
             {
                 Expiry = DateTime.UtcNow.AddMinutes(30),
                 Claims = new Dictionary<string, string>
@@ -57,7 +57,7 @@ namespace InStock.Backend.IdentityService.Core.Services
             return idToken;
         }
 
-        public UserToken ReadToken(string? token)
+        public UserToken? ReadToken(string? token)
         {
             var handler = new JwtSecurityTokenHandler();
 
