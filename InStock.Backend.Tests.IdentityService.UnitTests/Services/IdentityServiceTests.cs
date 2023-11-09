@@ -63,7 +63,7 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 .Returns(new AccessRefreshTokenPair());
 
             _ = _tokenService
-                .Setup(service => service.CreateIdToken(It.IsAny<string>(), It.IsAny<AccessRefreshTokenPair>()))
+                .Setup(service => service.CreateIdToken(It.IsAny<UserToken>()))
                 .Returns(default(string));
 
             _ = _identityRepository
@@ -95,7 +95,7 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 .Returns(new AccessRefreshTokenPair());
 
             _ = _tokenService
-                .Setup(service => service.CreateIdToken(It.IsAny<string>(), It.IsAny<AccessRefreshTokenPair>()))
+                .Setup(service => service.CreateIdToken(It.IsAny<UserToken>()))
                 .Returns("idToken");
 
             _ = _identityRepository
@@ -131,7 +131,7 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 .Returns(new AccessRefreshTokenPair());
 
             _ = _tokenService
-                .Setup(service => service.CreateIdToken(It.IsAny<string>(), It.IsAny<AccessRefreshTokenPair>()))
+                .Setup(service => service.CreateIdToken(It.IsAny<UserToken>()))
                 .Returns("idToken");
 
             _ = _identityRepository
