@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Models", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.InventoryService", "InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj", "{ACA04121-3008-4B50-AAE8-916D33F0F032}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService", "InStock.Backend.AccountService\InStock.Backend.AccountService.csproj", "{13AB390A-57E1-4DBA-9041-A5627E33B507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService\InStock.Backend.AccountService.csproj", "{13AB390A-57E1-4DBA-9041-A5627E33B507}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Backend.Tests", "InStock.Backend.Tests", "{DB209B4F-4B64-4C3A-A9C3-3B7D7A22400F}"
 EndProject
@@ -44,13 +44,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.API", "InS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Core.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Core.UnitTests\InStock.Frontend.Tests.Core.UnitTests.csproj", "{5D683500-3C02-4A75-A753-CCC154BE2B62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Core", "InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj", "{C40D0497-5F54-47A7-BEC0-6B03DE69272B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Core", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj", "{C40D0497-5F54-47A7-BEC0-6B03DE69272B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.AccountService.Abstraction", "InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj", "{BFED4D7F-83BD-4A42-8AD4-E9C7AD11186A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountService", "AccountService", "{8B1DDB0A-7BF7-42BE-9483-E54155B7419D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Data", "InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj", "{E1E4C7F0-92F8-4BFC-95BE-2C42A40F3168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Data", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj", "{E1E4C7F0-92F8-4BFC-95BE-2C42A40F3168}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{976DF22D-8DAF-4E00-B275-C61EA4F4CA0D}"
 EndProject
