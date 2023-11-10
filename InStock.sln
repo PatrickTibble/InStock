@@ -88,7 +88,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryService", "Invento
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{5617D614-F588-4DE8-AF4D-947BADD09442}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Common", "InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Common", "Source\InStock.Backend\Utilities\InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{340CEC96-E1CD-4A58-B758-0D3386145FA2}"
 EndProject
