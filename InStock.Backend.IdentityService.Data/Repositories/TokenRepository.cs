@@ -1,48 +1,203 @@
 ﻿using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Repositories;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace InStock.Backend.IdentityService.Data.Repositories
 {
     public class TokenRepository : ITokenRepository
     {
+        private readonly string _connectionString;
+
+        public TokenRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("IdentityServer")!;
+        }
+
         public Task<StoredAccessToken?> GetAccessTokenAsync(string accessToken)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_GetAccessTokenFromTokenValue")
+            {
+                CommandType = CommandType.StoredProcedure 
+            };
+
+            command.Parameters.AddWithValue("@AccessToken", accessToken);
+            var storedToken = default(StoredAccessToken);
+            ExecuteCommand(command, (reader) =>
+            {
+                if (reader.HasRows && reader.Read())
+                {
+                    // row: Id, IdentityTokenId, Invalidated, TokenValue
+                    storedToken = new StoredAccessToken
+                    {
+                        Id = reader.GetInt32(0),
+                        IdentityTokenId = reader.GetInt32(1),
+                        Invalidated = reader.GetBoolean(2),
+                        TokenValue = reader.GetString(3)
+                    };
+                }
+            });
+
+            return Task.FromResult(storedToken);
         }
 
         public Task<StoredToken?> GetIdentityTokenAsync(string idToken)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_GetIdentityTokenFromTokenValue")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@IdentityToken", idToken);
+            return GetStoredToken(command);
         }
 
         public Task<StoredToken?> GetIdentityTokenAsync(int identityTokenId)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_GetIdentityTokenFromId")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@IdentityTokenId", identityTokenId);
+            return GetStoredToken(command);
         }
 
         public Task<StoredRefreshToken?> GetRefreshTokenAsync(string refreshToken)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_GetRefreshTokenFromTokenValue")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@RefreshToken", refreshToken);
+            var storedToken = default(StoredRefreshToken);
+            ExecuteCommand(command, (reader) =>
+            {
+                if (reader.HasRows && reader.Read())
+                {
+                    // row: Id, AccessTokenId, Invalidated, TokenValue
+                    storedToken = new StoredRefreshToken
+                    {
+                        Id = reader.GetInt32(0),
+                        AccessTokenId = reader.GetInt32(1),
+                        Invalidated = reader.GetBoolean(2),
+                        TokenValue = reader.GetString(3)
+                    };
+                }
+            });
+
+            return Task.FromResult(storedToken);
         }
 
         public Task InvalidateTokenFamilyAsync(StoredRefreshToken storedRefreshToken)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_InvalidateTokenFamily")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@RefreshTokenId", storedRefreshToken.Id);
+
+            ExecuteCommand(command);
+
+            return Task.CompletedTask;
         }
 
         public Task<bool> InvalidateTokensAsync(StoredRefreshToken storedRefreshToken, StoredAccessToken storedAccessToken)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_InvalidateTokens")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@RefreshTokenId", storedRefreshToken.Id);
+            command.Parameters.AddWithValue("@AccessTokenId", storedAccessToken.Id);
+
+            var result = ExecuteCommand(command);
+
+            return Task.FromResult(result);
         }
 
         public Task<bool> SaveTokensAsync(string idToken, string newAccessToken, string newRefreshToken)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_SaveTokens")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@IdentityToken", idToken);
+            command.Parameters.AddWithValue("@AccessToken", newAccessToken);
+            command.Parameters.AddWithValue("@RefreshToken", newRefreshToken);
+
+            var result = ExecuteCommand(command);
+
+            return Task.FromResult(result);
         }
 
         public Task<bool> ValidateTokenAsync(string token)
         {
-            throw new NotImplementedException();
+            var command = new SqlCommand("sp_ValidateToken")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@TokenValue", token);
+
+            var result = false;
+            ExecuteCommand(command, reader =>
+            {
+                if (reader.HasRows && reader.Read())
+                {
+                    result = reader.GetBoolean(0);
+                }
+            });
+
+            return Task.FromResult(result);
+        }
+
+        private bool ExecuteCommand(SqlCommand command, Action<SqlDataReader>? callback = null)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                command.Connection = connection;
+                connection.Open();
+                var result = false;
+                if (callback != null)
+                {
+                    var reader = command.ExecuteReader();
+                    callback.Invoke(reader);
+                    reader.Close();
+                    return true;
+                }
+                else
+                {
+                    result = command.ExecuteNonQuery() > 0;
+                }
+                connection.Close();
+                return result;
+            }
+        }
+
+        private Task<StoredToken?> GetStoredToken(SqlCommand command)
+        {
+            var storedToken = default(StoredToken);
+            ExecuteCommand(command, (reader) =>
+            {
+                if (reader.HasRows && reader.Read())
+                {
+                    // row: Id, Invalidated, TokenValue
+                    storedToken = new StoredToken
+                    {
+                        Id = reader.GetInt32(0),
+                        Invalidated = reader.GetBoolean(1),
+                        TokenValue = reader.GetString(2)
+                    };
+                }
+            });
+
+            return Task.FromResult(storedToken);
         }
     }
 }
