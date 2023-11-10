@@ -1,10 +1,10 @@
 ﻿using InStock.Common.Abstraction.Logger;
 using InStock.Common.IdentityService.Abstraction.Entities;
+using InStock.Common.IdentityService.Abstraction.Exceptions;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 using Moq;
 
 namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
@@ -12,31 +12,33 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
     internal class IdentityServiceTests
     {
         private Mock<ILogger> _logger;
-        private Mock<IIdentityRepository> _identityRepository;
         private Mock<ITokenService> _tokenService;
+        private Mock<ITokenRepository> _tokenRepository;
         private Backend.IdentityService.Core.Services.IdentityService _identityService;
 
         [SetUp]
         public void Setup()
         {
             _logger = new Mock<ILogger>();
-            _identityRepository = new Mock<IIdentityRepository>();
             _tokenService = new Mock<ITokenService>();
-            
+            _tokenRepository = new Mock<ITokenRepository>();
+
+            _ = _logger
+                .Setup(l => l.LogExceptionAsync(It.IsAny<CreateTokenException>(), It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+
             _identityService = new Backend.IdentityService.Core.Services.IdentityService(
-                _identityRepository.Object, 
                 _tokenService.Object, 
+                _tokenRepository.Object,
                 _logger.Object);
         }
 
-        #region GetTokenAsynnc Tests
+        #region GetTokenAsync
         [Test]
-        public async Task GetTokenAsync_DefaultTokenPair_ReturnsBadRequest()
+        public async Task GetTokenAsync_DefaultCreatedTokens_ReturnsBadRequest()
         {
             // Arrange
-            _ = _tokenService
-                .Setup(service => service.CreateAccessRefreshTokenPair(It.IsAny<UserToken>()))
-                .Returns(default(AccessRefreshTokenPair));
+            SetupTokenService_CreateTokens(null, null, null);
 
             var request = new GetTokenRequest();
 
@@ -52,23 +54,19 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 Assert.That(result.StatusCode, Is.EqualTo(400));
                 Assert.That(result.Error, Is.Not.Empty);
             });
+
+            _logger.Verify(l => l.LogExceptionAsync(It.IsAny<CreateTokenException>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public async Task GetTokenAsync_DefaultIdToken_ReturnsBadRequest()
+        public async Task GetTokenAsync_FalseSaveResult_ReturnsBadRequest()
         {
             // Arrange
-            _ = _tokenService
-                .Setup(service => service.CreateAccessRefreshTokenPair(It.IsAny<UserToken>()))
-                .Returns(new AccessRefreshTokenPair());
+            SetupTokenService_CreateTokens();
 
-            _ = _tokenService
-                .Setup(service => service.CreateIdToken(It.IsAny<UserToken>()))
-                .Returns(default(string));
-
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(default(Token));
+            _ = _tokenRepository
+                .Setup(repository => repository.SaveTokensAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(false));
 
             var request = new GetTokenRequest();
 
@@ -84,63 +82,19 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 Assert.That(result.StatusCode, Is.EqualTo(400));
                 Assert.That(result.Error, Is.Not.Empty);
             });
+
+            _logger.Verify(l => l.LogExceptionAsync(It.IsAny<CreateTokenException>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public async Task GetTokenAsync_DefaultSaveResult_ReturnsBadRequest()
+        public async Task GetTokenAsync_ReturnsOk()
         {
             // Arrange
-            _ = _tokenService
-                .Setup(service => service.CreateAccessRefreshTokenPair(It.IsAny<UserToken>()))
-                .Returns(new AccessRefreshTokenPair());
+            SetupTokenService_CreateTokens();
 
-            _ = _tokenService
-                .Setup(service => service.CreateIdToken(It.IsAny<UserToken>()))
-                .Returns("idToken");
-
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(default(Token));
-
-            _ = _identityRepository
-                .Setup(repository => repository.StoreTokensAsync(It.IsAny<string>(), It.IsAny<AccessRefreshTokenPair>()))
-                .ReturnsAsync(false);
-
-            var request = new GetTokenRequest();
-
-            // Act
-            var result = await _identityService
-                .GetTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result.StatusCode, Is.EqualTo(400));
-                Assert.That(result.Error, Is.Not.Empty);
-            });
-        }
-
-        [Test]
-        public async Task GetTokenAsync_ValidRequest_ReturnsTokenPair()
-        {
-            // Arrange
-            _ = _tokenService
-                .Setup(service => service.CreateAccessRefreshTokenPair(It.IsAny<UserToken>()))
-                .Returns(new AccessRefreshTokenPair());
-
-            _ = _tokenService
-                .Setup(service => service.CreateIdToken(It.IsAny<UserToken>()))
-                .Returns("idToken");
-
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(default(Token));
-
-            _ = _identityRepository
-                .Setup(repository => repository.StoreTokensAsync(It.IsAny<string>(), It.IsAny<AccessRefreshTokenPair>()))
-                .ReturnsAsync(true);
+            _ = _tokenRepository
+                .Setup(repository => repository.SaveTokensAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(true));
 
             var request = new GetTokenRequest();
 
@@ -156,40 +110,80 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 Assert.That(result.StatusCode, Is.EqualTo(200));
                 Assert.That(result.Error, Is.Null);
                 Assert.That(result.Data, Is.Not.Null);
+                Assert.That(result.Data!.AccessToken, Is.Not.Null);
+                Assert.That(result.Data.IdentityToken, Is.Not.Null);
+                Assert.That(result.Data.RefreshToken, Is.Not.Null);
             });
-        }
-
-        [Test]
-        public async Task GetTokenAsync_ExceptionGetsLogged()
-        {
-            // Arrange
-            _ = _tokenService
-                .Setup(service => service.CreateAccessRefreshTokenPair(It.IsAny<UserToken>()))
-                .Throws<Exception>();
-
-            _ = _logger
-                .Setup(logger => logger.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()))
-                .Returns(Task.CompletedTask);
-
-            var request = new GetTokenRequest();
-
-            // Act
-            var result = await _identityService
-                .GetTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            _logger.Verify(logger => logger.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
         }
         #endregion
 
-        #region RefreshTokenAsync Tests
-        [Test]
-        public async Task RefreshTokenAsync_InvalidTokenPair_ReturnsBadRequest()
+        #region RefreshTokenAsync
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        [TestCase(false, true)]
+        public async Task RefreshTokenAsync_TokensFromTokenService_ReturnsBadRequest(bool tokenServiceDefaults, bool tokenRepoDefaults)
         {
             // Arrange
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenPairAsync(It.IsAny<AccessRefreshTokenPair>()))
+            SetupTokenService_ReadTokens(tokenServiceDefaults);
+            SetupTokenRepository_GetTokens(tokenRepoDefaults);
+
+            var request = new AccessRefreshTokenPair();
+
+            // Act
+            var result = await _identityService
+                .RefreshTokenAsync(request)
+                .ConfigureAwait(false);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.StatusCode, Is.EqualTo(400));
+                Assert.That(result.Error, Is.Not.Empty);
+            });
+
+            _logger.Verify(l => l.LogExceptionAsync(It.IsAny<CreateTokenException>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public async Task RefreshTokenAsync_InvalidatedToken_InvalidatesTokenFamily()
+        {
+            SetupTokenService_ReadTokens();
+            SetupTokenRepository_GetTokens(invalidated: true);
+
+            _ = _tokenRepository
+                .Setup(repo => repo.InvalidateTokenFamilyAsync(It.IsAny<StoredRefreshToken>()))
+                .Returns(Task.FromResult(true));
+
+            var request = new AccessRefreshTokenPair();
+
+            // Act
+            var result = await _identityService
+                .RefreshTokenAsync(request)
+                .ConfigureAwait(false);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.StatusCode, Is.EqualTo(400));
+                Assert.That(result.Error, Is.Not.Empty);
+            });
+
+            _tokenRepository.Verify(repo => repo.InvalidateTokenFamilyAsync(It.IsAny<StoredRefreshToken>()), Times.Once);
+
+            _logger.Verify(l => l.LogExceptionAsync(It.IsAny<CreateTokenException>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public async Task RefreshTokenAsync_SaveTokensReturnsFalse_ReturnsBadRequest()
+        {
+            SetupTokenService_ReadTokens();
+            SetupTokenRepository_GetTokens();
+            SetupTokenService_CreateTokens();
+
+            _ = _tokenRepository
+                .Setup(repo => repo.SaveTokensAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(false));
 
             var request = new AccessRefreshTokenPair();
@@ -206,126 +200,24 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 Assert.That(result.StatusCode, Is.EqualTo(400));
                 Assert.That(result.Error, Is.Not.Empty);
             });
+
+            _logger.Verify(l => l.LogExceptionAsync(It.IsAny<CreateTokenException>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public async Task RefreshTokenAsync_InvalidIdToken_ReturnsBadRequest()
+        public async Task RefreshTokenAsync_InvalidatesPreviousTokens_ReturnsNewTokens()
         {
-            // Arrange
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenPairAsync(It.IsAny<AccessRefreshTokenPair>()))
+            SetupTokenService_ReadTokens();
+            SetupTokenRepository_GetTokens();
+            SetupTokenService_CreateTokens();
+
+            _ = _tokenRepository
+                .Setup(repo => repo.SaveTokensAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(true));
 
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(default(Token));
-
-            var request = new AccessRefreshTokenPair();
-
-            // Act
-            var result = await _identityService
-                .RefreshTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result.StatusCode, Is.EqualTo(400));
-                Assert.That(result.Error, Is.Not.Empty);
-            });
-        }
-
-        [Test]
-        public async Task RefreshTokenAsync_InvalidRefreshResult_ReturnsBadRequest()
-        {
-            // Arrange
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenPairAsync(It.IsAny<AccessRefreshTokenPair>()))
+            _ = _tokenRepository
+                .Setup(repo => repo.InvalidateTokensAsync(It.IsAny<StoredRefreshToken>(), It.IsAny<StoredAccessToken>()))
                 .Returns(Task.FromResult(true));
-
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Token());
-
-            _ = _tokenService
-                .Setup(service => service.RefreshWithTokenPair(It.IsAny<AccessRefreshTokenPair>()))
-                .Returns(default(AccessRefreshTokenPair));
-
-            var request = new AccessRefreshTokenPair();
-
-            // Act
-            var result = await _identityService
-                .RefreshTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result.StatusCode, Is.EqualTo(400));
-                Assert.That(result.Error, Is.Not.Empty);
-            });
-        }
-
-        [Test]
-        public async Task RefreshTokenAsync_InvalidSaveResult_ReturnsBadRequest()
-        {
-            // Arrange
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenPairAsync(It.IsAny<AccessRefreshTokenPair>()))
-                .Returns(Task.FromResult(true));
-
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Token());
-
-            _ = _tokenService
-                .Setup(service => service.RefreshWithTokenPair(It.IsAny<AccessRefreshTokenPair>()))
-                .Returns(new AccessRefreshTokenPair());
-
-            _ = _identityRepository
-                .Setup(repository => repository.SaveTokenPairAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>()))
-                .ReturnsAsync(false);
-
-            var request = new AccessRefreshTokenPair();
-
-            // Act
-            var result = await _identityService
-                .RefreshTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result.StatusCode, Is.EqualTo(400));
-                Assert.That(result.Error, Is.Not.Empty);
-            });
-        }
-
-        [Test]
-        public async Task RefreshTokenAsync_ValidRequest_ReturnsTokenPair()
-        {
-            // Arrange
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenPairAsync(It.IsAny<AccessRefreshTokenPair>()))
-                .Returns(Task.FromResult(true));
-
-            _ = _identityRepository
-                .Setup(repository => repository.GetIdTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Token
-                {
-                    TokenValue = "idToken"
-                });
-
-            _ = _tokenService
-                .Setup(service => service.RefreshWithTokenPair(It.IsAny<AccessRefreshTokenPair>()))
-                .Returns(new AccessRefreshTokenPair());
-
-            _ = _identityRepository
-                .Setup(repository => repository.SaveTokenPairAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>()))
-                .ReturnsAsync(true);
 
             var request = new AccessRefreshTokenPair();
 
@@ -341,87 +233,59 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
                 Assert.That(result.StatusCode, Is.EqualTo(200));
                 Assert.That(result.Error, Is.Null);
                 Assert.That(result.Data, Is.Not.Null);
+                Assert.That(result.Data!.AccessToken, Is.Not.Null);
+                Assert.That(result.Data.RefreshToken, Is.Not.Null);
             });
-        }
-
-        [Test]
-        public async Task RefreshTokenAsync_ExceptionGetsLogged()
-        {
-            // Arrange
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenPairAsync(It.IsAny<AccessRefreshTokenPair>()))
-                .Throws<Exception>();
-
-            _ = _logger
-                .Setup(logger => logger.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()))
-                .Returns(Task.CompletedTask);
-
-            var request = new AccessRefreshTokenPair();
-
-            // Act
-            var result = await _identityService
-                .RefreshTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            _logger.Verify(logger => logger.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
         }
         #endregion
 
-        #region ValidateTokenAsync Tests
-        [TestCase(false, true)]
-        [TestCase(false, false)]
-        [TestCase(true, false)]
-        [TestCase(true, true)]
-        public async Task ValidateTokenAsync(bool validToken, bool savedInRepo)
+        #region ValidateTokenAsync
+
+        #endregion
+
+        #region private Setup Methods
+        private void SetupTokenService_CreateTokens(
+            string? accessTokenResult = "accessToken",
+            string? refreshTokenResult = "refreshToken",
+            string? idTokenResult = "idToken")
         {
-            // Arrange
             _ = _tokenService
-                .Setup(service => service.ValidateToken(It.IsAny<string>()))
-                .Returns(validToken);
+                .Setup(service => service.CreateAccessTokenAsync())
+                .Returns(Task.FromResult(accessTokenResult));
 
-            _ = _identityRepository
-                .Setup(repository => repository.ValidateTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(savedInRepo);
+            _ = _tokenService
+                .Setup(service => service.CreateRefreshTokenAsync())
+                .Returns(Task.FromResult(refreshTokenResult));
 
-            var request = new ValidateTokenRequest();
-
-            // Act
-            var result = await _identityService
-                .ValidateTokenAsync(request)
-                .ConfigureAwait(false);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result.StatusCode, Is.EqualTo(200));
-                Assert.That(result.Data, Is.Not.Null);
-                Assert.That(result.Data!.IsValid, Is.EqualTo(validToken && savedInRepo));
-            });
+            _ = _tokenService
+                .Setup(service => service.CreateIdentityTokenAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(idTokenResult));
         }
 
-        [Test]
-        public async Task ValidateTokenAsync_ExceptionGetsLogged()
+        private void SetupTokenService_ReadTokens(bool nullResult = false)
         {
-            // Arrange
             _ = _tokenService
-                .Setup(service => service.ValidateToken(It.IsAny<string>()))
-                .Throws<Exception>();
+                .Setup(service => service.ReadTokenAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(nullResult ? default : new UserToken()));
+        }
 
-            _ = _logger
-                .Setup(logger => logger.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()))
-                .Returns(Task.CompletedTask);
+        private void SetupTokenRepository_GetTokens(bool nullResult = false, bool invalidated = false)
+        {
+            _ = _tokenRepository
+                .Setup(repository => repository.GetRefreshTokenAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(nullResult ? default : new StoredRefreshToken() { Invalidated = invalidated }));
 
-            var request = new ValidateTokenRequest();
+            _ = _tokenRepository
+                .Setup(repository => repository.GetAccessTokenAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(nullResult ? default : new StoredAccessToken() { Invalidated = invalidated }));
 
-            // Act
-            var result = await _identityService
-                .ValidateTokenAsync(request)
-                .ConfigureAwait(false);
+            _ = _tokenRepository
+                .Setup(repository => repository.GetIdentityTokenAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(nullResult ? default : new StoredToken() { Invalidated = invalidated }));
 
-            // Assert
-            _logger.Verify(logger => logger.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+            _ = _tokenRepository
+                .Setup(repository => repository.GetIdentityTokenAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(nullResult ? default : new StoredToken() { Invalidated = invalidated }));
         }
         #endregion
     }

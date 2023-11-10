@@ -1,4 +1,4 @@
-﻿namespace InStock.Common.IdentityService.Abstraction.Services
+﻿namespace InStock.Common.AccountService.Abstraction.Services
 {
     public interface IHashService
     {

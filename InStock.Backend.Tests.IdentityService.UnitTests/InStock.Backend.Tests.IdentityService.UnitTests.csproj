@@ -25,4 +25,8 @@
     <ProjectReference Include="..\InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

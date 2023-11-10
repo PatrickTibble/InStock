@@ -9,10 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddSingleton<IHashService, HmacSha512HashService>()
-    .AddSingleton<ITokenService, JwtSecurityTokenService>()
     .AddSingleton<ILogger, LocalSessionLogger>()
-    .AddSingleton<IIdentityRepository, IdentityRepository>()
+    .AddSingleton<ITokenService, JwtSecurityTokenService>()
+    .AddSingleton<ITokenRepository, TokenRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,7 +1,7 @@
-﻿using InStock.Backend.IdentityService.Core.Services;
-using InStock.Common.IdentityService.Abstraction.Services;
+﻿using InStock.Backend.AccountService.Core.Services;
+using InStock.Common.AccountService.Abstraction.Services;
 
-namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
+namespace InStock.Backend.Tests.AccountService.UnitTests.Services
 {
     internal class HmacSha512HashServiceTests
     {

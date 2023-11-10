@@ -1,8 +1,8 @@
-﻿using InStock.Common.IdentityService.Abstraction.Services;
+﻿using InStock.Common.AccountService.Abstraction.Services;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace InStock.Backend.IdentityService.Core.Services
+namespace InStock.Backend.AccountService.Core.Services
 {
     public class HmacSha512HashService : IHashService
     {
