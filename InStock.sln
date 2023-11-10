@@ -8,15 +8,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Frontend", "InStock
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Common", "InStock.Common", "{A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Mobile", "InStock.Frontend.Mobile\InStock.Frontend.Mobile.csproj", "{437C7170-FDB9-4A21-9477-2C087DB08429}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Mobile", "Source\InStock.Frontend\InStock.Frontend.Mobile\InStock.Frontend.Mobile.csproj", "{437C7170-FDB9-4A21-9477-2C087DB08429}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Abstraction", "InStock.Common.Abstraction\InStock.Common.Abstraction.csproj", "{C1F1E7E5-3FEE-4B84-B340-E7D9BBB3B4F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Abstraction", "Source\InStock.Common\Shared\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj", "{C1F1E7E5-3FEE-4B84-B340-E7D9BBB3B4F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Models", "InStock.Common.Models\InStock.Common.Models.csproj", "{0483D522-FEA0-431C-99C0-A4797BE24364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Models", "Source\InStock.Common\Shared\InStock.Common.Models\InStock.Common.Models.csproj", "{0483D522-FEA0-431C-99C0-A4797BE24364}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.InventoryService", "InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj", "{ACA04121-3008-4B50-AAE8-916D33F0F032}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.InventoryService", "Source\InStock.Backend\InventoryService\InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj", "{ACA04121-3008-4B50-AAE8-916D33F0F032}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService", "InStock.Backend.AccountService\InStock.Backend.AccountService.csproj", "{13AB390A-57E1-4DBA-9041-A5627E33B507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService\InStock.Backend.AccountService.csproj", "{13AB390A-57E1-4DBA-9041-A5627E33B507}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Backend.Tests", "InStock.Backend.Tests", "{DB209B4F-4B64-4C3A-A9C3-3B7D7A22400F}"
 EndProject
@@ -24,45 +24,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Common.Tests", "InS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Frontend.Tests", "InStock.Frontend.Tests", "{615BB9D1-D8A2-4310-ADCD-57B656D074CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.AccountService.UnitTests", "InStock.Backend.Tests.AccountService.UnitTests\InStock.Backend.Tests.AccountService.UnitTests.csproj", "{5FDD147F-4FD9-48F9-B212-F28A4D82FBBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.AccountService.UnitTests", "Tests\InStock.Backend.Tests\InStock.Backend.Tests.AccountService.UnitTests\InStock.Backend.Tests.AccountService.UnitTests.csproj", "{5FDD147F-4FD9-48F9-B212-F28A4D82FBBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.InventoryService.UnitTests", "InStock.Backend.Tests.InventoryService.UnitTests\InStock.Backend.Tests.InventoryService.UnitTests.csproj", "{B73AE007-6208-4ED4-8B3A-EF1B874EA57A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.InventoryService.UnitTests", "Tests\InStock.Backend.Tests\InStock.Backend.Tests.InventoryService.UnitTests\InStock.Backend.Tests.InventoryService.UnitTests.csproj", "{B73AE007-6208-4ED4-8B3A-EF1B874EA57A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Abstraction.UnitTests", "InStock.Common.Tests.Abstraction.UnitTests\InStock.Common.Tests.Abstraction.UnitTests.csproj", "{210F1CEF-E351-4A0F-B96D-D2CAD3522515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Abstraction.UnitTests", "Tests\InStock.Common.Tests\InStock.Common.Tests.Abstraction.UnitTests\InStock.Common.Tests.Abstraction.UnitTests.csproj", "{210F1CEF-E351-4A0F-B96D-D2CAD3522515}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Models.UnitTests", "InStock.Common.Tests.Models.UnitTests\InStock.Common.Tests.Models.UnitTests.csproj", "{B313961C-0F6E-4F87-A683-8F4E24CF1AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Models.UnitTests", "Tests\InStock.Common.Tests\InStock.Common.Tests.Models.UnitTests\InStock.Common.Tests.Models.UnitTests.csproj", "{B313961C-0F6E-4F87-A683-8F4E24CF1AC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Mobile.UnitTests", "InStock.Frontend.Tests.Mobile.UnitTests\InStock.Frontend.Tests.Mobile.UnitTests.csproj", "{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Mobile.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Mobile.UnitTests\InStock.Frontend.Tests.Mobile.UnitTests.csproj", "{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Core", "InStock.Frontend.Core\InStock.Frontend.Core.csproj", "{F48F0081-2A1E-4204-9866-8FEC90B07BD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Core", "Source\InStock.Frontend\InStock.Frontend.Core\InStock.Frontend.Core.csproj", "{F48F0081-2A1E-4204-9866-8FEC90B07BD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Abstraction", "InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj", "{594FAAB5-EBA8-4BC9-934F-CFF7885C702C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Abstraction", "Source\InStock.Frontend\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj", "{594FAAB5-EBA8-4BC9-934F-CFF7885C702C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IoC", "InStock.Common.IoC\InStock.Common.IoC.csproj", "{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IoC", "Source\InStock.Common\Shared\InStock.Common.IoC\InStock.Common.IoC.csproj", "{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.API", "InStock.Frontend.API\InStock.Frontend.API.csproj", "{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.API", "Source\InStock.Frontend\InStock.Frontend.API\InStock.Frontend.API.csproj", "{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Core.UnitTests", "InStock.Frontend.Tests.Core.UnitTests\InStock.Frontend.Tests.Core.UnitTests.csproj", "{5D683500-3C02-4A75-A753-CCC154BE2B62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Core.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Core.UnitTests\InStock.Frontend.Tests.Core.UnitTests.csproj", "{5D683500-3C02-4A75-A753-CCC154BE2B62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Core", "InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj", "{C40D0497-5F54-47A7-BEC0-6B03DE69272B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Core", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj", "{C40D0497-5F54-47A7-BEC0-6B03DE69272B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.AccountService.Abstraction", "InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj", "{BFED4D7F-83BD-4A42-8AD4-E9C7AD11186A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.AccountService.Abstraction", "Source\InStock.Common\AccountService\InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj", "{BFED4D7F-83BD-4A42-8AD4-E9C7AD11186A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountService", "AccountService", "{8B1DDB0A-7BF7-42BE-9483-E54155B7419D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Data", "InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj", "{E1E4C7F0-92F8-4BFC-95BE-2C42A40F3168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Data", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService.Data\InStock.Backend.AccountService.Data.csproj", "{E1E4C7F0-92F8-4BFC-95BE-2C42A40F3168}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{976DF22D-8DAF-4E00-B275-C61EA4F4CA0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService", "InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj", "{31885676-ADDA-4BCC-BE13-6160D26AEC43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService", "Source\InStock.Backend\IdentityService\InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj", "{31885676-ADDA-4BCC-BE13-6160D26AEC43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IdentityService.Abstraction", "InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj", "{A5900D2A-62B7-4999-A7D4-CA2DF5E14BA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IdentityService.Abstraction", "Source\InStock.Common\IdentityService\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj", "{A5900D2A-62B7-4999-A7D4-CA2DF5E14BA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Core", "InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj", "{88D1B52B-9558-442A-9CAA-50E4F374EFA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Core", "Source\InStock.Backend\IdentityService\InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj", "{88D1B52B-9558-442A-9CAA-50E4F374EFA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Data", "InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj", "{0EF505CB-C7EC-4448-B7AB-A7903E2FF1C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Data", "Source\InStock.Backend\IdentityService\InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj", "{0EF505CB-C7EC-4448-B7AB-A7903E2FF1C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.IdentityService.UnitTests", "InStock.Backend.Tests.IdentityService.UnitTests\InStock.Backend.Tests.IdentityService.UnitTests.csproj", "{AEC9AB90-F05E-45A3-A541-22A2A3B6197F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.IdentityService.UnitTests", "Tests\InStock.Backend.Tests\InStock.Backend.Tests.IdentityService.UnitTests\InStock.Backend.Tests.IdentityService.UnitTests.csproj", "{AEC9AB90-F05E-45A3-A541-22A2A3B6197F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{CD5D9CF4-F519-4E02-9295-1709AADEB928}"
 EndProject
@@ -70,25 +70,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountService", "AccountSe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryService", "InventoryService", "{1DCF38E9-FD84-4DDA-AD3D-D8585E85B91D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.InventoryService.Abstraction", "InStock.Common.InventoryService.Abstraction\InStock.Common.InventoryService.Abstraction.csproj", "{88390023-36AB-4D2A-B94D-A8B5D7172B8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.InventoryService.Abstraction", "Source\InStock.Common\InventoryService\InStock.Common.InventoryService.Abstraction\InStock.Common.InventoryService.Abstraction.csproj", "{88390023-36AB-4D2A-B94D-A8B5D7172B8A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommunicationService", "CommunicationService", "{051C127E-9C8B-4F06-8590-61E45C1308FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommunicationService", "CommunicationService", "{7C16C7E8-6F0B-41E0-AD31-2D99AAFD261D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.CommunicationService.Abstraction", "InStock.Common.CommunicationService.Abstraction\InStock.Common.CommunicationService.Abstraction.csproj", "{E595303F-FAA9-4B69-8BEE-6CBD7DE4B7E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.CommunicationService.Abstraction", "Source\InStock.Common\CommunicationService\InStock.Common.CommunicationService.Abstraction\InStock.Common.CommunicationService.Abstraction.csproj", "{E595303F-FAA9-4B69-8BEE-6CBD7DE4B7E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Core", "InStock.Backend.CommunicationService.Core\InStock.Backend.CommunicationService.Core.csproj", "{5A380A83-31B9-47A9-B1AF-5917BD60BB54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Core", "Source\InStock.Backend\CommunicationService\InStock.Backend.CommunicationService.Core\InStock.Backend.CommunicationService.Core.csproj", "{5A380A83-31B9-47A9-B1AF-5917BD60BB54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Data", "InStock.Backend.CommunicationService.Data\InStock.Backend.CommunicationService.Data.csproj", "{669AA6F4-7F64-491D-9ACC-E4A8ABD24314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Data", "Source\InStock.Backend\CommunicationService\InStock.Backend.CommunicationService.Data\InStock.Backend.CommunicationService.Data.csproj", "{669AA6F4-7F64-491D-9ACC-E4A8ABD24314}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService", "InStock.Backend.CommunicationService\InStock.Backend.CommunicationService.csproj", "{4C25FCD9-A6A9-4ABB-BE83-6F2D301F1675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService", "Source\InStock.Backend\CommunicationService\InStock.Backend.CommunicationService\InStock.Backend.CommunicationService.csproj", "{4C25FCD9-A6A9-4ABB-BE83-6F2D301F1675}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryService", "InventoryService", "{0FF21B1C-99DE-4EEE-8C36-16B31EBB31B3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{5617D614-F588-4DE8-AF4D-947BADD09442}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Common", "InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Common", "Source\InStock.Backend\Utilities\InStock.Backend.Common\InStock.Backend.Common.csproj", "{0DF89807-9635-42F9-8855-AE62ECBE9E9A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{340CEC96-E1CD-4A58-B758-0D3386145FA2}"
 EndProject
@@ -108,7 +108,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{C7AB53
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{05D2893C-A418-48F9-93AF-0E0F3B6ABC4E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Core", "InStock.Common.Core\InStock.Common.Core.csproj", "{6A8338C7-9741-4254-AE00-D93EB587FF32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Core", "Source\InStock.Common\Shared\InStock.Common.Core\InStock.Common.Core.csproj", "{6A8338C7-9741-4254-AE00-D93EB587FF32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{960A96D5-4577-4B6E-80B3-4E067B8C9126}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -308,8 +310,8 @@ Global
 		{36E0AED4-6E09-493E-B29A-49B36C5EE5CE} = {C7AB531B-A935-4B56-A7BC-EC15FF54C75B}
 		{A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C} = {C7AB531B-A935-4B56-A7BC-EC15FF54C75B}
 		{437C7170-FDB9-4A21-9477-2C087DB08429} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
-		{C1F1E7E5-3FEE-4B84-B340-E7D9BBB3B4F4} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
-		{0483D522-FEA0-431C-99C0-A4797BE24364} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
+		{C1F1E7E5-3FEE-4B84-B340-E7D9BBB3B4F4} = {960A96D5-4577-4B6E-80B3-4E067B8C9126}
+		{0483D522-FEA0-431C-99C0-A4797BE24364} = {960A96D5-4577-4B6E-80B3-4E067B8C9126}
 		{ACA04121-3008-4B50-AAE8-916D33F0F032} = {0FF21B1C-99DE-4EEE-8C36-16B31EBB31B3}
 		{13AB390A-57E1-4DBA-9041-A5627E33B507} = {8B1DDB0A-7BF7-42BE-9483-E54155B7419D}
 		{DB209B4F-4B64-4C3A-A9C3-3B7D7A22400F} = {05D2893C-A418-48F9-93AF-0E0F3B6ABC4E}
@@ -322,7 +324,7 @@ Global
 		{AE2D755C-315D-4B0A-ADD2-7A74732A45AD} = {615BB9D1-D8A2-4310-ADCD-57B656D074CE}
 		{F48F0081-2A1E-4204-9866-8FEC90B07BD8} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
 		{594FAAB5-EBA8-4BC9-934F-CFF7885C702C} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
-		{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
+		{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27} = {960A96D5-4577-4B6E-80B3-4E067B8C9126}
 		{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6} = {36E0AED4-6E09-493E-B29A-49B36C5EE5CE}
 		{5D683500-3C02-4A75-A753-CCC154BE2B62} = {615BB9D1-D8A2-4310-ADCD-57B656D074CE}
 		{C40D0497-5F54-47A7-BEC0-6B03DE69272B} = {8B1DDB0A-7BF7-42BE-9483-E54155B7419D}
@@ -351,7 +353,8 @@ Global
 		{9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6} = {340CEC96-E1CD-4A58-B758-0D3386145FA2}
 		{9C3BE68D-9F7F-4043-B007-8427F185302C} = {9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6}
 		{774905AC-391B-4854-810D-028ED2E78390} = {9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6}
-		{6A8338C7-9741-4254-AE00-D93EB587FF32} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
+		{6A8338C7-9741-4254-AE00-D93EB587FF32} = {960A96D5-4577-4B6E-80B3-4E067B8C9126}
+		{960A96D5-4577-4B6E-80B3-4E067B8C9126} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B14AA0FA-0172-43EF-B23B-D530886CB34C}

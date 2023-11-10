@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\InStock.Common\IdentityService\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\InStock.Common\Shared\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\InStock.Common\Shared\InStock.Common.Core\InStock.Common.Core.csproj" />
+  </ItemGroup>
+
+</Project>
