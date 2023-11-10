@@ -105,7 +105,9 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT CASE
+	DECLARE @ReturnVal INT;
+
+	SELECT @ReturnVal = CASE
             WHEN EXISTS (
                 SELECT 1
                 FROM Tokens
@@ -113,6 +115,8 @@ BEGIN
             ) THEN 1
             ELSE 0
         END
+
+	RETURN @ReturnVal;
 END
 GO
 
@@ -196,14 +200,18 @@ BEGIN
 	-- IF The IdentityToken exists, retrieve its Id
 	IF EXISTS (
 		SELECT 1
-		FROM Tokens
-		WHERE TokenValue = @IdentityToken
-		AND Invalidated = 0
+		FROM IdentityTokens IT
+		JOIN Tokens T
+		ON IT.TokenId = T.Id
+		WHERE T.TokenValue = @IdentityToken
+		AND T.Invalidated = 0
 	) BEGIN
-		SELECT @IdentityTokenId = Id
-		FROM Tokens
-		WHERE TokenValue = @IdentityToken
-		AND Invalidated = 0;
+		SELECT @IdentityTokenId = IT.Id
+		FROM IdentityTokens IT
+		JOIN Tokens T
+		ON IT.TokenId = T.Id
+		WHERE T.TokenValue = @IdentityToken
+		AND T.Invalidated = 0;
 	END 
 	ELSE BEGIN
 		-- ELSE Create the IdentityToken
