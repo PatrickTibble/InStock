@@ -2,7 +2,6 @@
 using InStock.Common.Abstraction.Logger;
 using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Services;
-using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using Microsoft.Extensions.Configuration;
 using Moq;
 
@@ -39,204 +38,105 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Services
         }
 
         [Test]
-        public void CreateAccessRefreshTokenPair_WhenCalled_ReturnsAccessRefreshTokenPair()
-        {
-            // Arrange
-            var userToken = new UserToken
-            {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
-            };
-
-            // Act
-            var result = _tokenService.CreateAccessRefreshTokenPair(userToken);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.TypeOf<AccessRefreshTokenPair>());
-                Assert.That(result!.AccessToken, Is.Not.Null);
-                Assert.That(result.RefreshToken, Is.Not.Null);
-                Assert.That(result.AccessToken, Is.Not.Empty);
-                Assert.That(result.RefreshToken, Is.Not.Empty);
-            });
-        }
+        public void CreateAccessTokenAsync_ReturnsAccessToken()
+            => Assert.That(_tokenService.CreateAccessTokenAsync().Result, Is.Not.Null);
 
         [Test]
-        public void CreateIdToken_WhenCalled_ReturnsIdToken()
+        public void CreateIdentityTokenAsync_ReturnsIdentityToken()
+            => Assert.That(_tokenService.CreateIdentityTokenAsync("test").Result, Is.Not.Null);
+
+        [Test]
+        public void CreateRefreshTokenAsync_ReturnsRefreshToken()
+            => Assert.That(_tokenService.CreateRefreshTokenAsync().Result, Is.Not.Null);
+
+        [Test]
+        public async Task ReadTokenAsync_ReturnsUserToken()
         {
-            // Arrange
-            var username = "test";
             var userToken = new UserToken
             {
                 Expiry = DateTime.UtcNow.AddMinutes(30),
                 Claims = new Dictionary<string, string>
                 {
-                    { "username", username }
+                    { "typ", "access" }
                 }
             };
 
-            // Act
-            var result = _tokenService.CreateIdToken(userToken);
+            var token = await _tokenService.CreateTokenAsync(userToken);
 
-            // Assert
+            var result = await _tokenService.ReadTokenAsync(token!);
+
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.TypeOf<string>());
-                Assert.That(result, Is.Not.Empty);
-            });
-        }
-
-        [Test]
-        public void ReadToken_WhenCalled_ReturnsUserToken()
-        {
-            // Arrange
-            var userToken = new UserToken
-            {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
-            };
-
-            var accessToken = _tokenService.CreateAccessRefreshTokenPair(userToken)!.AccessToken;
-
-            // Act
-            var result = _tokenService.ReadToken(accessToken);
-
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.TypeOf<UserToken>());
                 Assert.That(userToken.Expiry - result!.Expiry, Is.LessThan(TimeSpan.FromSeconds(1)));
+                Assert.That(result.Claims, Is.Not.Null);
+                Assert.That(result.Claims!["typ"], Is.EqualTo(userToken.Claims["typ"]));
             });
         }
 
         [Test]
-        public void ReadToken_WhenCalledWithInvalidToken_ReturnsDefaultUserToken()
+        public async Task ReadTokenAsync_ThrowsException_WhenTokenIsInvalid()
         {
-            // Arrange
-            var userToken = new UserToken
-            {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
-            };
+            var result = await _tokenService.ReadTokenAsync("invalid token");
 
-            var accessToken = _tokenService.CreateAccessRefreshTokenPair(userToken)!.AccessToken;
-
-            // Act
-            var result = _tokenService.ReadToken(accessToken + "invalid");
-
-            // Assert
-            Assert.That(result, Is.EqualTo(default));
-
-            _logger.Verify(x => x.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
-        public void RefreshWithTokenPair_WhenCalled_ReturnsAccessRefreshTokenPair()
+        public async Task ReadTokenAsync_ThrowsException_WhenTokenIsExpired()
         {
-            // Arrange
             var userToken = new UserToken
             {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
+                Expiry = DateTime.UtcNow.AddMinutes(-30),
+                Claims = new Dictionary<string, string>
+                {
+                    { "typ", "access" }
+                }
             };
 
-            var tokenPair = _tokenService.CreateAccessRefreshTokenPair(userToken)!;
+            var token = await _tokenService.CreateTokenAsync(userToken);
 
-            // Act
-            var result = _tokenService.RefreshWithTokenPair(tokenPair);
+            var result = await _tokenService.ReadTokenAsync(token!);
 
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.TypeOf<AccessRefreshTokenPair>());
-                Assert.That(result!.AccessToken, Is.Not.Null);
-                Assert.That(result.RefreshToken, Is.Not.Null);
-                Assert.That(result.AccessToken, Is.Not.Empty);
-                Assert.That(result.RefreshToken, Is.Not.Empty);
-            });
+            Assert.That(result, Is.Null);
         }
 
         [Test]
-        public void RefreshWithTokenPair_WhenCalledWithInvalidToken_ReturnsDefaultAccessRefreshTokenPair()
+        public async Task ReadTokenAsync_ThrowsException_WhenTokenSignatureIsNotValid()
         {
-            // Arrange
             var userToken = new UserToken
             {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
+                Expiry = DateTime.UtcNow.AddMinutes(30),
+                Claims = new Dictionary<string, string>
+                {
+                    { "typ", "access" }
+                }
             };
 
-            var tokenPair = _tokenService.CreateAccessRefreshTokenPair(userToken)!;
+            var token = await _tokenService.CreateTokenAsync(userToken);
 
-            // Act
-            var result = _tokenService.RefreshWithTokenPair(new AccessRefreshTokenPair
-            {
-                AccessToken = tokenPair.AccessToken + "invalid",
-                RefreshToken = tokenPair.RefreshToken
-            });
+            var result = await _tokenService.ReadTokenAsync(token! + "invalid");
 
-            // Assert
-            Assert.That(result, Is.EqualTo(default));
-
-            _logger.Verify(x => x.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
-        public void ValidateToken_WhenCalled_ReturnsTrue()
+        public async Task ReadTokenAsync_ThrowsException_WhenTokenMalformed()
         {
-            // Arrange
             var userToken = new UserToken
             {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
+                Expiry = DateTime.UtcNow.AddMinutes(30),
+                Claims = new Dictionary<string, string>
+                {
+                    { "typ", "access" }
+                }
             };
 
-            var accessToken = _tokenService.CreateAccessRefreshTokenPair(userToken)!.AccessToken;
+            var token = await _tokenService.CreateTokenAsync(userToken);
 
-            // Act
-            var result = _tokenService.ValidateToken(accessToken);
+            var result = await _tokenService.ReadTokenAsync(token!.Replace('.', ' '));
 
-            // Assert
-            Assert.That(result, Is.True);
-        }
-
-        [Test]
-        public void ValidateToken_WhenCalledWithExpiredToken_ReturnsFalseAndLogsException()
-        {
-            // Arrange
-            var userToken = new UserToken
-            {
-                Expiry = DateTime.UtcNow.AddMinutes(-30)
-            };
-
-            var accessToken = _tokenService.CreateAccessRefreshTokenPair(userToken)!.AccessToken;
-
-            // Act
-            var result = _tokenService.ValidateToken(accessToken);
-
-            // Assert
-            Assert.That(result, Is.False);
-
-            _logger.Verify(x => x.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
-        }
-
-        [Test]
-        public void ValidateToken_WhenCalledWithInvalidToken_ReturnsFalseAndLogsException()
-        {
-            // Arrange
-            var userToken = new UserToken
-            {
-                Expiry = DateTime.UtcNow.AddMinutes(30)
-            };
-
-            var accessToken = _tokenService.CreateAccessRefreshTokenPair(userToken)!.AccessToken;
-
-            // Act
-            var result = _tokenService.ValidateToken(accessToken + "invalid");
-
-            // Assert
-            Assert.That(result, Is.False);
-
-            _logger.Verify(x => x.LogExceptionAsync(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+            Assert.That(result, Is.Null);
         }
     }
 }
