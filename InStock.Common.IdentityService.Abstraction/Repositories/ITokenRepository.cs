@@ -46,7 +46,7 @@ namespace InStock.Common.IdentityService.Abstraction.Repositories
         /// <param name="newAccessToken"></param>
         /// <param name="newRefreshToken"></param>
         /// <returns></returns>
-        Task<bool> SaveTokensAsync(string idToken, string newAccessToken, string newRefreshToken);
+        Task SaveTokensAsync(string idToken, string newAccessToken, string newRefreshToken);
 
         /// <summary>
         /// Invalidates a pair of Access and Refresh tokens.
