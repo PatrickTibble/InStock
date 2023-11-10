@@ -24,9 +24,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Common.Tests", "InS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Frontend.Tests", "InStock.Frontend.Tests", "{615BB9D1-D8A2-4310-ADCD-57B656D074CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.AccountService.UnitTests", "InStock.Backend.Tests.AccountService.UnitTests\InStock.Backend.Tests.AccountService.UnitTests.csproj", "{5FDD147F-4FD9-48F9-B212-F28A4D82FBBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.AccountService.UnitTests", "Tests\InStock.Backend.Tests\InStock.Backend.Tests.AccountService.UnitTests\InStock.Backend.Tests.AccountService.UnitTests.csproj", "{5FDD147F-4FD9-48F9-B212-F28A4D82FBBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.InventoryService.UnitTests", "InStock.Backend.Tests.InventoryService.UnitTests\InStock.Backend.Tests.InventoryService.UnitTests.csproj", "{B73AE007-6208-4ED4-8B3A-EF1B874EA57A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.InventoryService.UnitTests", "Tests\InStock.Backend.Tests\InStock.Backend.Tests.InventoryService.UnitTests\InStock.Backend.Tests.InventoryService.UnitTests.csproj", "{B73AE007-6208-4ED4-8B3A-EF1B874EA57A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Abstraction.UnitTests", "InStock.Common.Tests.Abstraction.UnitTests\InStock.Common.Tests.Abstraction.UnitTests.csproj", "{210F1CEF-E351-4A0F-B96D-D2CAD3522515}"
 EndProject
@@ -62,7 +62,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentitySer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.IdentityService.Data", "InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj", "{0EF505CB-C7EC-4448-B7AB-A7903E2FF1C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.IdentityService.UnitTests", "InStock.Backend.Tests.IdentityService.UnitTests\InStock.Backend.Tests.IdentityService.UnitTests.csproj", "{AEC9AB90-F05E-45A3-A541-22A2A3B6197F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.Tests.IdentityService.UnitTests", "Tests\InStock.Backend.Tests\InStock.Backend.Tests.IdentityService.UnitTests\InStock.Backend.Tests.IdentityService.UnitTests.csproj", "{AEC9AB90-F05E-45A3-A541-22A2A3B6197F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{CD5D9CF4-F519-4E02-9295-1709AADEB928}"
 EndProject
