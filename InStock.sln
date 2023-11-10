@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Abstraction"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Models", "InStock.Common.Models\InStock.Common.Models.csproj", "{0483D522-FEA0-431C-99C0-A4797BE24364}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.InventoryService", "InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj", "{ACA04121-3008-4B50-AAE8-916D33F0F032}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.InventoryService", "Source\InStock.Backend\InventoryService\InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj", "{ACA04121-3008-4B50-AAE8-916D33F0F032}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService", "Source\InStock.Backend\AccountService\InStock.Backend.AccountService\InStock.Backend.AccountService.csproj", "{13AB390A-57E1-4DBA-9041-A5627E33B507}"
 EndProject
