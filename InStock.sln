@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Abstra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Models.UnitTests", "Tests\InStock.Common.Tests\InStock.Common.Tests.Models.UnitTests\InStock.Common.Tests.Models.UnitTests.csproj", "{B313961C-0F6E-4F87-A683-8F4E24CF1AC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Mobile.UnitTests", "InStock.Frontend.Tests.Mobile.UnitTests\InStock.Frontend.Tests.Mobile.UnitTests.csproj", "{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Mobile.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Mobile.UnitTests\InStock.Frontend.Tests.Mobile.UnitTests.csproj", "{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Core", "InStock.Frontend.Core\InStock.Frontend.Core.csproj", "{F48F0081-2A1E-4204-9866-8FEC90B07BD8}"
 EndProject
@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IoC", "InSto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.API", "InStock.Frontend.API\InStock.Frontend.API.csproj", "{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Core.UnitTests", "InStock.Frontend.Tests.Core.UnitTests\InStock.Frontend.Tests.Core.UnitTests.csproj", "{5D683500-3C02-4A75-A753-CCC154BE2B62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Core.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Core.UnitTests\InStock.Frontend.Tests.Core.UnitTests.csproj", "{5D683500-3C02-4A75-A753-CCC154BE2B62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.AccountService.Core", "InStock.Backend.AccountService.Core\InStock.Backend.AccountService.Core.csproj", "{C40D0497-5F54-47A7-BEC0-6B03DE69272B}"
 EndProject
