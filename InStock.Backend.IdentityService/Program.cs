@@ -11,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddSingleton<ITokenService, JwtSecurityTokenService>()
     .AddSingleton<ILogger, LocalSessionLogger>()
-    .AddSingleton<IIdentityRepository, IdentityRepository>()
     .AddSingleton<IIdentityService, IdentityService>()
     
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
