@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Frontend", "InStock
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InStock.Common", "InStock.Common", "{A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Mobile", "InStock.Frontend.Mobile\InStock.Frontend.Mobile.csproj", "{437C7170-FDB9-4A21-9477-2C087DB08429}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Mobile", "Source\InStock.Frontend\InStock.Frontend.Mobile\InStock.Frontend.Mobile.csproj", "{437C7170-FDB9-4A21-9477-2C087DB08429}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Abstraction", "Source\InStock.Common\Shared\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj", "{C1F1E7E5-3FEE-4B84-B340-E7D9BBB3B4F4}"
 EndProject
@@ -34,13 +34,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Tests.Models
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Mobile.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Mobile.UnitTests\InStock.Frontend.Tests.Mobile.UnitTests.csproj", "{AE2D755C-315D-4B0A-ADD2-7A74732A45AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Core", "InStock.Frontend.Core\InStock.Frontend.Core.csproj", "{F48F0081-2A1E-4204-9866-8FEC90B07BD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Core", "Source\InStock.Frontend\InStock.Frontend.Core\InStock.Frontend.Core.csproj", "{F48F0081-2A1E-4204-9866-8FEC90B07BD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Abstraction", "InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj", "{594FAAB5-EBA8-4BC9-934F-CFF7885C702C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Abstraction", "Source\InStock.Frontend\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj", "{594FAAB5-EBA8-4BC9-934F-CFF7885C702C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.IoC", "Source\InStock.Common\Shared\InStock.Common.IoC\InStock.Common.IoC.csproj", "{63D89A7E-C33F-4087-AEF2-7F5F4D0FAC27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.API", "InStock.Frontend.API\InStock.Frontend.API.csproj", "{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.API", "Source\InStock.Frontend\InStock.Frontend.API\InStock.Frontend.API.csproj", "{C640D0C2-2BE2-46AF-9FD7-E1E054F5C2C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Frontend.Tests.Core.UnitTests", "Tests\InStock.Frontend.Tests\InStock.Frontend.Tests.Core.UnitTests\InStock.Frontend.Tests.Core.UnitTests.csproj", "{5D683500-3C02-4A75-A753-CCC154BE2B62}"
 EndProject
