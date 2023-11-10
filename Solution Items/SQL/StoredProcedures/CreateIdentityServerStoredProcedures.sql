@@ -15,9 +15,13 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT AT.Id, AT.IdentityTokenId, T.Invalidated, T.TokenValue
+	SELECT	AT.Id,
+			AT.IdentityTokenId,
+			T.Invalidated, 
+			T.TokenValue
 	FROM AccessTokens AT
-	JOIN Tokens T ON AT.TokenId = T.Id
+	JOIN Tokens T
+	ON AT.TokenId = T.Id
 	WHERE T.TokenValue = @TokenValue;
 END
 GO
@@ -34,9 +38,12 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT IT.Id, T.Invalidated, T.TokenValue
+	SELECT	IT.Id, 
+			T.Invalidated, 
+			T.TokenValue
 	FROM IdentityTokens IT
-	JOIN Tokens T ON IT.TokenId = T.Id
+	JOIN Tokens T
+	ON IT.TokenId = T.Id
 	WHERE T.TokenValue = @TokenValue;
 END
 GO
@@ -53,9 +60,12 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT IT.Id, T.Invalidated, T.TokenValue
+	SELECT	IT.Id,
+			T.Invalidated,
+			T.TokenValue
 	FROM IdentityTokens IT
-	JOIN Tokens T ON IT.TokenId = T.Id
+	JOIN Tokens T
+	ON IT.TokenId = T.Id
 	WHERE IT.Id = @IdentityTokenId;
 END
 GO
@@ -72,9 +82,13 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT RT.Id, RT.AccessTokenId, T.Invalidated, T.TokenValue
+	SELECT	RT.Id,
+			RT.AccessTokenId,
+			T.Invalidated,
+			T.TokenValue
 	FROM RefreshTokens RT
-	JOIN Tokens T ON RT.TokenId = T.Id
+	JOIN Tokens T
+	ON RT.TokenId = T.Id
 	WHERE T.TokenValue = @TokenValue;
 END
 GO
@@ -193,24 +207,36 @@ BEGIN
 	END 
 	ELSE BEGIN
 		-- ELSE Create the IdentityToken
-		INSERT INTO Tokens (TokenValue) VALUES (@IdentityToken);
+		INSERT INTO Tokens (TokenValue)
+		VALUES (@IdentityToken);
+
 		SET @IdentityTokenId = SCOPE_IDENTITY();
 		
-		INSERT INTO IdentityTokens (TokenId) VALUES (@IdentityTokenId);
+		INSERT INTO IdentityTokens (TokenId)
+		VALUES (@IdentityTokenId);
+
 		SET @IdentityTokenId = SCOPE_IDENTITY();
 	END
 	
-	INSERT INTO Tokens (TokenValue) VALUES (@AccessToken);
+	INSERT INTO Tokens (TokenValue)
+	VALUES (@AccessToken);
+
 	SET @AccessTokenId = SCOPE_IDENTITY();
 	
-	INSERT INTO AccessTokens (TokenId, IdentityTokenId) VALUES (@AccessTokenId, @IdentityTokenId);
+	INSERT INTO AccessTokens (TokenId, IdentityTokenId)
+	VALUES (@AccessTokenId, @IdentityTokenId);
+
 	SET @AccessTokenId = SCOPE_IDENTITY();
 
-    INSERT INTO Tokens (TokenValue) VALUES (@RefreshToken);
+    INSERT INTO Tokens (TokenValue)
+	VALUES (@RefreshToken);
+
 	SET @RefreshTokenId = SCOPE_IDENTITY();
 
-	INSERT INTO RefreshTokens (TokenId, AccessTokenId) VALUES (@RefreshTokenId, @AccessTokenId);
+	INSERT INTO RefreshTokens (TokenId, AccessTokenId)
+	VALUES (@RefreshTokenId, @AccessTokenId);
 
-	INSERT INTO TokenFamilies (TokenId, OriginatorTokenId) VALUES (@RefreshTokenId, @IdentityTokenId);
+	INSERT INTO TokenFamilies (TokenId, OriginatorTokenId)
+	VALUES (@RefreshTokenId, @IdentityTokenId);
 END
 GO
