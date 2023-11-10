@@ -96,8 +96,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{9D4D0AB4-66D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoredProcedures", "StoredProcedures", "{9C3BE68D-9F7F-4043-B007-8427F185302C}"
 	ProjectSection(SolutionItems) = preProject
-		Solution Items\SQL\StoredProcedures\GetIdentityTokenFromAccessToken.sql = Solution Items\SQL\StoredProcedures\GetIdentityTokenFromAccessToken.sql
-		Solution Items\SQL\StoredProcedures\InsertAccessRefreshTokenPair.sql = Solution Items\SQL\StoredProcedures\InsertAccessRefreshTokenPair.sql
+		CreateIdentityServerStoredProcedures.sql = CreateIdentityServerStoredProcedures.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queries", "Queries", "{774905AC-391B-4854-810D-028ED2E78390}"
@@ -109,7 +108,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{C7AB53
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{05D2893C-A418-48F9-93AF-0E0F3B6ABC4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Common.Core", "InStock.Common.Core\InStock.Common.Core.csproj", "{6A8338C7-9741-4254-AE00-D93EB587FF32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Core", "InStock.Common.Core\InStock.Common.Core.csproj", "{6A8338C7-9741-4254-AE00-D93EB587FF32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
