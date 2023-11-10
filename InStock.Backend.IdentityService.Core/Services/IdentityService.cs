@@ -1,4 +1,5 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
+﻿using InStock.Common.Abstraction.Logger;
+using InStock.Common.IdentityService.Abstraction.Exceptions;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
@@ -6,22 +7,21 @@ using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 using InStock.Common.Models.Base;
 using Refit;
-using ILogger = InStock.Common.Abstraction.Logger.ILogger;
 
 namespace InStock.Backend.IdentityService.Core.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly IIdentityRepository _identityRepository;
+        private readonly ITokenRepository _tokenRepository;
         private readonly ILogger _logger;
         private readonly ITokenService _tokenService;
 
         public IdentityService(
-            IIdentityRepository identityRepository,
             ITokenService tokenService,
+            ITokenRepository tokenRepository,
             ILogger logger)
         {
-            _identityRepository = identityRepository;
+            _tokenRepository = tokenRepository;
             _tokenService = tokenService;
             _logger = logger;
         }
@@ -30,52 +30,39 @@ namespace InStock.Backend.IdentityService.Core.Services
         {
             try
             {
-                var badRequestResponse = new Result<GetTokenResponse>(400, "Unable to create token");
+                var accessTokenTask = _tokenService.CreateAccessTokenAsync();
+                var refreshTokenTask = _tokenService.CreateRefreshTokenAsync();
+                var idTokenTask = _tokenService.CreateIdentityTokenAsync(request.Username);
 
-                var tokenPair = _tokenService.CreateAccessRefreshTokenPair(new UserToken
-                {
-                    Expiry = request.Expiry,
-                    Claims = request.Claims
-                });
+                await Task.WhenAll(accessTokenTask, refreshTokenTask, idTokenTask);
 
-                if (tokenPair == default)
+                var accessToken = accessTokenTask.Result;
+                var refreshToken = refreshTokenTask.Result;
+                var idToken = idTokenTask.Result;
+
+                if (string.IsNullOrWhiteSpace(refreshToken) 
+                    || string.IsNullOrWhiteSpace(accessToken)
+                    || string.IsNullOrWhiteSpace(idToken))
                 {
-                    return badRequestResponse;
+                    // unable to create tokens
+                    throw new CreateTokenException("Unable to Create Tokens");
                 }
 
-                var idToken = (await _identityRepository.GetIdTokenAsync(request.Username))?.TokenValue;
-
-                if (string.IsNullOrWhiteSpace(idToken))
-                {
-                    idToken = _tokenService.CreateIdToken(new UserToken
-                    {
-                        Expiry = DateTime.UtcNow.AddMonths(1),
-                        Claims = new Dictionary<string, string>
-                        {
-                            { "username", request.Username }
-                        }
-                    });
-                }
-
-                if (string.IsNullOrWhiteSpace(idToken))
-                {
-                    return badRequestResponse;
-                }
-
-                var saveResult = await _identityRepository
-                    .StoreTokensAsync(idToken, tokenPair)
+                var saveResult = await _tokenRepository
+                    .SaveTokensAsync(idToken, accessToken, refreshToken)
                     .ConfigureAwait(false);
 
                 if (!saveResult)
                 {
-                    return badRequestResponse;
+                    // unable to save tokens
+                    throw new CreateTokenException("Unable to Save Created Tokens");
                 }
 
                 return new Result<GetTokenResponse>(new GetTokenResponse
                 {
-                    AccessToken = tokenPair.AccessToken,
+                    AccessToken = accessToken,
                     IdentityToken = idToken,
-                    RefreshToken = tokenPair.RefreshToken
+                    RefreshToken = refreshToken
                 });
             }
             catch (Exception ex)
@@ -83,58 +70,108 @@ namespace InStock.Backend.IdentityService.Core.Services
                 await _logger
                     .LogExceptionAsync(ex)
                     .ConfigureAwait(false);
+
+                if (ex is CreateTokenException)
+                {
+                    return BadRequest<GetTokenResponse>(ex.Message);
+                }
             }
-            
-            return new Result<GetTokenResponse>(500, "Unable to create token");
+
+            return InternalServerError<GetTokenResponse>("Unable to create token");
         }
 
         public async Task<Result<AccessRefreshTokenPair>> RefreshTokenAsync([Body] AccessRefreshTokenPair request)
         {
             try
             {
-                var badRequest = BadRequest<AccessRefreshTokenPair>("Unable to refresh token");
+                var accessTokenTask = _tokenService.ReadTokenAsync(request.AccessToken);
+                var refreshTokenTask = _tokenService.ReadTokenAsync(request.RefreshToken);
 
-                var validationResult = await _identityRepository
-                    .ValidateTokenPairAsync(request)
+                var storedRefreshTokenTask = _tokenRepository.GetRefreshTokenAsync(request.RefreshToken);
+                var storedAccessTokenTask = _tokenRepository.GetAccessTokenAsync(request.AccessToken);
+
+                await Task
+                    .WhenAll(accessTokenTask, refreshTokenTask, storedRefreshTokenTask, storedAccessTokenTask)
                     .ConfigureAwait(false);
 
-                if (!validationResult)
+                var accessToken = accessTokenTask.Result;
+                var refreshToken = refreshTokenTask.Result;
+
+                if (accessToken == default || refreshToken == default)
                 {
-                    return badRequest;
+                    // invalid tokens. We didn't make these
+                    throw new CreateTokenException("Invalid Tokens. Tokens not created by IDS.");
                 }
 
-                var idToken = await _identityRepository
-                    .GetIdTokenAsync(request.AccessToken)
+                var storedRefreshToken = storedRefreshTokenTask.Result;
+                var storedAccessToken = storedAccessTokenTask.Result;
+
+                if (storedRefreshToken == default || storedAccessToken == default)
+                {
+                    // invalid tokens. we haven't saved these in the db. 
+                    // TODO: Log this? How did these get here without
+                    // being saved in the db, but WERE created by us.
+                    // (The 'royal' us)
+                    throw new CreateTokenException("Invalid Tokens. Tokens do not exist in Token Repo.");
+                }
+
+                var idToken = await _tokenRepository
+                    .GetIdentityTokenAsync(storedAccessToken.IdentityTokenId)
                     .ConfigureAwait(false);
 
-                if (string.IsNullOrWhiteSpace(idToken?.TokenValue))
+                if (idToken == default
+                    || idToken.Invalidated
+                    || storedRefreshToken.Invalidated
+                    || storedAccessToken.Invalidated)
                 {
-                    return badRequest;
+                    // We've previously invalidated these.
+                    // Ensure the whole family is invalidated
+                    await _tokenRepository
+                        .InvalidateTokenFamilyAsync(storedRefreshToken)
+                        .ConfigureAwait(false);
+
+                    throw new CreateTokenException("Invalid Tokens. Attempted to refresh invalidated tokens.");
                 }
 
-                var refreshResult = _tokenService.RefreshWithTokenPair(request);
-                
-                if (refreshResult == default)
-                {
-                    return badRequest;
-                }
+                var newAccessTokenTask = _tokenService.CreateAccessTokenAsync();
+                var newRefreshTokenTask = _tokenService.CreateRefreshTokenAsync();
 
-                var saveResult = await _identityRepository
-                    .SaveTokenPairAsync(request.AccessToken, idToken.Id, request.RefreshToken)
+                await Task
+                    .WhenAll(newAccessTokenTask, newRefreshTokenTask)
+                    .ConfigureAwait(false);
+
+                var newAccessToken = newAccessTokenTask.Result;
+                var newRefreshToken = newRefreshTokenTask.Result;
+
+                var saveResult = await _tokenRepository
+                    .SaveTokensAsync(idToken.TokenValue, newAccessToken!, newRefreshToken!)
                     .ConfigureAwait(false);
 
                 if (!saveResult)
                 {
-                    return badRequest;
+                    throw new CreateTokenException("Unable to save new tokens.");
                 }
 
-                return new Result<AccessRefreshTokenPair>(refreshResult);
+                _ = await _tokenRepository
+                    .InvalidateTokensAsync(storedRefreshToken, storedAccessToken)
+                    .ConfigureAwait(false);
+
+                return new Result<AccessRefreshTokenPair>(new AccessRefreshTokenPair
+                {
+                    AccessToken = newAccessToken!,
+                    RefreshToken = newRefreshToken!
+                });
             }
             catch (Exception ex)
             {
                 await _logger
                     .LogExceptionAsync(ex)
                     .ConfigureAwait(false);
+
+                if (ex is CreateTokenException)
+                {
+                    return BadRequest<AccessRefreshTokenPair>(ex.Message);
+                }
             }
 
             return InternalServerError<AccessRefreshTokenPair>("Unable to refresh token");
@@ -145,16 +182,18 @@ namespace InStock.Backend.IdentityService.Core.Services
             try
             {
                 // confirm that we made the token.
-                var validationResult = _tokenService.ValidateToken(request.Token);
+                var readTask = _tokenService.ReadTokenAsync(request.Token);
 
-                // confirm that we know we made it
-                validationResult &= await _identityRepository
-                    .ValidateTokenAsync(request.Token)
+                // confirm that we know we made it (it's in the db)
+                var retrievalTask = _tokenRepository.ValidateTokenAsync(request.Token);
+
+                await Task
+                    .WhenAll(readTask, retrievalTask)
                     .ConfigureAwait(false);
 
                 return new Result<ValidateTokenResponse>(new ValidateTokenResponse
                 {
-                    IsValid = validationResult
+                    IsValid = readTask.Result != default && retrievalTask.Result
                 });
             }
             catch (Exception ex)
@@ -162,17 +201,22 @@ namespace InStock.Backend.IdentityService.Core.Services
                 await _logger
                     .LogExceptionAsync(ex)
                     .ConfigureAwait(false);
+
+                if (ex is CreateTokenException)
+                {
+                    return BadRequest<ValidateTokenResponse>(ex.Message);
+                }
             }
 
             return InternalServerError<ValidateTokenResponse>("Unable to validate token");
         }
 
-        private Result<T> BadRequest<T>(string message)
+        private static Result<T> BadRequest<T>(string message)
             where T : class
-            => new Result<T>(400, message);
+            => new(400, message);
 
-        private Result<T> InternalServerError<T>(string message)
+        private static Result<T> InternalServerError<T>(string message)
             where T : class
-            => new Result<T>(500, message);
+            => new(500, message);
     }
 }
