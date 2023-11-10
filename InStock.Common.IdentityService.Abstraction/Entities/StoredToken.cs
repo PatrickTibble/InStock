@@ -1,9 +1,10 @@
 ﻿namespace InStock.Common.IdentityService.Abstraction.Entities
 {
-    public class Token
+    public class StoredToken
     {
         public int Id { get; set; }
-        public string? TokenValue { get; set; }
         public bool Invalidated { get; set; }
+        public string TokenValue { get; set; } = string.Empty;
+        public int TokenId { get; set; }
     }
 }
