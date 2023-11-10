@@ -23,6 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Common\Shared\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\InStock.Common\AccountService\InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

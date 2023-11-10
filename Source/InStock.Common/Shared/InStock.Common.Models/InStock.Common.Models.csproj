@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -15,6 +15,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InStock.Common.Abstraction\InStock.Common.Abstraction.csproj" />
-    <ProjectReference Include="..\InStock.Common.InventoryService.Abstraction\InStock.Common.InventoryService.Abstraction.csproj" />
   </ItemGroup>
 </Project>

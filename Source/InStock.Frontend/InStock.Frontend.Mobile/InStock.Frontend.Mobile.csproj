@@ -81,10 +81,8 @@
 	  <Folder Include="Services\Threading\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\..\InStock.Common\Shared\InStock.Common.IoC\InStock.Common.IoC.csproj" />
 	  <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj">
-	    <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
-	  </ProjectReference>
-	  <ProjectReference Include="..\InStock.Common.IoC\InStock.Common.IoC.csproj">
 	    <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
 	  </ProjectReference>
 	  <ProjectReference Include="..\InStock.Frontend.Abstraction\InStock.Frontend.Abstraction.csproj">

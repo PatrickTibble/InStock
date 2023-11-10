@@ -23,6 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Common\Shared\InStock.Common.Models\InStock.Common.Models.csproj" />
   </ItemGroup>
 </Project>

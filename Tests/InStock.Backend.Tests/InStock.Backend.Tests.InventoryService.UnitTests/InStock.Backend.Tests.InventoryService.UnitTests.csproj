@@ -23,6 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Backend\InventoryService\InStock.Backend.InventoryService\InStock.Backend.InventoryService.csproj" />
   </ItemGroup>
 </Project>

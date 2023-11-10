@@ -34,6 +34,6 @@
     <Folder Include="PageModels\PointOfSale\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Frontend.Core\InStock.Frontend.Core.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Frontend\InStock.Frontend.Core\InStock.Frontend.Core.csproj" />
   </ItemGroup>
 </Project>

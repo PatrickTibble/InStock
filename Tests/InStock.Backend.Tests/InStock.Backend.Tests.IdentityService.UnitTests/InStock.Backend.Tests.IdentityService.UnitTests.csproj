@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <None Remove="Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
     <PackageReference Include="Moq" Version="4.20.69" />
     <PackageReference Include="NUnit" Version="3.13.3" />
@@ -19,14 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
-    <ProjectReference Include="..\InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj" />
-    <ProjectReference Include="..\InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj" />
-    <ProjectReference Include="..\InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\..\..\Source\InStock.Backend\IdentityService\InStock.Backend.IdentityService.Core\InStock.Backend.IdentityService.Core.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Backend\IdentityService\InStock.Backend.IdentityService.Data\InStock.Backend.IdentityService.Data.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Backend\IdentityService\InStock.Backend.IdentityService\InStock.Backend.IdentityService.csproj" />
+    <ProjectReference Include="..\..\..\Source\InStock.Common\IdentityService\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

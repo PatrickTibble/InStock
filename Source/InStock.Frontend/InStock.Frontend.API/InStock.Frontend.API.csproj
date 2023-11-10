@@ -22,8 +22,8 @@
     <PackageReference Include="Refit" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj" />
-    <ProjectReference Include="..\InStock.Common.InventoryService.Abstraction\InStock.Common.InventoryService.Abstraction.csproj" />
-    <ProjectReference Include="..\InStock.Common.Models\InStock.Common.Models.csproj" />
+    <ProjectReference Include="..\..\InStock.Common\AccountService\InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj" />
+    <ProjectReference Include="..\..\InStock.Common\InventoryService\InStock.Common.InventoryService.Abstraction\InStock.Common.InventoryService.Abstraction.csproj" />
+    <ProjectReference Include="..\..\InStock.Common\Shared\InStock.Common.Models\InStock.Common.Models.csproj" />
   </ItemGroup>
 </Project>
