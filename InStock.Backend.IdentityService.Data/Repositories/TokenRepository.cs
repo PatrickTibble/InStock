@@ -22,7 +22,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 CommandType = CommandType.StoredProcedure 
             };
 
-            command.Parameters.AddWithValue("@AccessToken", accessToken);
+            command.Parameters.AddWithValue("@TokenValue", accessToken);
             var storedToken = default(StoredAccessToken);
             ExecuteCommand(command, (reader) =>
             {
@@ -48,7 +48,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.AddWithValue("@IdentityToken", idToken);
+            command.Parameters.AddWithValue("@TokenValue", idToken);
             return GetStoredToken(command);
         }
 
@@ -70,7 +70,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.AddWithValue("@RefreshToken", refreshToken);
+            command.Parameters.AddWithValue("@TokenValue", refreshToken);
             var storedToken = default(StoredRefreshToken);
             ExecuteCommand(command, (reader) =>
             {
