@@ -78,11 +78,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommunicationService", "Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.CommunicationService.Abstraction", "InStock.Common.CommunicationService.Abstraction\InStock.Common.CommunicationService.Abstraction.csproj", "{E595303F-FAA9-4B69-8BEE-6CBD7DE4B7E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Core", "InStock.Backend.CommunicationService.Core\InStock.Backend.CommunicationService.Core.csproj", "{5A380A83-31B9-47A9-B1AF-5917BD60BB54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Core", "Source\InStock.Backend\CommunicationService\InStock.Backend.CommunicationService.Core\InStock.Backend.CommunicationService.Core.csproj", "{5A380A83-31B9-47A9-B1AF-5917BD60BB54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Data", "InStock.Backend.CommunicationService.Data\InStock.Backend.CommunicationService.Data.csproj", "{669AA6F4-7F64-491D-9ACC-E4A8ABD24314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService.Data", "Source\InStock.Backend\CommunicationService\InStock.Backend.CommunicationService.Data\InStock.Backend.CommunicationService.Data.csproj", "{669AA6F4-7F64-491D-9ACC-E4A8ABD24314}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService", "InStock.Backend.CommunicationService\InStock.Backend.CommunicationService.csproj", "{4C25FCD9-A6A9-4ABB-BE83-6F2D301F1675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Backend.CommunicationService", "Source\InStock.Backend\CommunicationService\InStock.Backend.CommunicationService\InStock.Backend.CommunicationService.csproj", "{4C25FCD9-A6A9-4ABB-BE83-6F2D301F1675}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryService", "InventoryService", "{0FF21B1C-99DE-4EEE-8C36-16B31EBB31B3}"
 EndProject
