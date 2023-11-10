@@ -48,15 +48,9 @@ namespace InStock.Backend.IdentityService.Core.Services
                     throw new CreateTokenException("Unable to Create Tokens");
                 }
 
-                var saveResult = await _tokenRepository
+                await _tokenRepository
                     .SaveTokensAsync(idToken, accessToken, refreshToken)
                     .ConfigureAwait(false);
-
-                if (!saveResult)
-                {
-                    // unable to save tokens
-                    throw new CreateTokenException("Unable to Save Created Tokens");
-                }
 
                 return new Result<GetTokenResponse>(new GetTokenResponse
                 {
@@ -109,9 +103,6 @@ namespace InStock.Backend.IdentityService.Core.Services
                 if (storedRefreshToken == default || storedAccessToken == default)
                 {
                     // invalid tokens. we haven't saved these in the db. 
-                    // TODO: Log this? How did these get here without
-                    // being saved in the db, but WERE created by us.
-                    // (The 'royal' us)
                     throw new CreateTokenException("Invalid Tokens. Tokens do not exist in Token Repo.");
                 }
 
@@ -143,14 +134,9 @@ namespace InStock.Backend.IdentityService.Core.Services
                 var newAccessToken = newAccessTokenTask.Result;
                 var newRefreshToken = newRefreshTokenTask.Result;
 
-                var saveResult = await _tokenRepository
+                await _tokenRepository
                     .SaveTokensAsync(idToken.TokenValue, newAccessToken!, newRefreshToken!)
                     .ConfigureAwait(false);
-
-                if (!saveResult)
-                {
-                    throw new CreateTokenException("Unable to save new tokens.");
-                }
 
                 _ = await _tokenRepository
                     .InvalidateTokensAsync(storedRefreshToken, storedAccessToken)

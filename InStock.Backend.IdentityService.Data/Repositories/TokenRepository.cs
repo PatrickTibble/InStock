@@ -118,7 +118,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             return Task.FromResult(result);
         }
 
-        public Task<bool> SaveTokensAsync(string idToken, string newAccessToken, string newRefreshToken)
+        public Task SaveTokensAsync(string idToken, string newAccessToken, string newRefreshToken)
         {
             var command = new SqlCommand("sp_SaveTokens")
             {
@@ -129,9 +129,9 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             command.Parameters.AddWithValue("@AccessToken", newAccessToken);
             command.Parameters.AddWithValue("@RefreshToken", newRefreshToken);
 
-            var result = ExecuteCommand(command);
+            ExecuteCommand(command);
 
-            return Task.FromResult(result);
+            return Task.CompletedTask;
         }
 
         public Task<bool> ValidateTokenAsync(string token)
@@ -143,14 +143,12 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
             command.Parameters.AddWithValue("@TokenValue", token);
 
-            var result = false;
-            ExecuteCommand(command, reader =>
-            {
-                if (reader.HasRows && reader.Read())
-                {
-                    result = reader.GetBoolean(0);
-                }
-            });
+            var returnParameter = command.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParameter.Direction = ParameterDirection.ReturnValue;
+
+            ExecuteCommand(command);
+
+            var result = returnParameter.Value != null && (int)returnParameter.Value == 1;
 
             return Task.FromResult(result);
         }
