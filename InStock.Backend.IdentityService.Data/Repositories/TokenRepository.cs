@@ -28,7 +28,6 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             {
                 if (reader.HasRows && reader.Read())
                 {
-                    // row: Id, IdentityTokenId, Invalidated, TokenValue
                     storedToken = new StoredAccessToken
                     {
                         Id = reader.GetInt32(0),
@@ -77,7 +76,6 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             {
                 if (reader.HasRows && reader.Read())
                 {
-                    // row: Id, AccessTokenId, Invalidated, TokenValue
                     storedToken = new StoredRefreshToken
                     {
                         Id = reader.GetInt32(0),
@@ -187,7 +185,6 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             {
                 if (reader.HasRows && reader.Read())
                 {
-                    // row: Id, Invalidated, TokenValue
                     storedToken = new StoredToken
                     {
                         Id = reader.GetInt32(0),
