@@ -17,7 +17,7 @@ namespace InStock.Frontend.Core.PageModels.Login
         private readonly ISettingsService _settingsService;
         private readonly IAlertService _alertService;
         private readonly INavigationService _navigationService;
-        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountManager _accountRepository;
 
         [ObservableProperty]
         private bool _isLoading;
@@ -29,7 +29,7 @@ namespace InStock.Frontend.Core.PageModels.Login
             INavigationService navigationService,
             IClientInfoService infoService,
             IAlertService alertService,
-            IAccountRepository accountRepository,
+            IAccountManager accountRepository,
             ISettingsService settingsService)
 		{
             _settingsService = settingsService;
