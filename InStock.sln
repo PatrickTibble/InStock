@@ -96,11 +96,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{9D4D0AB4-66D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoredProcedures", "StoredProcedures", "{9C3BE68D-9F7F-4043-B007-8427F185302C}"
 	ProjectSection(SolutionItems) = preProject
+		Solution Items\SQL\StoredProcedures\CreateAccountServerStoredProcedures.sql = Solution Items\SQL\StoredProcedures\CreateAccountServerStoredProcedures.sql
 		Solution Items\SQL\StoredProcedures\CreateIdentityServerStoredProcedures.sql = Solution Items\SQL\StoredProcedures\CreateIdentityServerStoredProcedures.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queries", "Queries", "{774905AC-391B-4854-810D-028ED2E78390}"
 	ProjectSection(SolutionItems) = preProject
+		Solution Items\SQL\Queries\CreateAccountServerTables.sql = Solution Items\SQL\Queries\CreateAccountServerTables.sql
 		Solution Items\SQL\Queries\CreateIdentityServerTables.sql = Solution Items\SQL\Queries\CreateIdentityServerTables.sql
 	EndProjectSection
 EndProject
