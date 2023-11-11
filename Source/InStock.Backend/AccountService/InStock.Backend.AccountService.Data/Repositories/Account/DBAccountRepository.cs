@@ -2,76 +2,107 @@
 using InStock.Common.AccountService.Abstraction.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace InStock.Backend.AccountService.Data.Repositories.Account
 {
     public class DBAccountRepository : IAccountRepository
     {
-        private readonly IConfiguration _configuration;
-
-        private const string TABLE_NAME = "[dbo].[Accounts]";
+        private readonly string _connectionString;
 
         public DBAccountRepository(IConfiguration configuration)
         {
-            _configuration = configuration;
+            _connectionString = configuration.GetConnectionString("AccountServer")!;
         }
-
-        public Task<bool> AddUserAsync(UserAccount user)
-        {
-            using var connection = GetConnection();
-            var command = new SqlCommand($"INSERT INTO {TABLE_NAME} (Username, FirstName, LastName) VALUES (@Username, @FirstName, @LastName)", connection);
-            command.Connection.Open();
-            command.Parameters.AddWithValue("@Username", user.Username);
-            command.Parameters.AddWithValue("@FirstName", user.FirstName);
-            command.Parameters.AddWithValue("@LastName", user.LastName);
-            return Task.FromResult(command.ExecuteNonQuery() > 0);
-        }
-
-        public Task<bool> DeleteUserAsync(UserAccount user)
-        {
-            return Task.FromResult(false);
-        }
-
-        public Task<UserAccount?> GetUserByIdAsync(int id)
-            => Task.FromResult(QueryUserAccount("Id", id));
 
         public Task<UserAccount?> GetUserByUsernameAsync(string? username)
-            => Task.FromResult(QueryUserAccount("Username", username));
-
-        public Task<bool> UpdateUserAsync(UserAccount user)
         {
-            var connection = GetConnection();
-            var command = new SqlCommand($"UPDATE {TABLE_NAME} SET Username = @Username, FirstName = @FirstName, LastName = @LastName WHERE Id = @Id", connection);
-            command.Connection.Open();
-            command.Parameters.AddWithValue("@Id", user.Id);
-            // Shouldn't be able to change username.. but maybe?
-            // command.Parameters.AddWithValue("@Username", user.Username);
-            command.Parameters.AddWithValue("@FirstName", user.FirstName);
-            command.Parameters.AddWithValue("@LastName", user.LastName);
-            return Task.FromResult(command.ExecuteNonQuery() > 0);
-        }
-
-        private SqlConnection GetConnection()
-            => new SqlConnection(_configuration.GetConnectionString("AccountServer"));
-
-        private UserAccount? QueryUserAccount<TValueType>(string paramName, TValueType value)
-        {
-            using var connection = GetConnection();
-            var command = new SqlCommand($"SELECT * FROM {TABLE_NAME} WHERE {paramName} = @{paramName}", connection);
-            command.Connection.Open();
-            command.Parameters.AddWithValue($"@{paramName}", value);
-            var reader = command.ExecuteReader();
-            if (reader.Read())
+            var command = new SqlCommand("sp_GetUserFromUsername")
             {
-                return new UserAccount
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@Username", username);
+
+            var user = default(UserAccount);
+            ExecuteCommand(command, reader =>
+            {
+                user = new UserAccount
                 {
                     Id = reader.GetInt32(0),
-                    Username = reader.GetString(1),
-                    FirstName = reader.GetString(2),
-                    LastName = reader.GetString(3)
+                    FirstName = reader.GetString(1),
+                    LastName = reader.GetString(2),
+                    Username = reader.GetString(3)
                 };
+            });
+
+            return Task.FromResult(user);
+        }
+
+        public Task AddUserAsync(string? firstName, string? lastName, string? username, byte[] hash, byte[] salt)
+        {
+            var command = new SqlCommand("sp_AddUserAndProfile")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@Username", username);
+            command.Parameters.AddWithValue("@PasswordHash", hash);
+            command.Parameters.AddWithValue("@PasswordSalt", salt);
+            command.Parameters.AddWithValue("@FirstName", firstName);
+            command.Parameters.AddWithValue("@LastName", lastName);
+
+            var id = 0;
+            ExecuteCommand(command);
+
+            return Task.CompletedTask;
+        }
+
+        public Task<HashedUser?> GetHashedUserByUsernameAsync(string? username)
+        {
+            var command = new SqlCommand("sp_GetHashedUserFromUsername")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@Username", username);
+
+            var user = default(HashedUser);
+            ExecuteCommand(command, reader =>
+            {
+                user = new HashedUser
+                {
+                    Username = reader.GetString(1),
+                    PasswordHash = reader.GetFieldValue<byte[]>(2),
+                    PasswordSalt = reader.GetFieldValue<byte[]>(3)
+                };
+            });
+
+            return Task.FromResult(user);
+        }
+
+        private void ExecuteCommand(SqlCommand command, Action<SqlDataReader>? callback = null)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            command.Connection = connection;
+            command.Connection.Open();
+            if (callback != null)
+            {
+                var reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        callback(reader);
+                    }
+                }
+                reader.Close();
             }
-            return default;
+            else
+            {
+                command.ExecuteNonQuery();
+            }
+            command.Connection.Close();
         }
     }
 }
