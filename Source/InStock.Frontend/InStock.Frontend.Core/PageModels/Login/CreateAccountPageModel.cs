@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InStock.Frontend.Abstraction.Repositories;
+using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Base;
@@ -12,7 +12,7 @@ namespace InStock.Frontend.Core.PageModels.Login
     public partial class CreateAccountPageModel : BasePageModel
 	{
         private readonly IAlertService _alertService;
-        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountManager _accountManager;
         private readonly INavigationService _navigationService;
 
         [ObservableProperty]
@@ -20,11 +20,11 @@ namespace InStock.Frontend.Core.PageModels.Login
 
 		public CreateAccountPageModel(
             INavigationService navigationService,
-            IAccountRepository accountRepository,
+            IAccountManager accountRepository,
             IAlertService alertService)
 		{
             _alertService = alertService;
-            _accountRepository = accountRepository;
+            _accountManager = accountRepository;
             _navigationService = navigationService;
 
 			FirstNameViewModel = new PrimaryEntryViewModel
@@ -77,7 +77,7 @@ namespace InStock.Frontend.Core.PageModels.Login
         {
             IsLoading = true;
 
-            var result = await _accountRepository
+            var result = await _accountManager
                 .CreateAccountAsync(
                     firstName: FirstNameViewModel.Text,
                     lastName: LastNameViewModel.Text,
@@ -85,7 +85,7 @@ namespace InStock.Frontend.Core.PageModels.Login
                     password: PasswordViewModel.Text)
                 .ConfigureAwait(false);
 
-            if (!result.AccountCreationSuccessful)
+            if (!result.Result)
             {
                 IsLoading = false;
 
