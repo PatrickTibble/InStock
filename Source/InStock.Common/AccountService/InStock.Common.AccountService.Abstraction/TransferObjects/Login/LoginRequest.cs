@@ -9,5 +9,6 @@ namespace InStock.Common.AccountService.Abstraction.TransferObjects.Login
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required")]
         public string? Password { get; set; }
+        public string ClientId { get; set; }
     }
 }

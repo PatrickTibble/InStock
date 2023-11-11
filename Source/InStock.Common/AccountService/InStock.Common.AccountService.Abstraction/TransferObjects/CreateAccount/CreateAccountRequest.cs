@@ -23,5 +23,6 @@ namespace InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccoun
         [MinLength(8, ErrorMessage = "Password must be at least 7 characters")]
         [MaxLength(50, ErrorMessage = "Password must be at most 50 characters")]
         public string? Password { get; set; }
+        public string ClientId { get; set; }
     }
 }
