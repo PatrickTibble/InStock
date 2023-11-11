@@ -68,6 +68,9 @@ public partial class App : Application
             BaseAddress = new Uri(Common.InventoryService.Abstraction.Constants.BaseUrl)
         }));
 
+        container.Register<IAccountManager, AccountManager>();
+        container.Register<ISettingsService, SettingsService>();
+        container.Register<ISettingsManager, SettingsManager>();
         container.Register<IInventoryRepository, InventoryRepository>();
     }
 
