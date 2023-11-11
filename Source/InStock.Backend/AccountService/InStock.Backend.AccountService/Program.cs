@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddSingleton<ILogger, LocalSessionLogger>()
+    .AddSingleton<IHashService, HmacSha512HashService>()
     .AddSingleton<IAccountRepository, DBAccountRepository>()
     .AddSingleton<IAccountService, AccountService>();
 
