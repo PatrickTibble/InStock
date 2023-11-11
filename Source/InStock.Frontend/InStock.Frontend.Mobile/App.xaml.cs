@@ -64,7 +64,6 @@ public partial class App : Application
 
         container.Register<IAccountRepository, AccountRepository>();
         container.Register<IInventoryRepository, InventoryRepository>();
-        container.Register<ISessionRepository, SessionRepository>();
     }
 
     private static void RegisterForNavigation()

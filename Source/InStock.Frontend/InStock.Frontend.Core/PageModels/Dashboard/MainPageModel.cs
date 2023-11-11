@@ -2,7 +2,6 @@
 using InStock.Common.Core.Extensions;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
-using InStock.Frontend.Core.Extensions;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Inventory;
 using InStock.Frontend.Core.PageModels.Login;
