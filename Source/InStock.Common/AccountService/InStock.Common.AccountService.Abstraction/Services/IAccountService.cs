@@ -8,7 +8,7 @@ namespace InStock.Common.AccountService.Abstraction.Services
     public interface IAccountService
     {
         [Post($"/{Constants.CreateAccount}")]
-        Task<Result<CreateAccountResponse>> CreateAccountAsync([Body] CreateAccountRequest request);
+        Task<Result<LoginResponse>> CreateAccountAsync([Body] CreateAccountRequest request);
 
         [Post($"/{Constants.Login}")]
         Task<Result<LoginResponse>> LoginAsync([Body] LoginRequest request);
