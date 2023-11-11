@@ -17,7 +17,6 @@
   <ItemGroup>
     <Folder Include="PageModels\" />
     <Folder Include="Services\Threading\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
