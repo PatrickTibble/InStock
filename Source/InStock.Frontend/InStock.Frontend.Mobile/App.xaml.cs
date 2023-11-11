@@ -57,12 +57,17 @@ public partial class App : Application
         container.Register<ITaskCancellationService, TaskCancellationService>();
         container.Register<IClientInfoService, ClientInfoService>();
 
-        var httpClient = new HttpClient();
         var apiRegistrar = new API.APIServiceRegistrar();
-        container.Register(apiRegistrar.GetService<IAccountService>(httpClient));
-        container.Register(apiRegistrar.GetService<IInventoryService>(httpClient));
+        container.Register(apiRegistrar.GetService<IAccountService>(new HttpClient()
+        {
+            BaseAddress = new Uri(Common.AccountService.Abstraction.Constants.BaseUrl)
+        }));
 
-        container.Register<IAccountRepository, AccountRepository>();
+        container.Register(apiRegistrar.GetService<IInventoryService>(new HttpClient()
+        {
+            BaseAddress = new Uri(Common.InventoryService.Abstraction.Constants.BaseUrl)
+        }));
+
         container.Register<IInventoryRepository, InventoryRepository>();
     }
 
