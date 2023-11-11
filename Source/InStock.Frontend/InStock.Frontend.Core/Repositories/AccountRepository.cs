@@ -3,6 +3,7 @@ using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
 using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Repositories;
+using InStock.Frontend.Abstraction.Services.Settings;
 using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.Extensions;
 
@@ -12,11 +13,16 @@ namespace InStock.Frontend.Core.Repositories
 	{
         private readonly IAccountService _accountService;
         private readonly CancellationToken _token;
+        private readonly ISettingsService _settingsService;
 
-        public AccountRepository(IAccountService accountService, ITaskCancellationService taskCancellationService)
+        public AccountRepository(
+            IAccountService accountService,
+            ISettingsService settingsService,
+            ITaskCancellationService taskCancellationService)
         {
             _accountService = accountService;
             _token = taskCancellationService.GetToken();
+            _settingsService = settingsService;
         }
 
         public async Task<CreateAccountResult> CreateAccountAsync(string? firstName, string? lastName, string? username, string? password)
@@ -36,9 +42,10 @@ namespace InStock.Frontend.Core.Repositories
             if (result.IsSuccessfulStatusCode()
                 && result.Data != null)
             {
+                // TODO: Save tokens
                 return new CreateAccountResult
                 {
-                    AccountCreationSuccessful = result.Data.Success
+                    AccountCreationSuccessful = true
                 };
             }
 

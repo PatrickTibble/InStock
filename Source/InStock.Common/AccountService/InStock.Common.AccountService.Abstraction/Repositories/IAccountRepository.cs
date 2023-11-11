@@ -4,10 +4,8 @@ namespace InStock.Common.AccountService.Abstraction.Repositories
 {
     public interface IAccountRepository
     {
-        Task<bool> AddUserAsync(UserAccount user);
-        Task<bool> DeleteUserAsync(UserAccount user);
-        Task<UserAccount?> GetUserByIdAsync(int id);
+        Task AddUserAsync(string? firstName, string? lastName, string? username, byte[] hash, byte[] salt);
+        Task<HashedUser?> GetHashedUserByUsernameAsync(string? username);
         Task<UserAccount?> GetUserByUsernameAsync(string? username);
-        Task<bool> UpdateUserAsync(UserAccount user);
     }
 }

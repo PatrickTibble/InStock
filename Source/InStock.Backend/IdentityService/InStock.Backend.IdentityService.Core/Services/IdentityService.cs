@@ -34,7 +34,9 @@ namespace InStock.Backend.IdentityService.Core.Services
                 var refreshTokenTask = _tokenService.CreateRefreshTokenAsync();
                 var idTokenTask = _tokenService.CreateIdentityTokenAsync(request.Username);
 
-                await Task.WhenAll(accessTokenTask, refreshTokenTask, idTokenTask);
+                await Task
+                    .WhenAll(accessTokenTask, refreshTokenTask, idTokenTask)
+                    .ConfigureAwait(false);
 
                 var accessToken = accessTokenTask.Result;
                 var refreshToken = refreshTokenTask.Result;

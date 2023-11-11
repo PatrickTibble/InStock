@@ -5,6 +5,7 @@ using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
+using InStock.Common.Models.Base;
 
 namespace InStock.Backend.IdentityService.Controllers
 {
@@ -21,7 +22,7 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.GetToken)]
-        [ProducesResponseType(typeof(GetTokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<GetTokenResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetTokenAsync(
             [FromBody] GetTokenRequest request)
@@ -40,7 +41,7 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.ValidateToken)]
-        [ProducesResponseType(typeof(ValidateTokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<ValidateTokenResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ValidateTokenAsync(
                        [FromBody] ValidateTokenRequest request)
@@ -59,7 +60,7 @@ namespace InStock.Backend.IdentityService.Controllers
 
         [HttpPost]
         [Route(Constants.RefreshToken)]
-        [ProducesResponseType(typeof(AccessRefreshTokenPair), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<AccessRefreshTokenPair>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshTokenAsync(
                        [FromBody] AccessRefreshTokenPair request)

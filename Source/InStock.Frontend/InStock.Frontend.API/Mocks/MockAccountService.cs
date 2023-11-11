@@ -12,10 +12,10 @@ namespace InStock.Frontend.API.Mocks
     {
         private bool _sessionIsActive = false;
 
-        public Task<Result<CreateAccountResponse>> CreateAccountAsync([Body] CreateAccountRequest request)
+        public Task<Result<LoginResponse>> CreateAccountAsync([Body] CreateAccountRequest request)
         {
             return Delay()
-                .ContinueWith(t => new Result<CreateAccountResponse>(new CreateAccountResponse
+                .ContinueWith(t => new Result<LoginResponse>(new LoginResponse
                 {
 
                 }));
