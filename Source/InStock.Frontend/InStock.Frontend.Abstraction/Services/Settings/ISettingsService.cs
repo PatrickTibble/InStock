@@ -2,7 +2,7 @@
 {
     public interface ISettingsService
     {
-        Task<T> GetValueOrDefaultAsync<T>(string key, T? defaultValue = default);
+        Task<T?> GetValueOrDefaultAsync<T>(string key, T? defaultValue = default);
 
         Task<bool> TrySetValueAsync<T>(string key, T value);
 
