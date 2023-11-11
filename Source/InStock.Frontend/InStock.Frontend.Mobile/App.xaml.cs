@@ -6,7 +6,6 @@ using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Threading;
-using InStock.Frontend.Core.Extensions;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Inventory;
 using InStock.Frontend.Core.PageModels.Login;
@@ -22,18 +21,22 @@ using InStock.Frontend.Core.Services.Platform;
 using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.InventoryService.Abstraction.Services;
 using InStock.Common.Core.Extensions;
+using InStock.Frontend.Core.Managers;
+using InStock.Frontend.Abstraction.Managers;
+using InStock.Frontend.Abstraction.Services.Settings;
+using InStock.Frontend.Mobile.Services.Settings;
 
 namespace InStock.Frontend.Mobile;
 
 public partial class App : Application
 {
-	public App()
-	{
+    public App()
+    {
         RegisterServices();
 
         RegisterForNavigation();
 
-		InitializeComponent();
+        InitializeComponent();
 
         InitializeNavigation();
     }
@@ -77,10 +80,19 @@ public partial class App : Application
     private static void RegisterForNavigation()
     {
         var locator = Resolver.Resolve<ILocator<Page>>();
-        locator.RegisterPageAndPageModel<LoginPage, LoginPageModel>();
+
+        //-- Dashboard
         locator.RegisterPageAndPageModel<CollectionViewPage, MainPageModel>();
-        locator.RegisterPageAndPageModel<CollectionViewPage, InventoryPageModel>();
-        locator.RegisterPageAndPageModel<ScannerPage, ScannerPageModel>();
+
+        //-- Inventory
         locator.RegisterPageAndPageModel<ItemDetailsPage, InventoryItemDetailsPageModel>();
+        locator.RegisterPageAndPageModel<CollectionViewPage, InventoryPageModel>();
+        
+        //-- Login
+        locator.RegisterPageAndPageModel<CreateAccountPage, CreateAccountPageModel>();
+        locator.RegisterPageAndPageModel<LoginPage, LoginPageModel>();
+
+        //-- Scanner
+        locator.RegisterPageAndPageModel<ScannerPage, ScannerPageModel>();
     }
 }
