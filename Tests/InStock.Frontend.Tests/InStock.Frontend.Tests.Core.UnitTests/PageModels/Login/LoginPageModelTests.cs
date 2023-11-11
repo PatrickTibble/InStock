@@ -1,5 +1,5 @@
-﻿using InStock.Frontend.Abstraction.Models;
-using InStock.Frontend.Abstraction.Repositories;
+﻿using InStock.Frontend.Abstraction.Managers;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
@@ -14,7 +14,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         private Mock<IAlertService> _alertService;
         private Mock<IClientInfoService> _clientInfoService;
         private Mock<INavigationService> _navigationService;
-        private Mock<IAccountRepository> _accountRepository;
+        private Mock<IAccountManager> _accountRepository;
         private Mock<ISettingsService> _settingsService;
         private SoftwareVersion _version;
         private LoginPageModel _pageModel;
@@ -25,7 +25,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
             _alertService = new Mock<IAlertService>();
             _clientInfoService = new Mock<IClientInfoService>();
             _navigationService = new Mock<INavigationService>();
-            _accountRepository = new Mock<IAccountRepository>();
+            _accountRepository = new Mock<IAccountManager>();
             _settingsService = new Mock<ISettingsService>();
 
             _version = new SoftwareVersion(1, 1, 0, 1);

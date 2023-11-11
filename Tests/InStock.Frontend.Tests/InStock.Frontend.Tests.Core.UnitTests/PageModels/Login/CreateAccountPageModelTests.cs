@@ -1,5 +1,5 @@
-﻿using InStock.Frontend.Abstraction.Models;
-using InStock.Frontend.Abstraction.Repositories;
+﻿using InStock.Frontend.Abstraction.Managers;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Login;
@@ -11,7 +11,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
     {
         private Mock<INavigationService> _navigationService;
         private Mock<IAlertService> _alertService;
-        private Mock<IAccountRepository> _accountRepository;
+        private Mock<IAccountManager> _accountRepository;
         private CreateAccountPageModel _pageModel;
 
         private string _anyString => It.IsAny<string>();
@@ -21,7 +21,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         {
             _navigationService = new Mock<INavigationService>();
             _alertService = new Mock<IAlertService>();
-            _accountRepository = new Mock<IAccountRepository>();
+            _accountRepository = new Mock<IAccountManager>();
 
             _pageModel = new CreateAccountPageModel(
                 navigationService: _navigationService.Object,
