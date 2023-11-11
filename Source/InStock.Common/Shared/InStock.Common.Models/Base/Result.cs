@@ -2,9 +2,14 @@
 {
     public class Result<T> where T : class
     {
-        public int StatusCode { get; }
-        public T? Data { get; }
-        public string? Error { get; }
+        public int StatusCode { get; set; }
+        public T? Data { get; set; }
+        public string? Error { get; set; }
+
+        public Result()
+        {
+
+        }
 
         public Result(int statusCode, T? data, string? error)
         {
