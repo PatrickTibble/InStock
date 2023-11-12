@@ -22,6 +22,8 @@ namespace InStock.Frontend.Core.Managers
 
         public async Task<BooleanResult> CreateAccountAsync(string? firstName, string? lastName, string? username, string? password)
         {
+            try
+            {
             var deviceId = await _settingsManager
                 .GetDeviceIdAsync()
                 .ConfigureAwait(false);
@@ -55,6 +57,15 @@ namespace InStock.Frontend.Core.Managers
             }
 
             return result.ToBooleanResult();
+        }
+            catch (Exception ex)
+            {
+                return new BooleanResult
+                {
+                    Result = false,
+                    ErrorMessage = ex.Message
+                };
+            }
         }
 
         public async Task<BooleanResult> LoginAsync(string? username, string? password)
