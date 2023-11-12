@@ -63,17 +63,20 @@ public partial class App : Application
         var apiRegistrar = new API.APIServiceRegistrar();
         container.Register(apiRegistrar.GetService<IAccountService>(new HttpClient()
         {
-            BaseAddress = new Uri(Common.AccountService.Abstraction.Constants.BaseUrl)
+            BaseAddress = new Uri(Common.AccountService.Abstraction.Constants.BaseUrl),
+            Timeout = TimeSpan.FromSeconds(10)
         }));
 
         container.Register(apiRegistrar.GetService<IInventoryService>(new HttpClient()
         {
-            BaseAddress = new Uri(Common.InventoryService.Abstraction.Constants.BaseUrl)
+            BaseAddress = new Uri(Common.InventoryService.Abstraction.Constants.BaseUrl),
+            Timeout = TimeSpan.FromSeconds(10)
         }));
 
         container.Register<IAccountManager, AccountManager>();
         container.Register<ISettingsService, SettingsService>();
         container.Register<ISettingsManager, SettingsManager>();
+        container.Register<ISessionManager, SessionManager>();
         container.Register<IInventoryRepository, InventoryRepository>();
     }
 

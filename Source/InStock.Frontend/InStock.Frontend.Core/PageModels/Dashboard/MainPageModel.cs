@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using InStock.Common.Core.Extensions;
-using InStock.Frontend.Abstraction.Repositories;
+using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Inventory;
@@ -14,14 +14,14 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
 {
 	public class MainPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
 	{
-        private readonly ISessionRepository _sessionRepository;
+        private readonly ISessionManager _sessionManager;
         private readonly INavigationService _navigationService;
 
         public MainPageModel(
             INavigationService navigationService,
-            ISessionRepository sessionRepository)
+            ISessionManager sessionManager)
 		{
-            _sessionRepository = sessionRepository;
+            _sessionManager = sessionManager;
             _navigationService = navigationService;
 
             HeaderViewModel = new MainPageHeaderViewModel()
@@ -51,8 +51,8 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
 
         private async Task VerifyUserSessionAsync()
         {
-            var sessionStatus = await _sessionRepository.GetSessionStateAsync().ConfigureAwait(false);
-            if (!sessionStatus.IsValid)
+            var sessionStatus = await _sessionManager.ValidateSessionAsync().ConfigureAwait(false);
+            if (!sessionStatus)
             {
                 await _navigationService.NavigateToAsync<LoginPageModel>().ConfigureAwait(false);
             }
