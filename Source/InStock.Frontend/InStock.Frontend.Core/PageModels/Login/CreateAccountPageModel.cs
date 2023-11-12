@@ -48,6 +48,12 @@ namespace InStock.Frontend.Core.PageModels.Login
                 IsPassword = true
             };
 
+            ConfirmPasswordViewModel = new PrimaryEntryViewModel
+            {
+                Placeholder = Strings.Placeholder_Confirm_Password,
+                IsPassword = true
+            };
+
             CancelViewModel = new ButtonViewModel
             {
                 Title = Strings.ButtonTitle_Cancel,
@@ -68,6 +74,8 @@ namespace InStock.Frontend.Core.PageModels.Login
         public PrimaryEntryViewModel UsernameViewModel { get; }
 
         public PrimaryEntryViewModel PasswordViewModel { get; }
+
+        public PrimaryEntryViewModel ConfirmPasswordViewModel { get; }
 
         public ButtonViewModel CancelViewModel { get; }
 
