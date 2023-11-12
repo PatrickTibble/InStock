@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using InStock.Common.Models.Base;
+using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Models;
-using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
@@ -14,10 +15,9 @@ namespace InStock.Frontend.Core.PageModels.Login
 {
     public partial class LoginPageModel : BasePageModel
 	{
-        private readonly ISettingsService _settingsService;
         private readonly IAlertService _alertService;
         private readonly INavigationService _navigationService;
-        private readonly IAccountManager _accountRepository;
+        private readonly IAccountManager _accountManager;
 
         [ObservableProperty]
         private bool _isLoading;
@@ -29,13 +29,11 @@ namespace InStock.Frontend.Core.PageModels.Login
             INavigationService navigationService,
             IClientInfoService infoService,
             IAlertService alertService,
-            IAccountManager accountRepository,
-            ISettingsService settingsService)
+            IAccountManager accountManager)
 		{
-            _settingsService = settingsService;
             _alertService = alertService;
             _navigationService = navigationService;
-            _accountRepository = accountRepository;
+            _accountManager = accountManager;
 
             AppVersion = infoService.AppVersion.ToString();
 
@@ -74,16 +72,12 @@ namespace InStock.Frontend.Core.PageModels.Login
         private async Task TryLoginWithCredentialsAsync()
         {
             IsLoading = true;
-            var loginResult = await _accountRepository
+            var loginResult = await _accountManager
                 .LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text)
                 .ConfigureAwait(false);
 
-            if (!string.IsNullOrWhiteSpace(loginResult.AccessToken))
+            if (!loginResult.Result)
             {
-                _ = await _settingsService
-                    .TrySetValueAsync(nameof(LoginResult.AccessToken), loginResult.AccessToken)
-                    .ConfigureAwait(false);
-
                 await _navigationService
                     .PopAsync()
                     .ConfigureAwait(false);
