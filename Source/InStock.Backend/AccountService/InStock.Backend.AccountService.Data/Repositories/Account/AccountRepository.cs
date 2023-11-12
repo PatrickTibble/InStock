@@ -6,11 +6,11 @@ using System.Data;
 
 namespace InStock.Backend.AccountService.Data.Repositories.Account
 {
-    public class DBAccountRepository : IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly string _connectionString;
 
-        public DBAccountRepository(IConfiguration configuration)
+        public AccountRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("AccountServer")!;
         }
@@ -103,6 +103,22 @@ namespace InStock.Backend.AccountService.Data.Repositories.Account
                 command.ExecuteNonQuery();
             }
             command.Connection.Close();
+        }
+
+        public Task AddUserClientAsync(string username, string clientId, string identityToken)
+        {
+            var command = new SqlCommand("sp_AddUserClient")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@Username", username);
+            command.Parameters.AddWithValue("@ClientId", clientId);
+            command.Parameters.AddWithValue("@IdentityToken", identityToken);
+
+            ExecuteCommand(command);
+
+            return Task.CompletedTask;
         }
     }
 }
