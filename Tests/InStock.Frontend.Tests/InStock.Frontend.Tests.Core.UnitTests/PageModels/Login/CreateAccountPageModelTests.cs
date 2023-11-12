@@ -88,7 +88,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void ConfirmViewModel_CreateAccountAsync_FailsAndAlerts()
         {
-            var result = new CreateAccountResult();
+            var result = new BooleanResult();
 
             _ = _alertService
                 .Setup(a => a.ShowServiceAlert(_anyString, _anyString, _anyString))
@@ -114,9 +114,9 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void ConfirmViewModel_CreateAccountAsync_SucceedsAndNavigates()
         {
-            var result = new CreateAccountResult
+            var result = new BooleanResult
             {
-                AccountCreationSuccessful = true
+                Result = true
             };
 
             _ = _alertService

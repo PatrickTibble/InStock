@@ -89,7 +89,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void TryLogin_Fail_DoesNotNavigate()
         {
-            var loginResult = new LoginResult();
+            var loginResult = new BooleanResult();
             _ = _accountRepository
                 .Setup(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(loginResult));
@@ -107,9 +107,9 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         [Test]
         public void TryLogin_Success_PopsNavigation()
         {
-            var loginResult = new LoginResult
+            var loginResult = new BooleanResult
             {
-                AccessToken = "123"
+                Result = true
             };
 
             _ = _accountRepository
