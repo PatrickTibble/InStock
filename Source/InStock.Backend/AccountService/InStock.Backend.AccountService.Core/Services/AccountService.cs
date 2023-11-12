@@ -12,10 +12,10 @@ namespace InStock.Backend.AccountService.Core.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IHashService _hashService;
         private readonly ILogger _logger;
-        private readonly IAccountRepository _accountRepository;
+        private readonly IHashService _hashService;
         private readonly IIdentityService _identityService;
+        private readonly IAccountRepository _accountRepository;
 
         public AccountService(
             IHashService hasService,
@@ -23,10 +23,10 @@ namespace InStock.Backend.AccountService.Core.Services
             IAccountRepository accountRepository,
             ILogger logger)
         {
-            _hashService = hasService;
             _logger = logger;
-            _accountRepository = accountRepository;
+            _hashService = hasService;
             _identityService = identityService;
+            _accountRepository = accountRepository;
         }
 
         public async Task<Result<LoginResponse>> CreateAccountAsync(CreateAccountRequest request)
@@ -52,31 +52,20 @@ namespace InStock.Backend.AccountService.Core.Services
                     hash,
                     salt);
 
-                var getTokenTask = _identityService.GetTokenAsync(new GetTokenRequest
-                {
-                    Username = request.Username!
-                });
+                var getTokenTask = GetUserTokensAsync(request.Username!, request.ClientId);
 
-                await Task
-                    .WhenAll(addUserTask, getTokenTask)
+                await Task.WhenAll(addUserTask, getTokenTask)
                     .ConfigureAwait(false);
 
-                var tokenPair = getTokenTask.Result;
-
-                if (tokenPair.StatusCode == 200 && tokenPair.Data != null)
+                if (getTokenTask.Result.StatusCode == 200)
                 {
-                    return new Result<LoginResponse>(new LoginResponse
-                    {
-                        AccessToken = tokenPair.Data?.AccessToken,
-                        RefreshToken = tokenPair.Data?.RefreshToken
-                    });
+                    return getTokenTask.Result;
                 }
 
                 return new Result<LoginResponse>(201, "Account was created successfully. You may now log in.");
             }
             catch (Exception ex)
             {
-                // log it
                 await _logger
                     .LogExceptionAsync(ex)
                     .ConfigureAwait(false);
@@ -89,43 +78,18 @@ namespace InStock.Backend.AccountService.Core.Services
         {
             try
             {
-                _hashService.CreateHash(request.Password!, out var hash, out var salt);
-                request.Password = null;
-
-                var hashedUser = await _accountRepository
-                    .GetHashedUserByUsernameAsync(request.Username)
+                var credentialsResult = await VerifyUserCredentials(request)
                     .ConfigureAwait(false);
 
-                if (hashedUser == default)
+                if (credentialsResult != null)
                 {
-                    return new Result<LoginResponse>(401, "Invalid username or password.");
+                    return credentialsResult;
                 }
 
-                var loginResult = _hashService.VerifyHash(request.Password!, hashedUser.PasswordHash!, hashedUser.PasswordSalt!);
-
-                if (!loginResult)
-                {
-                    return new Result<LoginResponse>(401, "Invalid username or password.");
-                }
-
-                var tokenPair = await _identityService.
-                    GetTokenAsync(new GetTokenRequest
-                    {
-                        Username = request.Username!
-                    })
+                var tokenResult = await GetUserTokensAsync(request.Username!, request.ClientId)
                     .ConfigureAwait(false);
 
-                if (tokenPair.StatusCode != 200 || tokenPair.Data == null)
-                {
-                    return new Result<LoginResponse>(tokenPair.StatusCode, "Unable to login at this time.");
-                }
-
-                return new Result<LoginResponse>(new LoginResponse
-                {
-                    AccessToken = tokenPair.Data.AccessToken,
-                    RefreshToken = tokenPair.Data.RefreshToken
-                });
-
+                return tokenResult;
             }
             catch (Exception ex)
             {
@@ -135,6 +99,56 @@ namespace InStock.Backend.AccountService.Core.Services
             }
 
             return new Result<LoginResponse>(500, "Unable to login at this time.");
+        }
+
+        private async Task<Result<LoginResponse>?> VerifyUserCredentials(LoginRequest request)
+        {
+            var hashedUser = await _accountRepository
+                .GetHashedUserByUsernameAsync(request.Username)
+                .ConfigureAwait(false);
+
+            if (hashedUser == default)
+            {
+                request.Password = null;
+                return new Result<LoginResponse>(401, "Invalid username or password.");
+            }
+
+            var loginResult = _hashService.VerifyHash(request.Password!, hashedUser.PasswordHash!, hashedUser.PasswordSalt!);
+            request.Password = null;
+
+            if (!loginResult)
+            {
+                return new Result<LoginResponse>(401, "Invalid username or password.");
+            }
+
+            return null;
+        }
+
+        private async Task<Result<LoginResponse>> GetUserTokensAsync(string username, string clientId)
+        {
+            var tokenPair = await _identityService.
+                    GetTokenAsync(new GetTokenRequest
+                    {
+                        Username = username
+                    })
+                    .ConfigureAwait(false);
+
+            if (tokenPair.StatusCode != 200 || tokenPair.Data == null)
+            {
+                return new Result<LoginResponse>(tokenPair.StatusCode, "Unable to login at this time.");
+            }
+
+            await _accountRepository
+                .AddUserClientAsync(username, clientId, tokenPair.Data.IdentityToken!)
+                .ConfigureAwait(false);
+
+            // TODO: Tell IDS to Invalidate any previous identity tokens/families for this client/user combination.
+
+            return new Result<LoginResponse>(new LoginResponse
+            {
+                AccessToken = tokenPair.Data.AccessToken,
+                RefreshToken = tokenPair.Data.RefreshToken
+            });
         }
     }
 }
