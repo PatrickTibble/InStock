@@ -24,40 +24,36 @@ namespace InStock.Frontend.Core.Managers
         {
             try
             {
-            var deviceId = await _settingsManager
+                var deviceId = await _settingsManager
                 .GetDeviceIdAsync()
                 .ConfigureAwait(false);
 
-            var request = new CreateAccountRequest
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Username = username,
-                Password = password,
-                ClientId = deviceId
-            };
+                var request = new CreateAccountRequest
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Username = username,
+                    Password = password,
+                    ClientId = deviceId
+                };
 
-            var result = await _accountService
-                .CreateAccountAsync(request)
-                .ConfigureAwait(false);
+                var result = await _accountService
+                    .CreateAccountAsync(request)
+                    .ConfigureAwait(false);
 
-            if (!result.IsSuccessfulStatusCode())
-            {
+                if (!result.IsSuccessfulStatusCode())
+                {
+                    return result.ToBooleanResult();
+                }
+
+                if (result.Data != null)
+                {
+                    await SaveTokens(result.Data)
+                        .ConfigureAwait(false);
+                }
+
                 return result.ToBooleanResult();
             }
-
-            if (result.Data != null)
-            {
-                var accessTokenTask = _settingsManager.GetAccessTokenAsync();
-                var refreshTokenTask = _settingsManager.GetRefreshTokenAsync();
-
-                await Task
-                    .WhenAll(accessTokenTask, refreshTokenTask)
-                    .ConfigureAwait(false);
-            }
-
-            return result.ToBooleanResult();
-        }
             catch (Exception ex)
             {
                 return new BooleanResult
@@ -87,15 +83,19 @@ namespace InStock.Frontend.Core.Managers
 
             if (result.IsSuccessfulStatusCode() && result.Data != null)
             {
-                var accessTokenTask = _settingsManager.SetAccessTokenAsync(result.Data.AccessToken);
-                var refreshTokenTask = _settingsManager.SetRefreshTokenAsync(result.Data.RefreshToken);
-
-                await Task
-                    .WhenAll(accessTokenTask, refreshTokenTask)
+                await SaveTokens(result.Data)
                     .ConfigureAwait(false);
             }
 
             return result.ToBooleanResult();
+        }
+
+        private Task SaveTokens(LoginResponse response)
+        {
+            var accessTokenTask = _settingsManager.SetAccessTokenAsync(response.AccessToken);
+            var refreshTokenTask = _settingsManager.SetRefreshTokenAsync(response.RefreshToken);
+
+            return Task.WhenAll(accessTokenTask, refreshTokenTask);
         }
     }
 }
