@@ -180,4 +180,7 @@
   <data name="ButtonTitle_CreateAccount" xml:space="preserve">
     <value>create an account</value>
   </data>
+  <data name="Placeholder_Confirm_Password" xml:space="preserve">
+    <value>confirm password</value>
+  </data>
 </root>

@@ -205,6 +205,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to confirm password.
+        /// </summary>
+        internal static string Placeholder_Confirm_Password {
+            get {
+                return ResourceManager.GetString("Placeholder_Confirm_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to first name.
         /// </summary>
         internal static string Placeholder_FirstName {
