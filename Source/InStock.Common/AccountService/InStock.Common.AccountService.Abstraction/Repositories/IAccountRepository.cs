@@ -7,7 +7,6 @@ namespace InStock.Common.AccountService.Abstraction.Repositories
         Task AddUserAsync(string? firstName, string? lastName, string? username, byte[] hash, byte[] salt);
         Task<HashedUser?> GetHashedUserByUsernameAsync(string? username);
         Task<UserAccount?> GetUserByUsernameAsync(string? username);
-        Task AddUserClientAsync(string username, string clientId, string identityToken);
         Task AddUserTokenForClientAsync(string username, Guid clientId, string clientName, string clientDescription, string identityToken);
         Task<IList<string>> GetUserTokensForClientAsync(Guid guid);
     }
