@@ -3,8 +3,10 @@ using InStock.Common.AccountService.Abstraction.Repositories;
 using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
+using InStock.Common.Core.Extensions;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.InvalidateToken;
 using InStock.Common.Models.Base;
 using Refit;
 
@@ -52,7 +54,7 @@ namespace InStock.Backend.AccountService.Core.Services
                     hash,
                     salt);
 
-                var getTokenTask = GetUserTokensAsync(request.Username!, request.ClientId);
+                var getTokenTask = GetUserTokensAsync(request);
 
                 await Task.WhenAll(addUserTask, getTokenTask)
                     .ConfigureAwait(false);
@@ -86,7 +88,7 @@ namespace InStock.Backend.AccountService.Core.Services
                     return credentialsResult;
                 }
 
-                var tokenResult = await GetUserTokensAsync(request.Username!, request.ClientId)
+                var tokenResult = await GetUserTokensAsync(request)
                     .ConfigureAwait(false);
 
                 return tokenResult;
@@ -124,12 +126,12 @@ namespace InStock.Backend.AccountService.Core.Services
             return null;
         }
 
-        private async Task<Result<LoginResponse>> GetUserTokensAsync(string username, string clientId)
+        private async Task<Result<LoginResponse>> GetUserTokensAsync(LoginRequest request)
         {
             var tokenPair = await _identityService.
                     GetTokenAsync(new GetTokenRequest
                     {
-                        Username = username
+                        Username = request.Username!
                     })
                     .ConfigureAwait(false);
 
@@ -138,11 +140,25 @@ namespace InStock.Backend.AccountService.Core.Services
                 return new Result<LoginResponse>(tokenPair.StatusCode, "Unable to login at this time.");
             }
 
-            await _accountRepository
-                .AddUserClientAsync(username, clientId, tokenPair.Data.IdentityToken!)
+            var currentTokensForClient = await _accountRepository
+                .GetUserTokensForClientAsync(request.ClientId!)
                 .ConfigureAwait(false);
 
-            // TODO: Tell IDS to Invalidate any previous identity tokens/families for this client/user combination.
+            await _accountRepository
+                .AddUserTokenForClientAsync(
+                    request.Username!,
+                    request.ClientId!,
+                    request.ClientName!,
+                    request.ClientDescription!,
+                    tokenPair.Data.IdentityToken!)
+                .ConfigureAwait(false);
+
+            _identityService
+                .InvalidateTokenAsync(new InvalidateTokenRequest
+                {
+                    IdentityTokens = currentTokensForClient
+                })
+                .FireAndForgetSafeAsync();
 
             return new Result<LoginResponse>(new LoginResponse
             {
