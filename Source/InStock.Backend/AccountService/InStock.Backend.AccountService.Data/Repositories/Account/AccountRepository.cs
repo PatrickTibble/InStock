@@ -1,4 +1,6 @@
-﻿using InStock.Common.AccountService.Abstraction.Entities;
+﻿using InStock.Backend.Utilities.DatabaseHelper;
+using InStock.Common.Abstraction.Converters;
+using InStock.Common.AccountService.Abstraction.Entities;
 using InStock.Common.AccountService.Abstraction.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +11,14 @@ namespace InStock.Backend.AccountService.Data.Repositories.Account
     public class AccountRepository : IAccountRepository
     {
         private readonly string _connectionString;
+        private readonly IExecutor<SqlCommand, SqlDataReader> _executor;
+        private readonly IConverter<SqlDataReader> _converter;
 
         public AccountRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("AccountServer")!;
+            _executor = new CommandExecutor(_connectionString);
+            _converter = new SqlDataReaderRowConverter();
         }
 
         public Task<UserAccount?> GetUserByUsernameAsync(string? username)
@@ -24,17 +30,9 @@ namespace InStock.Backend.AccountService.Data.Repositories.Account
 
             command.Parameters.AddWithValue("@Username", username);
 
-            var user = default(UserAccount);
-            ExecuteCommand(command, reader =>
-            {
-                user = new UserAccount
-                {
-                    Id = reader.GetInt32(0),
-                    FirstName = reader.GetString(1),
-                    LastName = reader.GetString(2),
-                    Username = reader.GetString(3)
-                };
-            });
+            var user = _executor
+                .Execute<UserAccount>(command, _converter)
+                .FirstOrDefault();
 
             return Task.FromResult(user);
         }
@@ -52,8 +50,7 @@ namespace InStock.Backend.AccountService.Data.Repositories.Account
             command.Parameters.AddWithValue("@FirstName", firstName);
             command.Parameters.AddWithValue("@LastName", lastName);
 
-            var id = 0;
-            ExecuteCommand(command);
+            _executor.Execute(command);
 
             return Task.CompletedTask;
         }
@@ -67,58 +64,44 @@ namespace InStock.Backend.AccountService.Data.Repositories.Account
 
             command.Parameters.AddWithValue("@Username", username);
 
-            var user = default(HashedUser);
-            ExecuteCommand(command, reader =>
-            {
-                user = new HashedUser
-                {
-                    Username = reader.GetString(1),
-                    PasswordHash = reader.GetFieldValue<byte[]>(2),
-                    PasswordSalt = reader.GetFieldValue<byte[]>(3)
-                };
-            });
+            var user = _executor
+                .Execute<HashedUser>(command, _converter)
+                .FirstOrDefault();
 
             return Task.FromResult(user);
         }
 
-        private void ExecuteCommand(SqlCommand command, Action<SqlDataReader>? callback = null)
+        public Task AddUserTokenForClientAsync(string username, Guid clientId, string clientName, string clientDescription, string identityToken)
         {
-            using var connection = new SqlConnection(_connectionString);
-            command.Connection = connection;
-            command.Connection.Open();
-            if (callback != null)
-            {
-                var reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        callback(reader);
-                    }
-                }
-                reader.Close();
-            }
-            else
-            {
-                command.ExecuteNonQuery();
-            }
-            command.Connection.Close();
-        }
-
-        public Task AddUserClientAsync(string username, string clientId, string identityToken)
-        {
-            var command = new SqlCommand("sp_AddUserClient")
+            var command = new SqlCommand("sp_AddUserTokenForClient")
             {
                 CommandType = CommandType.StoredProcedure
             };
 
             command.Parameters.AddWithValue("@Username", username);
             command.Parameters.AddWithValue("@ClientId", clientId);
+            command.Parameters.AddWithValue("@ClientName", clientName);
+            command.Parameters.AddWithValue("@ClientDescription", clientDescription);
             command.Parameters.AddWithValue("@IdentityToken", identityToken);
 
-            ExecuteCommand(command);
+            _executor.Execute(command);
 
             return Task.CompletedTask;
+        }
+
+        public Task<IList<string>> GetUserTokensForClientAsync(Guid guid)
+        {
+            var command = new SqlCommand("sp_GetUserTokensForClient")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            command.Parameters.AddWithValue("@ClientId", guid);
+
+            var tokens = _executor
+                .Execute<string>(command, _converter);
+
+            return Task.FromResult(tokens);
         }
     }
 }
