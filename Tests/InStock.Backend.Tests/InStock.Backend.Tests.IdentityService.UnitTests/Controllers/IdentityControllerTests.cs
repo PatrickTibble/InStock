@@ -7,6 +7,7 @@ using Moq;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using Microsoft.AspNetCore.Http;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.InvalidateToken;
 
 namespace InStock.Backend.Tests.IdentityService.UnitTests.Controllers
 {
@@ -138,6 +139,45 @@ namespace InStock.Backend.Tests.IdentityService.UnitTests.Controllers
                 Assert.That((result as ObjectResult)?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
                 Assert.That((result as ObjectResult)?.Value, Is.Not.Null);
                 Assert.That((result as ObjectResult)?.Value, Is.InstanceOf<Base.Result<AccessRefreshTokenPair>>());
+            });
+        }
+
+        [Test]
+        public async Task InvalidateTokenAsync_InvalidModel_ReturnsBadRequest()
+        {
+            // Arrange
+            _controller.ModelState.AddModelError("error", "error");
+
+            // Act
+            var result = await _controller
+                .InvalidateTokenAsync(new InvalidateTokenRequest())
+                .ConfigureAwait(false);
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        }
+
+        [Test]
+        public async Task InvalidateTokenAsync_ValidModel_ReturnsOk()
+        {
+            // Arrange
+            _identityService
+                .Setup(x => x.InvalidateTokenAsync(It.IsAny<InvalidateTokenRequest>()))
+                .ReturnsAsync(new Base.Result<InvalidateTokenResponse>(new InvalidateTokenResponse()));
+
+            // Act
+            var result = await _controller
+                .InvalidateTokenAsync(new InvalidateTokenRequest())
+                .ConfigureAwait(false);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result, Is.InstanceOf<ObjectResult>());
+                Assert.That((result as ObjectResult)?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+                Assert.That((result as ObjectResult)?.Value, Is.Not.Null);
+                Assert.That((result as ObjectResult)?.Value, Is.InstanceOf<Base.Result<InvalidateTokenResponse>>());
             });
         }
     }
