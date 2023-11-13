@@ -3,6 +3,7 @@
     public static class Constants
     {
         public const string GetToken = "api/v1/Identity/Token";
+        public const string InvalidateToken = "api/v1/Identity/Invalidate";
         public const string ValidateToken = "api/v1/Identity/Validate";
         public const string RefreshToken = "api/v1/Identity/Refresh";
 
