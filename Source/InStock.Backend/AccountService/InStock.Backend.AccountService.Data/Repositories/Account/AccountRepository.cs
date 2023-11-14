@@ -1,4 +1,5 @@
-﻿using InStock.Backend.Utilities.DatabaseHelper;
+﻿using InStock.Backend.AccountService.Data.DataModels;
+using InStock.Backend.Utilities.DatabaseHelper;
 using InStock.Common.Abstraction.Converters;
 using InStock.Common.AccountService.Abstraction.Entities;
 using InStock.Common.AccountService.Abstraction.Repositories;
@@ -99,9 +100,9 @@ namespace InStock.Backend.AccountService.Data.Repositories.Account
             command.Parameters.AddWithValue("@ClientId", guid);
 
             var tokens = _executor
-                .Execute<string>(command, _converter);
+                .Execute<IdentityTokenDTO>(command, _converter);
 
-            return Task.FromResult(tokens);
+            return Task.FromResult<IList<string>>(tokens.Select(t => t.IdentityToken!)?.ToList() ?? new List<string>());
         }
     }
 }
