@@ -1,4 +1,6 @@
-﻿using InStock.Common.IdentityService.Abstraction.Entities;
+﻿using InStock.Backend.Utilities.DatabaseHelper;
+using InStock.Common.Abstraction.Converters;
+using InStock.Common.IdentityService.Abstraction.Entities;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +11,14 @@ namespace InStock.Backend.IdentityService.Data.Repositories
     public class TokenRepository : ITokenRepository
     {
         private readonly string _connectionString;
+        private readonly IExecutor<SqlCommand, SqlDataReader> _executor;
+        private readonly IConverter<SqlDataReader> _converter;
 
         public TokenRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("IdentityServer")!;
+            _executor = new CommandExecutor(_connectionString);
+            _converter = new SqlDataReaderRowConverter();
         }
 
         public Task<StoredAccessToken?> GetAccessTokenAsync(string accessToken)
@@ -23,20 +29,10 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             };
 
             command.Parameters.AddWithValue("@TokenValue", accessToken);
-            var storedToken = default(StoredAccessToken);
-            ExecuteCommand(command, (reader) =>
-            {
-                if (reader.HasRows && reader.Read())
-                {
-                    storedToken = new StoredAccessToken
-                    {
-                        Id = reader.GetInt32(0),
-                        IdentityTokenId = reader.GetInt32(1),
-                        Invalidated = reader.GetBoolean(2),
-                        TokenValue = reader.GetString(3)
-                    };
-                }
-            });
+
+            var storedToken = _executor
+                .Execute<StoredAccessToken>(command, _converter)?
+                .FirstOrDefault();
 
             return Task.FromResult(storedToken);
         }
@@ -49,6 +45,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             };
 
             command.Parameters.AddWithValue("@TokenValue", idToken);
+
             return GetStoredToken(command);
         }
 
@@ -60,6 +57,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             };
 
             command.Parameters.AddWithValue("@IdentityTokenId", identityTokenId);
+
             return GetStoredToken(command);
         }
 
@@ -71,20 +69,10 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             };
 
             command.Parameters.AddWithValue("@TokenValue", refreshToken);
-            var storedToken = default(StoredRefreshToken);
-            ExecuteCommand(command, (reader) =>
-            {
-                if (reader.HasRows && reader.Read())
-                {
-                    storedToken = new StoredRefreshToken
-                    {
-                        Id = reader.GetInt32(0),
-                        AccessTokenId = reader.GetInt32(1),
-                        Invalidated = reader.GetBoolean(2),
-                        TokenValue = reader.GetString(3)
-                    };
-                }
-            });
+
+            var storedToken = _executor
+                .Execute<StoredRefreshToken>(command, _converter)?
+                .FirstOrDefault();
 
             return Task.FromResult(storedToken);
         }
@@ -111,7 +99,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
                 command.Parameters.AddWithValue("@IdentityTokenId", storedToken.Id);
             }
 
-            ExecuteCommand(command);
+            _executor.Execute(command);
 
             return Task.CompletedTask;
         }
@@ -126,7 +114,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             command.Parameters.AddWithValue("@RefreshTokenId", storedRefreshToken.Id);
             command.Parameters.AddWithValue("@AccessTokenId", storedAccessToken.Id);
 
-            var result = ExecuteCommand(command);
+            var result = _executor.Execute(command) > 0;
 
             return Task.FromResult(result);
         }
@@ -142,7 +130,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             command.Parameters.AddWithValue("@AccessToken", newAccessToken);
             command.Parameters.AddWithValue("@RefreshToken", newRefreshToken);
 
-            ExecuteCommand(command);
+            _executor.Execute(command);
 
             return Task.CompletedTask;
         }
@@ -159,49 +147,18 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             var returnParameter = command.Parameters.Add("@ReturnVal", SqlDbType.Int);
             returnParameter.Direction = ParameterDirection.ReturnValue;
 
-            ExecuteCommand(command);
+            _executor.Execute(command);
 
             var result = returnParameter.Value != null && (int)returnParameter.Value == 1;
 
             return Task.FromResult(result);
         }
 
-        private bool ExecuteCommand(SqlCommand command, Action<SqlDataReader>? callback = null)
-        {
-            using var connection = new SqlConnection(_connectionString);
-            command.Connection = connection;
-            connection.Open();
-            var result = false;
-            if (callback != null)
-            {
-                var reader = command.ExecuteReader();
-                callback.Invoke(reader);
-                reader.Close();
-                return true;
-            }
-            else
-            {
-                result = command.ExecuteNonQuery() > 0;
-            }
-            connection.Close();
-            return result;
-        }
-
         private Task<StoredToken?> GetStoredToken(SqlCommand command)
         {
-            var storedToken = default(StoredToken);
-            ExecuteCommand(command, (reader) =>
-            {
-                if (reader.HasRows && reader.Read())
-                {
-                    storedToken = new StoredToken
-                    {
-                        Id = reader.GetInt32(0),
-                        Invalidated = reader.GetBoolean(1),
-                        TokenValue = reader.GetString(2)
-                    };
-                }
-            });
+            var storedToken = _executor
+                .Execute<StoredToken>(command, _converter)?
+                .FirstOrDefault();
 
             return Task.FromResult(storedToken);
         }
