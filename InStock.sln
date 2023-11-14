@@ -114,7 +114,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Core", "Sour
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{960A96D5-4577-4B6E-80B3-4E067B8C9126}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.Utilities.DatabaseHelper", "InStock.Backend.Utilities.DatabaseHelper\InStock.Backend.Utilities.DatabaseHelper.csproj", "{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.Utilities.DatabaseHelper", "Source\InStock.Backend\Utilities\InStock.Backend.Utilities.DatabaseHelper\InStock.Backend.Utilities.DatabaseHelper.csproj", "{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
