@@ -231,6 +231,11 @@ namespace InStock.Backend.IdentityService.Core.Services
                             .ConfigureAwait(false);
                     }
                 }
+
+                return new Result<InvalidateTokenResponse>(new InvalidateTokenResponse
+                {
+                    
+                });
             }
             catch (Exception e)
             {
