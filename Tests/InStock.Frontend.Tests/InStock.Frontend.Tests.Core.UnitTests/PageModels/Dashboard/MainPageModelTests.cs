@@ -1,4 +1,4 @@
-﻿using InStock.Frontend.Abstraction.Repositories;
+﻿using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Inventory;
@@ -10,17 +10,17 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
 	public class MainPageModelTests
 	{
         private Mock<INavigationService> _navigationService;
-        private Mock<ISessionRepository> _sessionRepository;
+        private Mock<ISessionManager> _sessionManager;
         private MainPageModel _pageModel;
 
         [SetUp]
         public void Setup()
 		{
             _navigationService = new Mock<INavigationService>();
-            _sessionRepository = new Mock<ISessionRepository>();
+            _sessionManager = new Mock<ISessionManager>();
             _pageModel = new MainPageModel(
                 _navigationService.Object,
-                _sessionRepository.Object);
+                _sessionManager.Object);
 		}
 
         [Test]
@@ -47,25 +47,23 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
         [Test]
         public void Appearing_VerifiesUserSession()
         {
-            var defaultState = Abstraction.Models.SessionState.Default;
-            _ = _sessionRepository
-                .Setup(s => s.GetSessionStateAsync())
-                .Returns(Task.FromResult(defaultState));
+            _ = _sessionManager
+                .Setup(s => s.ValidateSessionAsync())
+                .Returns(Task.FromResult(false));
 
             _pageModel
                 .Appearing(null, new EventArgs());
 
-            _sessionRepository
-                .Verify(s => s.GetSessionStateAsync(), Times.Once);
+            _sessionManager
+                .Verify(s => s.ValidateSessionAsync(), Times.Once);
         }
 
         [Test]
         public void Appearing_UserSessionInvalid_NavigatesToLogin()
         {
-            var defaultState = Abstraction.Models.SessionState.Default;
-            _ = _sessionRepository
-                .Setup(s => s.GetSessionStateAsync())
-                .Returns(Task.FromResult(defaultState));
+            _ = _sessionManager
+                .Setup(s => s.ValidateSessionAsync())
+                .Returns(Task.FromResult(false));
 
             _ = _navigationService
                 .Setup(n => n.NavigateToAsync<LoginPageModel>(It.IsAny<object>(), false))
@@ -81,15 +79,9 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
         [Test]
         public void Appearing_UserSessionValid_DoesNotNavigateToLogin()
         {
-            var validState = new Abstraction.Models.SessionState
-            {
-                IsValid = true,
-                SessionId = new Guid()
-            };
-
-            _ = _sessionRepository
-                .Setup(s => s.GetSessionStateAsync())
-                .Returns(Task.FromResult(validState));
+            _ = _sessionManager
+                .Setup(s => s.ValidateSessionAsync())
+                .Returns(Task.FromResult(true));
 
             _ = _navigationService
                 .Setup(n => n.NavigateToAsync<LoginPageModel>(It.IsAny<object>(), false))
@@ -98,8 +90,8 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
             _pageModel
                 .Appearing(null, new EventArgs());
 
-            _sessionRepository
-                .Verify(s => s.GetSessionStateAsync(), Times.Once);
+            _sessionManager
+                .Verify(s => s.ValidateSessionAsync(), Times.Once);
 
             _navigationService
                 .Verify(n => n.NavigateToAsync<LoginPageModel>(It.IsAny<object>(), false), Times.Never);

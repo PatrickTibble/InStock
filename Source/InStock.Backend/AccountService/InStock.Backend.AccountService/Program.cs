@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddSingleton<ILogger, LocalSessionLogger>()
     .AddSingleton<IHashService, HmacSha512HashService>()
-    .AddSingleton<IAccountRepository, DBAccountRepository>()
+    .AddSingleton<IAccountRepository, AccountRepository>()
     .AddSingleton<IAccountService, AccountService>();
 
 var app = builder.Build();

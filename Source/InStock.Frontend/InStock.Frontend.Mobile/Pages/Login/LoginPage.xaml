@@ -41,6 +41,7 @@
                     BindingContext="{Binding LoginViewModel}" />
             </VerticalStackLayout>
         </Frame>
+        <inputViews:PrimaryRoundButton BindingContext="{Binding CreateAccountViewModel}" />
         <Label
             Text="{Binding AppVersion, StringFormat='version {0}'}"
             TextColor="{StaticResource Gray300}"

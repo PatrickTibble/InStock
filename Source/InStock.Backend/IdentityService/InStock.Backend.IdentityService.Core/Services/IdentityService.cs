@@ -3,6 +3,7 @@ using InStock.Common.IdentityService.Abstraction.Exceptions;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.InvalidateToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 using InStock.Common.Models.Base;
@@ -197,6 +198,53 @@ namespace InStock.Backend.IdentityService.Core.Services
             }
 
             return InternalServerError<ValidateTokenResponse>("Unable to validate token");
+        }
+
+        public async Task<Result<InvalidateTokenResponse>> InvalidateTokenAsync(InvalidateTokenRequest request)
+        {
+            try
+            {
+                // TODO: Use transactions and parallel tasks
+                foreach (var token in request.IdentityTokens)
+                {
+                    try
+                    {
+                        await _tokenService.ReadTokenAsync(token)
+                            .ConfigureAwait(false);
+                        var idToken = await _tokenRepository
+                            .GetIdentityTokenAsync(token)
+                            .ConfigureAwait(false);
+
+                        if (idToken == default)
+                        {
+                            continue;
+                        }
+
+                        await _tokenRepository
+                            .InvalidateTokenFamilyAsync(idToken!)
+                            .ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        await _logger
+                            .LogExceptionAsync(e)
+                            .ConfigureAwait(false);
+                    }
+                }
+
+                return new Result<InvalidateTokenResponse>(new InvalidateTokenResponse
+                {
+                    
+                });
+            }
+            catch (Exception e)
+            {
+                await _logger
+                    .LogExceptionAsync(e)
+                    .ConfigureAwait(false);
+            }
+
+            return InternalServerError<InvalidateTokenResponse>("Unable to invalidate token(s)");
         }
 
         private static Result<T> BadRequest<T>(string message)

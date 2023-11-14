@@ -1,5 +1,5 @@
-﻿using InStock.Frontend.Abstraction.Models;
-using InStock.Frontend.Abstraction.Repositories;
+﻿using InStock.Frontend.Abstraction.Managers;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
@@ -14,8 +14,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         private Mock<IAlertService> _alertService;
         private Mock<IClientInfoService> _clientInfoService;
         private Mock<INavigationService> _navigationService;
-        private Mock<IAccountRepository> _accountRepository;
-        private Mock<ISettingsService> _settingsService;
+        private Mock<IAccountManager> _accountRepository;
         private SoftwareVersion _version;
         private LoginPageModel _pageModel;
 
@@ -25,8 +24,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
             _alertService = new Mock<IAlertService>();
             _clientInfoService = new Mock<IClientInfoService>();
             _navigationService = new Mock<INavigationService>();
-            _accountRepository = new Mock<IAccountRepository>();
-            _settingsService = new Mock<ISettingsService>();
+            _accountRepository = new Mock<IAccountManager>();
 
             _version = new SoftwareVersion(1, 1, 0, 1);
             _ = _clientInfoService.Setup(c => c.AppVersion).Returns(_version);
@@ -35,8 +33,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
 				_navigationService.Object,
                 _clientInfoService.Object,
                 _alertService.Object,
-				_accountRepository.Object,
-                _settingsService.Object);
+				_accountRepository.Object);
 		}
 
         [Test]
@@ -83,13 +80,9 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         }
 
         [Test]
-        public void AppVersion_IsSet()
-            => Assert.That(_pageModel.AppVersion, Is.EqualTo(_version.ToString()));
-
-        [Test]
-        public void TryLogin_Fail_DoesNotNavigate()
+        public void LoginViewModel_Command_AttemptsLogin()
         {
-            var loginResult = new LoginResult();
+            var loginResult = new BooleanResult();
             _ = _accountRepository
                 .Setup(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(loginResult));
@@ -101,15 +94,52 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
             _pageModel.LoginViewModel.Command?.Execute(null);
 
             _accountRepository.Verify(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public void LoginViewModel_Command_FailedLoginShowsAlert()
+        {
+            var loginResult = new BooleanResult();
+            _ = _accountRepository
+                .Setup(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(loginResult));
+
+            _ = _navigationService
+                .Setup(n => n.PopAsync())
+                .Returns(Task.CompletedTask);
+
+            _pageModel.LoginViewModel.Command?.Execute(null);
+
+            _alertService.Verify(a => a.ShowServiceAlert(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public void AppVersion_IsSet()
+            => Assert.That(_pageModel.AppVersion, Is.EqualTo(_version.ToString()));
+
+        [Test]
+        public void TryLogin_Fail_DoesNotNavigate()
+        {
+            var loginResult = new BooleanResult();
+            _ = _accountRepository
+                .Setup(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(loginResult));
+
+            _ = _navigationService
+                .Setup(n => n.PopAsync())
+                .Returns(Task.CompletedTask);
+
+            _pageModel.LoginViewModel.Command?.Execute(null);
+
             _navigationService.Verify(n => n.PopAsync(), Times.Never);
         }
 
         [Test]
         public void TryLogin_Success_PopsNavigation()
         {
-            var loginResult = new LoginResult
+            var loginResult = new BooleanResult
             {
-                AccessToken = "123"
+                Result = true
             };
 
             _ = _accountRepository

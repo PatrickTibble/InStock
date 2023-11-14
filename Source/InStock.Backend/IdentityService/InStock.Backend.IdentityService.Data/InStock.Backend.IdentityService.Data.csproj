@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\InStock.Backend.Utilities.DatabaseHelper\InStock.Backend.Utilities.DatabaseHelper.csproj" />
     <ProjectReference Include="..\..\..\InStock.Common\IdentityService\InStock.Common.IdentityService.Abstraction\InStock.Common.IdentityService.Abstraction.csproj" />
   </ItemGroup>
 

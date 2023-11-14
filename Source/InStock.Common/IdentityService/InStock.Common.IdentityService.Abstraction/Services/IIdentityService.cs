@@ -1,4 +1,5 @@
 ﻿using InStock.Common.IdentityService.Abstraction.TransferObjects.GetToken;
+using InStock.Common.IdentityService.Abstraction.TransferObjects.InvalidateToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.RefreshToken;
 using InStock.Common.IdentityService.Abstraction.TransferObjects.ValidateToken;
 using InStock.Common.Models.Base;
@@ -31,5 +32,13 @@ namespace InStock.Common.IdentityService.Abstraction.Services
         /// <returns></returns>
         [Post($"/{Constants.RefreshToken}")]
         Task<Result<AccessRefreshTokenPair>> RefreshTokenAsync([Body] AccessRefreshTokenPair request);
+
+        /// <summary>
+        /// Invalidates token
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Post($"/{Constants.InvalidateToken}")]
+        Task<Result<InvalidateTokenResponse>> InvalidateTokenAsync(InvalidateTokenRequest request);
     }
 }

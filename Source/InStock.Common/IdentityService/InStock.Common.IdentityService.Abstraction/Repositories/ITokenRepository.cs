@@ -33,11 +33,11 @@ namespace InStock.Common.IdentityService.Abstraction.Repositories
         Task<StoredRefreshToken?> GetRefreshTokenAsync(string refreshToken);
 
         /// <summary>
-        /// Invalidates all tokens associated with the given refresh token.
+        /// Invalidates all tokens associated with the given identity or refresh token.
         /// </summary>
-        /// <param name="storedRefreshToken"></param>
+        /// <param name="storedToken"></param>
         /// <returns></returns>
-        Task InvalidateTokenFamilyAsync(StoredRefreshToken storedRefreshToken);
+        Task InvalidateTokenFamilyAsync(StoredToken storedToken);
 
         /// <summary>
         /// Saves a set of tokens to storage.

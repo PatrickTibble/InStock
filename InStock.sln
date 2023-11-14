@@ -114,6 +114,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InStock.Common.Core", "Sour
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{960A96D5-4577-4B6E-80B3-4E067B8C9126}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InStock.Backend.Utilities.DatabaseHelper", "InStock.Backend.Utilities.DatabaseHelper\InStock.Backend.Utilities.DatabaseHelper.csproj", "{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -303,6 +305,12 @@ Global
 		{6A8338C7-9741-4254-AE00-D93EB587FF32}.DebugWithMocks|Any CPU.Build.0 = Debug|Any CPU
 		{6A8338C7-9741-4254-AE00-D93EB587FF32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A8338C7-9741-4254-AE00-D93EB587FF32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}.DebugWithMocks|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}.DebugWithMocks|Any CPU.Build.0 = Debug|Any CPU
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -357,6 +365,7 @@ Global
 		{774905AC-391B-4854-810D-028ED2E78390} = {9D4D0AB4-66DA-4A44-BA5C-787EC31D22F6}
 		{6A8338C7-9741-4254-AE00-D93EB587FF32} = {960A96D5-4577-4B6E-80B3-4E067B8C9126}
 		{960A96D5-4577-4B6E-80B3-4E067B8C9126} = {A2A3A0DA-D8BA-429E-AA63-BE13F893BC9C}
+		{58F7EBC8-A1F9-4D5D-9A76-D9990A310A32} = {5617D614-F588-4DE8-AF4D-947BADD09442}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B14AA0FA-0172-43EF-B23B-D530886CB34C}
