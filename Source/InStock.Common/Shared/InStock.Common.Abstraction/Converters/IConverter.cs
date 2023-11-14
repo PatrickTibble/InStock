@@ -2,6 +2,7 @@
 {
     public interface IConverter<in TIn>
     {
-        TOut Convert<TOut>(TIn input);
+        TOut Convert<TOut>(TIn input)
+            where TOut : class;
     }
 }

@@ -3,9 +3,6 @@ using Microsoft.Data.SqlClient;
 
 namespace InStock.Backend.Utilities.DatabaseHelper
 {
-    /// <summary>
-    /// To be added.
-    /// </summary>
     public class CommandExecutor : IExecutor<SqlCommand, SqlDataReader>
     {
         private string _connectionString;
@@ -16,6 +13,7 @@ namespace InStock.Backend.Utilities.DatabaseHelper
         }
 
         public IList<T> Execute<T>(SqlCommand command, IConverter<SqlDataReader> converter)
+            where T : class
         {
             var result = new List<T>();
 

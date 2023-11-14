@@ -6,6 +6,7 @@ namespace InStock.Backend.Utilities.DatabaseHelper
     public class SqlDataReaderRowConverter : IConverter<SqlDataReader>
     {
         public T Convert<T>(SqlDataReader reader)
+            where T : class
         {
             var properties = typeof(T).GetProperties();
             var instance = Activator.CreateInstance<T>();
