@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\InStock.Backend.Utilities.DatabaseHelper\InStock.Backend.Utilities.DatabaseHelper.csproj" />
     <ProjectReference Include="..\..\..\InStock.Common\AccountService\InStock.Common.AccountService.Abstraction\InStock.Common.AccountService.Abstraction.csproj" />
+    <ProjectReference Include="..\..\Utilities\InStock.Backend.Utilities.DatabaseHelper\InStock.Backend.Utilities.DatabaseHelper.csproj" />
   </ItemGroup>
 
 </Project>
