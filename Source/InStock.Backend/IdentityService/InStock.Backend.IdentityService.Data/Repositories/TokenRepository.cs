@@ -89,14 +89,27 @@ namespace InStock.Backend.IdentityService.Data.Repositories
             return Task.FromResult(storedToken);
         }
 
-        public Task InvalidateTokenFamilyAsync(StoredRefreshToken storedRefreshToken)
+        public Task InvalidateTokenFamilyAsync(StoredToken storedToken)
         {
-            var command = new SqlCommand("sp_InvalidateTokenFamily")
+            var command = default(SqlCommand);
+            if (storedToken is StoredRefreshToken storedRefreshToken)
             {
-                CommandType = CommandType.StoredProcedure
-            };
+                command = new SqlCommand("sp_InvalidateTokenFamilyForRefreshToken")
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
-            command.Parameters.AddWithValue("@RefreshTokenId", storedRefreshToken.Id);
+                command.Parameters.AddWithValue("@RefreshTokenId", storedRefreshToken.Id);
+            }
+            else
+            {
+                command = new SqlCommand("sp_InvalidateTokenFamily")
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@IdentityTokenId", storedToken.Id);
+            }
 
             ExecuteCommand(command);
 
