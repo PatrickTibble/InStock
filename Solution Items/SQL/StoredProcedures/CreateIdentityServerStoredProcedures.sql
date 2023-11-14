@@ -30,28 +30,6 @@ GO
 -- Author:		Patrick Tibble
 -- Create date: 11/9/23
 -- Description:	Retrieve an IdentityToken using
---              its TokenValue
--- =============================================
-CREATE PROCEDURE sp_GetIdentityTokenFromTokenValue
-	@TokenValue NVARCHAR(MAX)
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	SELECT	IT.Id, 
-			T.Invalidated, 
-			T.TokenValue
-	FROM IdentityTokens IT
-	JOIN Tokens T
-	ON IT.TokenId = T.Id
-	WHERE T.TokenValue = @TokenValue;
-END
-GO
-
--- =============================================
--- Author:		Patrick Tibble
--- Create date: 11/9/23
--- Description:	Retrieve an IdentityToken using
 --              its Id
 -- =============================================
 CREATE PROCEDURE sp_GetIdentityTokenFromId
@@ -67,6 +45,28 @@ BEGIN
 	JOIN Tokens T
 	ON IT.TokenId = T.Id
 	WHERE IT.Id = @IdentityTokenId;
+END
+GO
+
+-- =============================================
+-- Author:		Patrick Tibble
+-- Create date: 11/9/23
+-- Description:	Retrieve an IdentityToken using
+--              its TokenValue
+-- =============================================
+CREATE PROCEDURE sp_GetIdentityTokenFromTokenValue
+	@TokenValue NVARCHAR(MAX)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT	IT.Id, 
+			T.Invalidated, 
+			T.TokenValue
+	FROM IdentityTokens IT
+	JOIN Tokens T
+	ON IT.TokenId = T.Id
+	WHERE T.TokenValue = @TokenValue;
 END
 GO
 
@@ -95,28 +95,51 @@ GO
 
 -- =============================================
 -- Author:		Patrick Tibble
--- Create date: 11/9/23
--- Description:	Validates a Token using
---              its TokenValue
+-- Create date: 11/14/23
+-- Description:	Invalidates all Tokens using
+--              an IdentityToken
 -- =============================================
-CREATE PROCEDURE sp_ValidateToken
-	@TokenValue NVARCHAR(MAX)
+CREATE PROCEDURE sp_InvalidateTokenFamily
+    @IdentityTokenId INT
 AS
 BEGIN
-	SET NOCOUNT ON;
+    SET NOCOUNT ON;
 
-	DECLARE @ReturnVal INT;
+    CREATE TABLE #TempTokens (
+        TokenId INT
+    );
+	
+	CREATE TABLE #TempAccessTokens (
+		Id INT,
+		TokenId INT
+	);
+	-- get access token ids for associated refresh tokens
+	INSERT INTO #TempAccessTokens (Id, TokenId)
+	SELECT Id, TokenId
+	FROM AccessTokens
+	WHERE IdentityTokenId = @IdentityTokenId;
+	-- get access token tokenids for invalidation
+	INSERT INTO #TempTokens (TokenId)
+	SELECT TokenId
+	FROM #TempAccessTokens;
 
-	SELECT @ReturnVal = CASE
-            WHEN EXISTS (
-                SELECT 1
-                FROM Tokens
-                WHERE TokenValue = @TokenValue
-            ) THEN 1
-            ELSE 0
-        END
+	INSERT INTO #TempTokens (TokenId)
+	SELECT TokenId
+	FROM RefreshTokens
+	WHERE AccessTokenId in (SELECT Id FROM #TempAccessTokens);
+	
+	DROP TABLE #TempAccessTokens;
+	
+	INSERT INTO #TempTokens (TokenId)
+	SELECT TokenId
+	FROM IdentityTokens
+	WHERE Id = @IdentityTokenId;
 
-	RETURN @ReturnVal;
+    UPDATE Tokens
+    SET Invalidated = 1
+    WHERE Id IN (SELECT TokenId FROM #TempTokens);
+
+    DROP TABLE #TempTokens;
 END
 GO
 
@@ -126,7 +149,7 @@ GO
 -- Description:	Invalidates all Tokens using
 --              a RefreshToken
 -- =============================================
-CREATE PROCEDURE sp_InvalidateTokenFamily
+CREATE PROCEDURE [dbo].[sp_InvalidateTokenFamilyForRefreshToken]
     @RefreshToken NVARCHAR(255)
 AS
 BEGIN
@@ -246,5 +269,33 @@ BEGIN
 
 	INSERT INTO TokenFamilies (TokenId, OriginatorTokenId)
 	VALUES (@RefreshTokenId, @IdentityTokenId);
+END
+GO
+
+-- =============================================
+-- Author:		Patrick Tibble
+-- Create date: 11/9/23
+-- Description:	Validates a Token using
+--              its TokenValue
+-- =============================================
+CREATE PROCEDURE sp_ValidateToken
+	@TokenValue NVARCHAR(MAX)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @ReturnVal INT;
+
+	SELECT @ReturnVal = CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM Tokens
+                WHERE TokenValue = @TokenValue
+				AND Invalidated = 0
+            ) THEN 1
+            ELSE 0
+        END
+
+	RETURN @ReturnVal;
 END
 GO
