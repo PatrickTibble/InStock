@@ -76,7 +76,7 @@ namespace InStock.Frontend.Core.PageModels.Login
                 .LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text)
                 .ConfigureAwait(false);
 
-            if (!loginResult.Result)
+            if (loginResult.Result)
             {
                 await _navigationService
                     .PopAsync()

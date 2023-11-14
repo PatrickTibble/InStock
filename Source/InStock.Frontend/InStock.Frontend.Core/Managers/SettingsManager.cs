@@ -35,15 +35,15 @@ namespace InStock.Frontend.Core.Managers
         public Task<bool> SetRefreshTokenAsync(string? refreshToken)
             => _service.TrySetValueAsync(Constants.Settings.RefreshToken, refreshToken);
 
-        public Task<string> GetDeviceIdAsync()
-            => _service.GetValueOrDefaultAsync<string>(Constants.Settings.DeviceId)!;
+        public Task<Guid?> GetDeviceIdAsync()
+            => _service.GetValueOrDefaultAsync<Guid?>(Constants.Settings.DeviceId);
 
         private async Task EnsureDeviceIdAsync()
         {
-            var deviceId = await _service.GetValueOrDefaultAsync<string>(Constants.Settings.DeviceId);
+            var deviceId = await _service.GetValueOrDefaultAsync<Guid?>(Constants.Settings.DeviceId);
             if (deviceId is null)
             {
-                deviceId = Guid.NewGuid().ToString();
+                deviceId = Guid.NewGuid();
                 await _service.TrySetValueAsync(Constants.Settings.DeviceId, deviceId);
             }
         }

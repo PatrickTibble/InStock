@@ -14,6 +14,6 @@
 
         Task<bool> RemoveRefreshTokenAsync();
 
-        Task<string> GetDeviceIdAsync();
+        Task<Guid?> GetDeviceIdAsync();
     }
 }

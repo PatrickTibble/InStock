@@ -34,7 +34,7 @@ namespace InStock.Frontend.Core.Managers
                     LastName = lastName,
                     Username = username,
                     Password = password,
-                    ClientId = deviceId
+                    ClientId = deviceId.Value
                 };
 
                 var result = await _accountService
@@ -74,7 +74,7 @@ namespace InStock.Frontend.Core.Managers
             {
                 Username = username,
                 Password = password,
-                ClientId = deviceId
+                ClientId = deviceId.Value
             };
 
             var result = await _accountService
