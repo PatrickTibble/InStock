@@ -91,7 +91,7 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
         public Task InvalidateTokenFamilyAsync(StoredToken storedToken)
         {
-            var command = default(SqlCommand);
+            SqlCommand? command;
             if (storedToken is StoredRefreshToken storedRefreshToken)
             {
                 command = new SqlCommand("sp_InvalidateTokenFamilyForRefreshToken")
@@ -168,25 +168,23 @@ namespace InStock.Backend.IdentityService.Data.Repositories
 
         private bool ExecuteCommand(SqlCommand command, Action<SqlDataReader>? callback = null)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using var connection = new SqlConnection(_connectionString);
+            command.Connection = connection;
+            connection.Open();
+            var result = false;
+            if (callback != null)
             {
-                command.Connection = connection;
-                connection.Open();
-                var result = false;
-                if (callback != null)
-                {
-                    var reader = command.ExecuteReader();
-                    callback.Invoke(reader);
-                    reader.Close();
-                    return true;
-                }
-                else
-                {
-                    result = command.ExecuteNonQuery() > 0;
-                }
-                connection.Close();
-                return result;
+                var reader = command.ExecuteReader();
+                callback.Invoke(reader);
+                reader.Close();
+                return true;
             }
+            else
+            {
+                result = command.ExecuteNonQuery() > 0;
+            }
+            connection.Close();
+            return result;
         }
 
         private Task<StoredToken?> GetStoredToken(SqlCommand command)
