@@ -5,6 +5,13 @@ namespace InStock.Frontend.Mobile.Services.Threading
     public class MainThreadDispatcher : IMainThreadDispatcher
 	{
         public Task DispatchOnMainThreadAsync(Action action)
-            => MainThread.InvokeOnMainThreadAsync(action);
+        {
+            if (Application.Current.Dispatcher.IsDispatchRequired)
+            {
+                return Application.Current.Dispatcher.DispatchAsync(action);
+            }
+            action?.Invoke();
+            return Task.CompletedTask;
+        }
     }
 }
