@@ -25,6 +25,7 @@ using InStock.Frontend.Core.Managers;
 using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Services.Settings;
 using InStock.Frontend.Mobile.Services.Settings;
+using InStock.Frontend.Mobile.Services.Platforms;
 
 namespace InStock.Frontend.Mobile;
 
@@ -59,6 +60,7 @@ public partial class App : Application
         container.Register<IMainThreadDispatcher, MainThreadDispatcher>();
         container.Register<ITaskCancellationService, TaskCancellationService>();
         container.Register<IClientInfoService, ClientInfoService>();
+        container.Register<IPlatformInfoService, PlatformInfoService>();
 
         var apiRegistrar = new API.APIServiceRegistrar();
         container.Register(apiRegistrar.GetService<IAccountService>(new HttpClient()
