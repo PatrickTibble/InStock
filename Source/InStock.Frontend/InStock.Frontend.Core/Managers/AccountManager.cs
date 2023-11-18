@@ -75,7 +75,9 @@ namespace InStock.Frontend.Core.Managers
             {
                 Username = username,
                 Password = password,
-                ClientId = deviceId.Value
+                ClientId = deviceId.Value,
+                ClientName = _platformInfoService.ClientName,
+                ClientDescription = _platformInfoService.ClientDescription
             };
 
             var result = await _accountService
