@@ -3,11 +3,8 @@ using InStock.Frontend.Core.ViewModels.Base;
 
 namespace InStock.Frontend.Core.ViewModels.Input
 {
-    public partial class PrimaryEntryViewModel : BaseViewModel
+    public partial class PrimaryEntryViewModel : ValidatableViewModel
     {
-        [ObservableProperty]
-        private string? _text;
-
         [ObservableProperty]
         private string? _placeholder;
 

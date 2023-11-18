@@ -11,7 +11,6 @@ namespace InStock.Frontend.Core.Managers
         public SettingsManager(ISettingsService service)
         {
             _service = service;
-
             // ensure device id
             EnsureDeviceIdAsync()
                 .FireAndForgetSafeAsync();
@@ -35,15 +34,22 @@ namespace InStock.Frontend.Core.Managers
         public Task<bool> SetRefreshTokenAsync(string? refreshToken)
             => _service.TrySetValueAsync(Constants.Settings.RefreshToken, refreshToken);
 
-        public Task<Guid?> GetDeviceIdAsync()
-            => _service.GetValueOrDefaultAsync<Guid?>(Constants.Settings.DeviceId);
+        public async Task<Guid?> GetDeviceIdAsync()
+        {
+            var deviceId = await _service.GetValueOrDefaultAsync<string>(Constants.Settings.DeviceId);
+            if (deviceId is null)
+            {
+                return null;
+            }
+            return Guid.Parse(deviceId);
+        }
 
         private async Task EnsureDeviceIdAsync()
         {
-            var deviceId = await _service.GetValueOrDefaultAsync<Guid?>(Constants.Settings.DeviceId);
+            var deviceId = await _service.GetValueOrDefaultAsync<string>(Constants.Settings.DeviceId);
             if (deviceId is null)
             {
-                deviceId = Guid.NewGuid();
+                deviceId = Guid.NewGuid().ToString();
                 await _service.TrySetValueAsync(Constants.Settings.DeviceId, deviceId);
             }
         }

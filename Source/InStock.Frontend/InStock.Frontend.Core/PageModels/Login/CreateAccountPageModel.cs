@@ -85,6 +85,17 @@ namespace InStock.Frontend.Core.PageModels.Login
         {
             IsLoading = true;
 
+            if (!ValidateUserInput())
+            {
+                await _alertService
+                    .ShowServiceAlert(
+                    title: Strings.AlertTitle_CreateAccount_InvalidInput,
+                    message: Strings.AlertBody_CreateAccount_InvalidInput,
+                    confirm: Strings.AlertAction_Confirm)
+                    .ConfigureAwait(false);
+                return;
+            }
+
             var result = await _accountManager
                 .CreateAccountAsync(
                     firstName: FirstNameViewModel.Text,
@@ -109,6 +120,16 @@ namespace InStock.Frontend.Core.PageModels.Login
             await _navigationService
                 .PopAsync()
                 .ConfigureAwait(false);
+        }
+
+        private bool ValidateUserInput()
+        {
+            return FirstNameViewModel.Validate()
+                && LastNameViewModel.Validate()
+                && UsernameViewModel.Validate()
+                && PasswordViewModel.Validate()
+                && ConfirmPasswordViewModel.Validate()
+                && PasswordViewModel.Text == ConfirmPasswordViewModel.Text;
         }
 	}
 }

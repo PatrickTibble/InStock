@@ -9,6 +9,7 @@
         <Entry
             HorizontalOptions="FillAndExpand"
             Text="{Binding Text}"
+            TextColor="{StaticResource Gray900}"
             Placeholder="{Binding Placeholder}"
             IsPassword="{Binding IsPassword}" />
     </VerticalStackLayout>

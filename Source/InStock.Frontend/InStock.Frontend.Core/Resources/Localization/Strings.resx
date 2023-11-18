@@ -183,4 +183,10 @@
   <data name="Placeholder_Confirm_Password" xml:space="preserve">
     <value>confirm password</value>
   </data>
+  <data name="AlertBody_CreateAccount_InvalidInput" xml:space="preserve">
+    <value>Check the information you entered and try again.</value>
+  </data>
+  <data name="AlertTitle_CreateAccount_InvalidInput" xml:space="preserve">
+    <value>Unable to Create Account</value>
+  </data>
 </root>

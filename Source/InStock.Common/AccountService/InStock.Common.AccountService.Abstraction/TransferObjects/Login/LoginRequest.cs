@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InStock.Common.AccountService.Abstraction.Entities.ClientInfo;
+using System.ComponentModel.DataAnnotations;
 
 namespace InStock.Common.AccountService.Abstraction.TransferObjects.Login
 {
-    public class LoginRequest
+    public class LoginRequest : IClientInfoModel
 	{
         [Required(AllowEmptyStrings = false, ErrorMessage = "Username is required")]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 20 characters")]

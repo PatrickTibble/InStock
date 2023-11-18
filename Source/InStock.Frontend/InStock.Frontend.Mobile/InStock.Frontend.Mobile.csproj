@@ -104,6 +104,9 @@
 	  <MauiXaml Update="Pages\Login\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Frames\PrimaryCardFrame.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Headers\MainPageHeaderView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

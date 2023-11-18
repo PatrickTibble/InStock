@@ -1,13 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using InStock.Common.Models.Base;
 using InStock.Frontend.Abstraction.Managers;
-using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
-using InStock.Frontend.Abstraction.Services.Settings;
 using InStock.Frontend.Core.PageModels.Base;
+using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.ViewModels.Input;
 
@@ -79,7 +77,7 @@ namespace InStock.Frontend.Core.PageModels.Login
             if (loginResult.Result)
             {
                 await _navigationService
-                    .PopAsync()
+                    .NavigateToAsync<MainPageModel>(setRoot: true)
                     .ConfigureAwait(false);
 
                 return;

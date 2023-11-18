@@ -79,6 +79,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check the information you entered and try again..
+        /// </summary>
+        internal static string AlertBody_CreateAccount_InvalidInput {
+            get {
+                return ResourceManager.GetString("AlertBody_CreateAccount_InvalidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It looks like something went wrong. Please check your credentials and try again..
         /// </summary>
         internal static string AlertBody_LoginFailed {
@@ -93,6 +102,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         internal static string AlertTitle_CreateAccount_Failed {
             get {
                 return ResourceManager.GetString("AlertTitle_CreateAccount_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to Create Account.
+        /// </summary>
+        internal static string AlertTitle_CreateAccount_InvalidInput {
+            get {
+                return ResourceManager.GetString("AlertTitle_CreateAccount_InvalidInput", resourceCulture);
             }
         }
         

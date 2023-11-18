@@ -6,30 +6,25 @@
     xmlns:pm="clr-namespace:InStock.Frontend.Core.PageModels.Login;assembly=InStock.Frontend.Core"
     xmlns:converters="clr-namespace:InStock.Frontend.Mobile.Converters"
     xmlns:inputViews="clr-namespace:InStock.Frontend.Mobile.Views.Input"
+    xmlns:frames="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
     NavigationPage.HasNavigationBar="False"
     NavigationPage.HasBackButton="False"
-    BackgroundColor="{StaticResource Gray100}"
     x:DataType="pm:LoginPageModel"
     Title="LoginPage">
     <ContentPage.Resources>
         <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
     </ContentPage.Resources>
-    <VerticalStackLayout>
+    <StackLayout VerticalOptions="FillAndExpand">
         <ActivityIndicator
             IsRunning="{Binding IsLoading}"
+            IsVisible="{Binding IsLoading}"
             HorizontalOptions="CenterAndExpand"
-            VerticalOptions="CenterAndExpand"
+            VerticalOptions="FillAndExpand"
             WidthRequest="40"
             HeightRequest="40" />
-        <Frame
-            IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
-            BackgroundColor="{StaticResource White}"
-            BorderColor="{StaticResource Gray200}"
-            VerticalOptions="Center"
-            WidthRequest="320"
-            HasShadow="True"
-            Margin="20"
-            CornerRadius="12">
+        <frames:PrimaryCardFrame
+            VerticalOptions="CenterAndExpand"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
             <VerticalStackLayout
                 HorizontalOptions="FillAndExpand"
                 Spacing="12">
@@ -39,13 +34,14 @@
                     BindingContext="{Binding PasswordViewModel}" />
                 <inputViews:PrimaryRoundButton
                     BindingContext="{Binding LoginViewModel}" />
+                <inputViews:PrimaryRoundButton 
+                    BindingContext="{Binding CreateAccountViewModel}" />
             </VerticalStackLayout>
-        </Frame>
-        <inputViews:PrimaryRoundButton BindingContext="{Binding CreateAccountViewModel}" />
+        </frames:PrimaryCardFrame>
         <Label
             Text="{Binding AppVersion, StringFormat='version {0}'}"
             TextColor="{StaticResource Gray300}"
             FontSize="12"
             HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+    </StackLayout>
 </ContentPage>
