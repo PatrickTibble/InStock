@@ -3,19 +3,23 @@ using InStock.Common.AccountService.Abstraction.TransferObjects.CreateAccount;
 using InStock.Common.AccountService.Abstraction.TransferObjects.Login;
 using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Models;
+using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.Extensions;
 
 namespace InStock.Frontend.Core.Managers
 {
     public class AccountManager : IAccountManager
     {
+        private readonly IPlatformInfoService _platformInfoService;
         private readonly IAccountService _accountService;
         private readonly ISettingsManager _settingsManager;
 
         public AccountManager(
             IAccountService accountService,
-            ISettingsManager settingsManager)
+            ISettingsManager settingsManager,
+            IPlatformInfoService platformInfoService)
         {
+            _platformInfoService = platformInfoService;
             _accountService = accountService;
             _settingsManager = settingsManager;
         }
@@ -34,19 +38,16 @@ namespace InStock.Frontend.Core.Managers
                     LastName = lastName,
                     Username = username,
                     Password = password,
-                    ClientId = deviceId.Value
+                    ClientId = deviceId.Value,
+                    ClientName = _platformInfoService.ClientName,
+                    ClientDescription = _platformInfoService.ClientDescription
                 };
 
                 var result = await _accountService
                     .CreateAccountAsync(request)
                     .ConfigureAwait(false);
 
-                if (!result.IsSuccessfulStatusCode())
-                {
-                    return result.ToBooleanResult();
-                }
-
-                if (result.Data != null)
+                if (result.IsSuccessfulStatusCode() && result.Data != null)
                 {
                     await SaveTokens(result.Data)
                         .ConfigureAwait(false);
