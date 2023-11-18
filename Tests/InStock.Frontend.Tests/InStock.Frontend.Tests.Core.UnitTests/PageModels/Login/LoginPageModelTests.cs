@@ -4,6 +4,8 @@ using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Abstraction.Services.Settings;
+using InStock.Frontend.Core.PageModels.Base;
+using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Login;
 using Moq;
 
@@ -135,7 +137,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
         }
 
         [Test]
-        public void TryLogin_Success_PopsNavigation()
+        public void TryLogin_Success_Navigates()
         {
             var loginResult = new BooleanResult
             {
@@ -153,7 +155,7 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Login
             _pageModel.LoginViewModel.Command?.Execute(null);
 
             _accountRepository.Verify(a => a.LoginAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            _navigationService.Verify(n => n.PopAsync(), Times.Once);
+            _navigationService.Verify(n => n.NavigateToAsync<MainPageModel>(It.IsAny<object>(), It.IsAny<bool>()), Times.Once);
         }
 	}
 }
