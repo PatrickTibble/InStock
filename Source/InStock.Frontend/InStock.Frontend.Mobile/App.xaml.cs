@@ -38,16 +38,14 @@ public partial class App : Application
         RegisterForNavigation();
 
         InitializeComponent();
-
-        InitializeNavigation();
     }
 
-    private static void InitializeNavigation()
+    protected override Window CreateWindow(IActivationState activationState)
     {
-        var navigationService = Resolver.Resolve<INavigationService>();
-        navigationService
-            .NavigateToAsync<MainPageModel>(setRoot: true)
-            .FireAndForgetSafeAsync();
+        var locator = Resolver.Resolve<ILocator<Page>>();
+        var page = locator.CreatePageFor<LoginPageModel>();
+        var window = new Window(new NavigationPage(page));
+        return window;
     }
 
     private static void RegisterServices()
