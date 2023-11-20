@@ -29,15 +29,24 @@ namespace InStock.Frontend.API.Mocks
 
         public Task<Result<LoginResponse>> CreateAccountAsync([Body] CreateAccountRequest request)
         {
-            _accounts.Add(request);
-            var data = new LoginResponse
-            {
-                AccessToken = "eyJSampleToken",
-                RefreshToken = "eyJSampleToken"
-            };
+            var result = default(Result<LoginResponse>);
 
-            return Delay()
-                .ContinueWith(t => new Result<LoginResponse>(data));
+            if (!_accounts.Any(x => x.Username!.Equals(request.Username, StringComparison.OrdinalIgnoreCase)))
+            {
+                _accounts.Add(request);
+                result = new Result<LoginResponse>(new LoginResponse
+                {
+                    AccessToken = "eyJSampleToken",
+                    RefreshToken = "eyJSampleToken"
+                });
+            }
+            else
+            {
+                result = new Result<LoginResponse>(400, "Username already exists");
+            }
+            
+
+            return Delay().ContinueWith(t => result);
         }
 
         public Task<Result<LoginResponse>> LoginAsync([Body] LoginRequest request)
@@ -57,8 +66,7 @@ namespace InStock.Frontend.API.Mocks
                 result = new Result<LoginResponse>(400, "Invalid username or password");
             }
 
-            return Delay()
-                .ContinueWith(_ => result);
+            return Delay().ContinueWith(_ => result);
         }
     }
 }
