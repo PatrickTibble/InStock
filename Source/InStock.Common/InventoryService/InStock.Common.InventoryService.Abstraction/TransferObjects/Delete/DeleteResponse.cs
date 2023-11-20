@@ -2,5 +2,6 @@
 {
     public class DeleteResponse
     {
+        public bool Result { get; set; }
     }
 }
