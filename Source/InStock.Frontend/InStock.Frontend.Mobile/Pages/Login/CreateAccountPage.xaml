@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="InStock.Frontend.Mobile.Pages.Login.CreateAccountPage"
-             xmlns:pm="clr-namespace:InStock.Frontend.Core.PageModels.Login;assembly=InStock.Frontend.Core"
-             x:DataType="pm:CreateAccountPageModel"
-             xmlns:frames="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
-             xmlns:input="clr-namespace:InStock.Frontend.Mobile.Views.Input"
-             Title="CreateAccountPage">
-    <frames:PrimaryCardFrame>
-        <VerticalStackLayout HorizontalOptions="FillAndExpand">
-            <input:PrimaryEntryView
-                BindingContext="{Binding FirstNameViewModel}" />
-            
-            <input:PrimaryEntryView
-                BindingContext="{Binding LastNameViewModel}" />
-            
-            <input:PrimaryEntryView
-                BindingContext="{Binding UsernameViewModel}" />
-            
-            <input:PrimaryEntryView
-                BindingContext="{Binding PasswordViewModel}" />
-            
-            <input:PrimaryEntryView
-                BindingContext="{Binding ConfirmPasswordViewModel}" />
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InStock.Frontend.Mobile.Pages.Login.CreateAccountPage"
+    xmlns:pm="clr-namespace:InStock.Frontend.Core.PageModels.Login;assembly=InStock.Frontend.Core"
+    x:DataType="pm:CreateAccountPageModel"
+    NavigationPage.HasNavigationBar="False"
+    xmlns:frames="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
+    xmlns:brushes="clr-namespace:InStock.Frontend.Mobile.Views.Brushes"
+    xmlns:input="clr-namespace:InStock.Frontend.Mobile.Views.Input"
+    Title="CreateAccountPage">
+    <ContentPage.Background>
+        <brushes:LinearGradientAccentPrimaryBrush />
+    </ContentPage.Background>
+    <VerticalStackLayout 
+        Margin="20,60,20,20"
+        Spacing="20"
+        HorizontalOptions="FillAndExpand">
+        <input:PrimaryEntryView
+            BindingContext="{Binding FirstNameViewModel}" />
 
-            <StackLayout
-                Orientation="Horizontal"
-                HorizontalOptions="FillAndExpand">
-                <input:PrimaryRoundButton
-                    BindingContext="{Binding CancelViewModel}"
-                    HorizontalOptions="FillAndExpand" />
-                
-                <input:PrimaryRoundButton
-                    BindingContext="{Binding ConfirmViewModel}"
-                    HorizontalOptions="FillAndExpand" />
-            </StackLayout>
-            
-        </VerticalStackLayout>
-    </frames:PrimaryCardFrame>
+        <input:PrimaryEntryView
+            BindingContext="{Binding LastNameViewModel}" />
+
+        <input:PrimaryEntryView
+            BindingContext="{Binding UsernameViewModel}" />
+
+        <input:PrimaryEntryView
+            BindingContext="{Binding PasswordViewModel}" />
+
+        <input:PrimaryEntryView
+            BindingContext="{Binding ConfirmPasswordViewModel}" />
+
+        <StackLayout
+            Spacing="12"
+            Margin="0,20"
+            Orientation="Horizontal"
+            HorizontalOptions="FillAndExpand">
+            <input:PrimaryRoundButton
+                BindingContext="{Binding CancelViewModel}"
+                HorizontalOptions="FillAndExpand" />
+
+            <input:PrimaryRoundButton
+                BindingContext="{Binding ConfirmViewModel}"
+                HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+    </VerticalStackLayout>
 </ContentPage>
