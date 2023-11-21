@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using InStock.Frontend.Core.ViewModels.Base;
 
 namespace InStock.Frontend.Core.ViewModels.Input
@@ -16,5 +17,7 @@ namespace InStock.Frontend.Core.ViewModels.Input
 
         [ObservableProperty]
         private bool _isPassword;
+
+        public ButtonViewModel SecondaryActionViewModel { get; } = new ButtonViewModel { Title = string.Empty, Command = new RelayCommand(() => { }) };
     }
 }
