@@ -1,6 +1,10 @@
 # InStock
  Inventory Management and POS Scanner
 
+ 
+## Running with DebugWithMocks Configuration
+You can run this without a backend using Mock Services.
+
 # Configuring the Backend
 
 

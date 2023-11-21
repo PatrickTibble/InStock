@@ -20,7 +20,6 @@ using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.Services.Platform;
 using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.InventoryService.Abstraction.Services;
-using InStock.Common.Core.Extensions;
 using InStock.Frontend.Core.Managers;
 using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Services.Settings;
@@ -45,6 +44,7 @@ public partial class App : Application
         var locator = Resolver.Resolve<ILocator<Page>>();
         var page = locator.CreatePageFor<LoginPageModel>();
         var window = new Window(new NavigationPage(page));
+
         return window;
     }
 

@@ -1,0 +1,8 @@
+﻿inventory.png:
+<a href="https://www.flaticon.com/free-icons/inventory" title="inventory icons">Inventory icons created by Parzival’ 1997 - Flaticon</a>
+
+user.png
+<a href="https://www.flaticon.com/free-icons/profile" title="profile icons">Profile icons created by Freepik - Flaticon</a>
+
+lock.png
+<a href="https://www.flaticon.com/free-icons/reset-password" title="reset password icons">Reset password icons created by Pixel perfect - Flaticon</a>

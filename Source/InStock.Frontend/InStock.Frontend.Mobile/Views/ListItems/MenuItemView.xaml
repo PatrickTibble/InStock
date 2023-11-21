@@ -6,7 +6,7 @@
         <VerticalStackLayout.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding Command}" />
         </VerticalStackLayout.GestureRecognizers>
-        <Label Text="{Binding Title}" FontSize="Large" />
-        <Label Text="{Binding Subtitle}" FontSize="Medium" />
+        <Label Text="{Binding Title}" FontSize="Large" TextColor="{StaticResource Gray900}" />
+        <Label Text="{Binding Subtitle}" FontSize="Medium" TextColor="{StaticResource Gray900}" />
     </VerticalStackLayout>
 </ContentView>

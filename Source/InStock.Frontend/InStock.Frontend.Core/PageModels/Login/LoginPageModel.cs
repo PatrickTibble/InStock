@@ -46,6 +46,8 @@ namespace InStock.Frontend.Core.PageModels.Login
                 IsPassword = true
             };
 
+            PasswordViewModel.SecondaryActionViewModel.Title = Strings.ButtonTitle_ForgotPassword;
+
             LoginViewModel = new ButtonViewModel
             {
                 Command = new AsyncRelayCommand(TryLoginWithCredentialsAsync, () => !IsLoading),

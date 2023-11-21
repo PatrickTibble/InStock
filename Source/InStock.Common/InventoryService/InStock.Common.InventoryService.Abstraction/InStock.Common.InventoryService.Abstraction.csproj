@@ -10,4 +10,8 @@
     <PackageReference Include="Refit" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\InStock.Common.Models\InStock.Common.Models.csproj" />
+  </ItemGroup>
+
 </Project>
