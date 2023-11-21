@@ -2,29 +2,27 @@
 using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Threading;
+using InStock.Frontend.Core.Extensions;
 
 namespace InStock.Frontend.Core.Repositories
 {
     public class InventoryRepository : IInventoryRepository
 	{
         private readonly IInventoryService _inventoryService;
-        private readonly CancellationToken _token;
 
         public InventoryRepository(
-			IInventoryService inventoryService,
-			ITaskCancellationService taskCancellationService)
+			IInventoryService inventoryService)
 		{
             _inventoryService = inventoryService;
-            _token = taskCancellationService.GetToken();
 		}
 
         public async Task<IEnumerable<InventoryItem>?> GetFullInventoryAsync()
         {
             var response = await _inventoryService.GetAllAsync();
 
-            if (response.IsSuccessfulStatusCode)
+            if (response.IsSuccessfulStatusCode() && response.Data != null)
             {
-                return response.Items?.Select(i => new InventoryItem
+                return response.Data.Items?.Select(i => new InventoryItem
                 {
                     Id = i.Id,
                     Name = i.Name,
