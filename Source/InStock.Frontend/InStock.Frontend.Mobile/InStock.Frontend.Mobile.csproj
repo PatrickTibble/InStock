@@ -62,6 +62,10 @@
 
 	<ItemGroup>
 	  <None Remove="Pages\" />
+	  <None Remove="Resources\Images\image_attribution.txt" />
+	  <None Remove="Resources\Images\inventory.png" />
+	  <None Remove="Resources\Images\lock.png" />
+	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Views\" />
 	  <None Remove="Views\Input\" />
 	  <None Remove="Views\Headers\" />
@@ -104,6 +108,12 @@
 	  <MauiXaml Update="Pages\Login\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Dimens.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Brushes\LinearGradientAccentPrimaryBrush.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Frames\PrimaryCardFrame.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -111,6 +121,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Input\PrimaryRoundButton.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Labels\Header1Label.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Labels\ParagraphSmallLabel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Labels\TitleLabel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
