@@ -3,12 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         x:Class="InStock.Frontend.Mobile.Views.Input.PrimaryRoundButton"
         xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Input;assembly=InStock.Frontend.Core"
+        xmlns:shadows="clr-namespace:InStock.Frontend.Mobile.Views.Shadows"
         x:DataType="vm:ButtonViewModel"
         HeightRequest="48"
         CornerRadius="24"
-        BackgroundColor="{StaticResource Blue200Accent}"
+        BackgroundColor="{StaticResource AccentSecondary}"
         TextColor="{StaticResource White}"
         IsEnabled="{Binding IsEnabled}"
         IsVisible="{Binding IsVisible}"
         Command="{Binding Command}"
-        Text="{Binding Title}" />
+        Text="{Binding Title}">
+    <Button.Shadow>
+        <shadows:PrimaryShadow />
+    </Button.Shadow>
+</Button>
