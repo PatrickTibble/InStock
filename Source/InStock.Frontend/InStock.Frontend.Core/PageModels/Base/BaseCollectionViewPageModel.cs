@@ -11,6 +11,9 @@ namespace InStock.Frontend.Core.PageModels.Base
 		private ObservableCollection<TListItem>? _items;
 
 		[ObservableProperty]
+		private bool _navigationBarVisible = false;
+
+		[ObservableProperty]
 		private TListItem? _selectedItem;
 
 		[ObservableProperty]
