@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="InStock.Frontend.Mobile.Pages.Login.LoginPage"
     xmlns:pm="clr-namespace:InStock.Frontend.Core.PageModels.Login;assembly=InStock.Frontend.Core"
-    xmlns:converters="clr-namespace:InStock.Frontend.Mobile.Converters"
     xmlns:inputViews="clr-namespace:InStock.Frontend.Mobile.Views.Input"
     xmlns:frames="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
     xmlns:local="clr-namespace:InStock.Frontend.Core.Resources.Localization;assembly=InStock.Frontend.Core"
@@ -14,9 +13,6 @@
     NavigationPage.HasBackButton="False"
     x:DataType="pm:LoginPageModel"
     Title="LoginPage">
-    <ContentPage.Resources>
-        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
-    </ContentPage.Resources>
     <ContentPage.Background>
         <brushes:LinearGradientAccentPrimaryBrush />
     </ContentPage.Background>
