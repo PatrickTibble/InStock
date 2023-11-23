@@ -1,21 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:templateSelectors="clr-namespace:InStock.Frontend.Mobile.TemplateSelectors"
-             x:Class="InStock.Frontend.Mobile.Pages.Shared.CollectionViewPage"
-             Title="{Binding Title}">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:templateSelectors="clr-namespace:InStock.Frontend.Mobile.TemplateSelectors"
+    NavigationPage.HasNavigationBar="{Binding NavigationBarVisible}"
+    xmlns:headers="clr-namespace:InStock.Frontend.Mobile.Views.Headers"
+    x:Class="InStock.Frontend.Mobile.Pages.Shared.CollectionViewPage"
+    xmlns:shadows="clr-namespace:InStock.Frontend.Mobile.Views.Shadows"
+    BackgroundColor="{StaticResource Gray100}"
+    Title="{Binding Title}">
     <ContentPage.Resources>
         <templateSelectors:CollectionViewHeaderTemplateSelector x:Key="HeaderTemplateSelector" />
         <templateSelectors:CollectionViewItemTemplateSelector x:Key="ItemTemplateSelector" />
     </ContentPage.Resources>
 
-    <CollectionView
-        Margin="20,40"
-        ItemsSource="{Binding Items}"
-        VerticalOptions="FillAndExpand"
-        HorizontalOptions="StartAndExpand"
-        Header="{Binding HeaderViewModel}"
-        HeaderTemplate="{StaticResource HeaderTemplateSelector}"
-        ItemTemplate="{StaticResource ItemTemplateSelector}"
-        SelectionMode="None" />
+    <StackLayout
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <StackLayout 
+            VerticalOptions="Start"
+            BindableLayout.ItemsSource="{Binding HeaderViewModels}"
+            BindableLayout.ItemTemplateSelector="{StaticResource HeaderTemplateSelector}"
+            Margin="0,0,0,-30">
+            <StackLayout.Shadow>
+                <shadows:PrimaryShadow />
+            </StackLayout.Shadow>
+        </StackLayout>
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding Items}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            ItemTemplate="{StaticResource ItemTemplateSelector}"
+            SelectionMode="None">
+            <CollectionView.Shadow>
+                <shadows:PrimaryShadow />
+            </CollectionView.Shadow>
+        </CollectionView>
+    </StackLayout>
+
 </ContentPage>
