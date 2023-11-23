@@ -1,12 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.ListItems;assembly=InStock.Frontend.Core"
+             x:DataType="vm:MenuItemViewModel"
              x:Class="InStock.Frontend.Mobile.Views.ListItems.MenuItemView">
-    <VerticalStackLayout>
-        <VerticalStackLayout.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding Command}" />
-        </VerticalStackLayout.GestureRecognizers>
-        <Label Text="{Binding Title}" FontSize="Large" TextColor="{StaticResource Gray900}" />
-        <Label Text="{Binding Subtitle}" FontSize="Medium" TextColor="{StaticResource Gray900}" />
-    </VerticalStackLayout>
+    <Frame
+        Margin="20,5"
+        BorderColor="White"
+        BackgroundColor="White" 
+        CornerRadius="30"
+        HeightRequest="60" 
+        Padding="0">
+        <StackLayout 
+            Orientation="Horizontal"
+            VerticalOptions="Center">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Command}" />
+            </StackLayout.GestureRecognizers>
+
+            <StackLayout
+                Margin="28,5"
+                VerticalOptions="Center"
+                HorizontalOptions="FillAndExpand">
+                <Label
+                    FontAttributes="Bold"
+                    Text="{Binding Title}"
+                    FontSize="{StaticResource Header5}"
+                    TextColor="{StaticResource Blue100Accent}" />
+                <Label
+                    Text="{Binding Subtitle}"
+                    FontSize="{StaticResource ParagraphSmall}"
+                    TextColor="{StaticResource Blue200Accent}" />
+            </StackLayout>
+
+            <Frame
+                Padding="0"
+                Margin="8,4"
+                WidthRequest="44"
+                HeightRequest="44"
+                BorderColor="Transparent"
+                BackgroundColor="{StaticResource Blue300Accent}"
+                IsVisible="{Binding AccessoryLabel, Converter={StaticResource NotNullOrEmptyConverter}}"
+                CornerRadius="22">
+                <StackLayout>
+                    <Label 
+                        Text="{Binding AccessoryLabel}"
+                        FontAttributes="Bold"
+                        FontSize="{StaticResource Header5}"
+                        TextColor="{StaticResource Blue100Accent}"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </Frame>
 </ContentView>

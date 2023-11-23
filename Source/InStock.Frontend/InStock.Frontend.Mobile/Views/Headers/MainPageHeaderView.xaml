@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Headers;assembly=InStock.Frontend.Core"
-             x:DataType="vm:MainPageHeaderViewModel"
-             x:Class="InStock.Frontend.Mobile.Views.Headers.MainPageHeaderView">
-    <VerticalStackLayout BackgroundColor="Purple">
-        <Label 
-            Text="{Binding Title}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentView
+    x:DataType="vm:MainPageHeaderViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Headers;assembly=InStock.Frontend.Core"
+    xmlns:brushes="clr-namespace:InStock.Frontend.Mobile.Views.Brushes"
+    xmlns:labels="clr-namespace:InStock.Frontend.Mobile.Views.Labels"
+    xmlns:local="clr-namespace:InStock.Frontend.Core.Resources.Localization;assembly=InStock.Frontend.Core"
+    x:Class="InStock.Frontend.Mobile.Views.Headers.MainPageHeaderView">
+    <Grid>
+        <Frame
+            BorderColor="Transparent"
+            Margin="-1,-30,-1,0"
+            HeightRequest="220"
+            CornerRadius="30">
+            <Frame.Background>
+                <brushes:LinearGradientAccentPrimaryBrush Direction="BottomToTop" />
+            </Frame.Background>
+            <StackLayout Margin="0,30,0,0">
+                <Image
+                    WidthRequest="80"
+                    HeightRequest="80"
+                    Aspect="AspectFit"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Source="inventory.png"
+                    BackgroundColor="Transparent" />
+                
+            </StackLayout>
+        </Frame>
+
+        <BoxView
+            Color="{StaticResource Black}"
+            HeightRequest="29"
+            VerticalOptions="Start"
+            Margin="0,-30,0,0" />
+    </Grid>
 </ContentView>
