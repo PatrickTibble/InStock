@@ -10,8 +10,8 @@ using InStock.Frontend.Core.ViewModels.ListItems;
 
 namespace InStock.Frontend.Core.PageModels.Inventory
 {
-	public class InventoryPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
-	{
+    public class InventoryPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
+    {
         private readonly IMainThreadDispatcher _dispatcher;
         private readonly INavigationService _navigationService;
         private readonly IInventoryRepository _repository;
@@ -20,16 +20,18 @@ namespace InStock.Frontend.Core.PageModels.Inventory
             INavigationService navigationService,
             IInventoryRepository repository,
             IMainThreadDispatcher dispatcher)
-		{
+        {
             _dispatcher = dispatcher;
             _navigationService = navigationService;
             _repository = repository;
+
+            NavigationBarVisible = true;
 
             HeaderViewModel = new PrimaryHeaderViewModel
             {
                 Title = Strings.PageTitle_InventoryPage
             };
-		}
+        }
 
         public override async Task InitializeAsync(object? navigationData = null)
         {
@@ -45,7 +47,9 @@ namespace InStock.Frontend.Core.PageModels.Inventory
                                 item => new MenuItemViewModel(
                                     item.Name,
                                     item.Description,
-                                    new RelayCommand(() => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)))));
+                                    new RelayCommand(
+                                        () => _navigationService.NavigateToAsync<InventoryItemDetailsPageModel>(item)
+                                        ))));
                     }
                 })).ConfigureAwait(false);
         }

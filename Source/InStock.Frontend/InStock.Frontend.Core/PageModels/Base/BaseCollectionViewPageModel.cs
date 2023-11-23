@@ -11,10 +11,30 @@ namespace InStock.Frontend.Core.PageModels.Base
 		private ObservableCollection<TListItem>? _items;
 
 		[ObservableProperty]
-		private TListItem? _selectedItem;
+		private bool _navigationBarVisible = false;
 
 		[ObservableProperty]
-		private BaseViewModel? _headerViewModel;
+		private TListItem? _selectedItem;
+
+		public ObservableCollection<BaseViewModel>? HeaderViewModels { get; }
+
+		public BaseViewModel? HeaderViewModel
+		{
+			get => HeaderViewModels?.FirstOrDefault();
+			set
+			{
+				HeaderViewModels?.Clear();
+				if (value != null)
+				{
+					HeaderViewModels?.Add(value);
+				}
+			}
+		}
+
+		protected BaseCollectionViewPageModel()
+		{
+            HeaderViewModels = new ObservableCollection<BaseViewModel>();
+        }
 
 		protected virtual void SelectedItemChanged(TListItem? oldValue, TListItem? newValue)
 		{
