@@ -18,7 +18,7 @@ namespace InStock.Frontend.Core.PageModels.Base
 
 		public ObservableCollection<BaseViewModel>? HeaderViewModels { get; }
 
-		protected BaseViewModel? HeaderViewModel
+		public BaseViewModel? HeaderViewModel
 		{
 			get => HeaderViewModels?.FirstOrDefault();
 			set
