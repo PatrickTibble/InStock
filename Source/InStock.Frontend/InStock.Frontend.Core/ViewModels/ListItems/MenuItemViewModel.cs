@@ -15,6 +15,9 @@ namespace InStock.Frontend.Core.ViewModels.ListItems
         [ObservableProperty]
         private ICommand _command;
 
+        [ObservableProperty]
+        private string? _accessoryLabel;
+
         public MenuItemViewModel(string? title, string? subtitle, ICommand command)
         {
             _title = title;

@@ -16,8 +16,25 @@ namespace InStock.Frontend.Core.PageModels.Base
 		[ObservableProperty]
 		private TListItem? _selectedItem;
 
-		[ObservableProperty]
-		private BaseViewModel? _headerViewModel;
+		public ObservableCollection<BaseViewModel>? HeaderViewModels { get; }
+
+		protected BaseViewModel? HeaderViewModel
+		{
+			get => HeaderViewModels?.FirstOrDefault();
+			set
+			{
+				HeaderViewModels?.Clear();
+				if (value != null)
+				{
+					HeaderViewModels?.Add(value);
+				}
+			}
+		}
+
+		protected BaseCollectionViewPageModel()
+		{
+            HeaderViewModels = new ObservableCollection<BaseViewModel>();
+        }
 
 		protected virtual void SelectedItemChanged(TListItem? oldValue, TListItem? newValue)
 		{
