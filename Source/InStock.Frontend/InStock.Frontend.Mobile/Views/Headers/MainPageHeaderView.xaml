@@ -16,9 +16,16 @@
             HeightRequest="220"
             CornerRadius="30">
             <Frame.Background>
-                <brushes:LinearGradientAccentPrimaryBrush Direction="BottomToTop" />
+                <brushes:LinearGradientAccentPrimaryBrush 
+                    Direction="BottomToTop" />
             </Frame.Background>
-            <StackLayout Margin="0,30,0,0">
+            <StackLayout 
+                Margin="0,30,0,0"
+                Orientation="Horizontal">
+                <Image
+                    VerticalOptions="Start"
+                    Source="paragraph.png"
+                    WidthRequest="30"/>
                 <Image
                     WidthRequest="80"
                     HeightRequest="80"
@@ -27,6 +34,10 @@
                     VerticalOptions="CenterAndExpand"
                     Source="inventory.png"
                     BackgroundColor="Transparent" />
+                <Image
+                    VerticalOptions="Start"
+                    Source="option.png"
+                    WidthRequest="30"/>
                 
             </StackLayout>
         </Frame>
