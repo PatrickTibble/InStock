@@ -7,6 +7,7 @@
     xmlns:brushes="clr-namespace:InStock.Frontend.Mobile.Views.Brushes"
     xmlns:labels="clr-namespace:InStock.Frontend.Mobile.Views.Labels"
     xmlns:local="clr-namespace:InStock.Frontend.Core.Resources.Localization;assembly=InStock.Frontend.Core"
+    Margin="0,0,0,-30"
     x:Class="InStock.Frontend.Mobile.Views.Headers.MainPageHeaderView">
     <Grid>
         <Frame

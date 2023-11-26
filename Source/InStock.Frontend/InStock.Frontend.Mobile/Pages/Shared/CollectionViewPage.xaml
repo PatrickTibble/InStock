@@ -20,8 +20,7 @@
         <StackLayout 
             VerticalOptions="Start"
             BindableLayout.ItemsSource="{Binding HeaderViewModels}"
-            BindableLayout.ItemTemplateSelector="{StaticResource HeaderTemplateSelector}"
-            Margin="0,0,0,-30">
+            BindableLayout.ItemTemplateSelector="{StaticResource HeaderTemplateSelector}">
             <StackLayout.Shadow>
                 <shadows:PrimaryShadow />
             </StackLayout.Shadow>
