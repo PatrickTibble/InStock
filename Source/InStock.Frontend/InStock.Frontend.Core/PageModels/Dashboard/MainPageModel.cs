@@ -33,6 +33,26 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
                 new MenuItemViewModel(
                     Strings.MenuItem_Title_PointOfSale,
                     Strings.MenuItem_Subtitle_PointOfSale,
+                    new AsyncRelayCommand(OnShowPointOfSale)),
+
+                new MenuItemViewModel(
+                    Strings.MenuItem_Title_Vendors,
+                    Strings.MenuItem_Subtitle_Vendors,
+                    new AsyncRelayCommand(OnShowPointOfSale)),
+
+                new MenuItemViewModel(
+                    Strings.MenuItem_Title_Locations,
+                    Strings.MenuItem_Subtitle_Locations,
+                    new AsyncRelayCommand(OnShowPointOfSale)),
+
+                new MenuItemViewModel(
+                    Strings.MenuItem_Title_Customers,
+                    Strings.MenuItem_Subtitle_Customers,
+                    new AsyncRelayCommand(OnShowPointOfSale)),
+
+                new MenuItemViewModel(
+                    Strings.MenuItem_Title_ProfitAndLoss,
+                    Strings.MenuItem_Subtitle_ProfitAndLoss,
                     new AsyncRelayCommand(OnShowPointOfSale))
             };
         }

@@ -214,11 +214,29 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage known customers.
+        /// </summary>
+        public static string MenuItem_Subtitle_Customers {
+            get {
+                return ResourceManager.GetString("MenuItem_Subtitle_Customers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to See what&apos;s in stock.
         /// </summary>
         public static string MenuItem_Subtitle_Inventory {
             get {
                 return ResourceManager.GetString("MenuItem_Subtitle_Inventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep track of where your inventory is.
+        /// </summary>
+        public static string MenuItem_Subtitle_Locations {
+            get {
+                return ResourceManager.GetString("MenuItem_Subtitle_Locations", resourceCulture);
             }
         }
         
@@ -232,6 +250,33 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View income and expenses.
+        /// </summary>
+        public static string MenuItem_Subtitle_ProfitAndLoss {
+            get {
+                return ResourceManager.GetString("MenuItem_Subtitle_ProfitAndLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View and update vendors and suppliers.
+        /// </summary>
+        public static string MenuItem_Subtitle_Vendors {
+            get {
+                return ResourceManager.GetString("MenuItem_Subtitle_Vendors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customers.
+        /// </summary>
+        public static string MenuItem_Title_Customers {
+            get {
+                return ResourceManager.GetString("MenuItem_Title_Customers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inventory.
         /// </summary>
         public static string MenuItem_Title_Inventory {
@@ -241,11 +286,38 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locations.
+        /// </summary>
+        public static string MenuItem_Title_Locations {
+            get {
+                return ResourceManager.GetString("MenuItem_Title_Locations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Point of Sale.
         /// </summary>
         public static string MenuItem_Title_PointOfSale {
             get {
                 return ResourceManager.GetString("MenuItem_Title_PointOfSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profit and Loss.
+        /// </summary>
+        public static string MenuItem_Title_ProfitAndLoss {
+            get {
+                return ResourceManager.GetString("MenuItem_Title_ProfitAndLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vendors.
+        /// </summary>
+        public static string MenuItem_Title_Vendors {
+            get {
+                return ResourceManager.GetString("MenuItem_Title_Vendors", resourceCulture);
             }
         }
         
