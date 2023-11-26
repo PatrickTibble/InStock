@@ -65,6 +65,8 @@
 	  <None Remove="Resources\Images\image_attribution.txt" />
 	  <None Remove="Resources\Images\inventory.png" />
 	  <None Remove="Resources\Images\lock.png" />
+	  <None Remove="Resources\Images\option.png" />
+	  <None Remove="Resources\Images\paragraph.png" />
 	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Views\" />
 	  <None Remove="Views\Input\" />
