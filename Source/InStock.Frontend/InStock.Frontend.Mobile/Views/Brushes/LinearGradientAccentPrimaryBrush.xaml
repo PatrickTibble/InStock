@@ -7,8 +7,8 @@
     EndPoint="0.5, 1">
     <GradientStop
         Offset="0"
-        Color="{StaticResource AccentPrimary}" />
+        Color="{StaticResource HeaderEnd}" />
     <GradientStop
         Offset="1"
-        Color="{StaticResource Primary}" />
+        Color="{StaticResource HeaderStart}" />
 </LinearGradientBrush>
