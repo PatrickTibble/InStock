@@ -2,18 +2,12 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:templateSelectors="clr-namespace:InStock.Frontend.Mobile.TemplateSelectors"
     NavigationPage.HasNavigationBar="{Binding NavigationBarVisible}"
     xmlns:headers="clr-namespace:InStock.Frontend.Mobile.Views.Headers"
     x:Class="InStock.Frontend.Mobile.Pages.Shared.CollectionViewPage"
     xmlns:shadows="clr-namespace:InStock.Frontend.Mobile.Views.Shadows"
     BackgroundColor="{StaticResource Gray100}"
     Title="{Binding Title}">
-    <ContentPage.Resources>
-        <templateSelectors:CollectionViewHeaderTemplateSelector x:Key="HeaderTemplateSelector" />
-        <templateSelectors:CollectionViewItemTemplateSelector x:Key="ItemTemplateSelector" />
-    </ContentPage.Resources>
-
     <StackLayout
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">

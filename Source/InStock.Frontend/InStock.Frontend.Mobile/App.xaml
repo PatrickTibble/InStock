@@ -1,9 +1,11 @@
 ﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:InStock.Frontend.Mobile"
-             xmlns:converters="clr-namespace:InStock.Frontend.Mobile.Converters"
-             x:Class="InStock.Frontend.Mobile.App">
+<Application
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:InStock.Frontend.Mobile"
+    xmlns:converters="clr-namespace:InStock.Frontend.Mobile.Converters"
+    xmlns:templateSelectors="clr-namespace:InStock.Frontend.Mobile.TemplateSelectors"
+    x:Class="InStock.Frontend.Mobile.App">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,6 +16,9 @@
 
             <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
             <converters:NotNullOrEmptyConverter x:Key="NotNullOrEmptyConverter" />
+
+            <templateSelectors:CollectionViewHeaderTemplateSelector x:Key="HeaderTemplateSelector" />
+            <templateSelectors:CollectionViewItemTemplateSelector x:Key="ItemTemplateSelector" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
