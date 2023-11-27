@@ -62,11 +62,18 @@
 
 	<ItemGroup>
 	  <None Remove="Pages\" />
+	  <None Remove="Resources\Images\checklist.png" />
+	  <None Remove="Resources\Images\chevron.png" />
+	  <None Remove="Resources\Images\find_gradient.png" />
+	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\image_attribution.txt" />
 	  <None Remove="Resources\Images\inventory.png" />
+	  <None Remove="Resources\Images\location.png" />
 	  <None Remove="Resources\Images\lock.png" />
 	  <None Remove="Resources\Images\option.png" />
+	  <None Remove="Resources\Images\painting.png" />
 	  <None Remove="Resources\Images\paragraph.png" />
+	  <None Remove="Resources\Images\ready_stock.png" />
 	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Views\" />
 	  <None Remove="Views\Input\" />
@@ -96,6 +103,9 @@
 	  </ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="Views\Cards\EntryCardView.xaml.cs">
+	    <DependentUpon>EntryCardView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Input\PrimaryRoundButton.xaml.cs">
 	    <DependentUpon>PrimaryRoundButton.xaml</DependentUpon>
 	  </Compile>
@@ -116,7 +126,19 @@
 	  <MauiXaml Update="Views\Brushes\LinearGradientAccentPrimaryBrush.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\ChartCardView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\EntryCardView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cards\LocationCardView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Frames\PrimaryCardFrame.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Frames\RoundedCardFrame.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Headers\MainPageHeaderView.xaml">
@@ -125,13 +147,22 @@
 	  <MauiXaml Update="Views\Input\PrimaryRoundButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Input\SearchBarView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Labels\Header1Label.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Labels\ParagraphLabel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Labels\ParagraphSmallLabel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Labels\TitleLabel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Scrolls\HorizontalScrollView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
