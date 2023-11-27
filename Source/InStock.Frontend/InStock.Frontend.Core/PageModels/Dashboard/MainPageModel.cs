@@ -1,15 +1,15 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using InStock.Frontend.Abstraction.Services.Navigation;
+﻿using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Base;
-using InStock.Frontend.Core.PageModels.Inventory;
-using InStock.Frontend.Core.PageModels.PointOfSale;
 using InStock.Frontend.Core.Resources.Localization;
+using InStock.Frontend.Core.ViewModels.Base;
+using InStock.Frontend.Core.ViewModels.Cards;
+using InStock.Frontend.Core.ViewModels.Collections;
 using InStock.Frontend.Core.ViewModels.Headers;
-using InStock.Frontend.Core.ViewModels.ListItems;
+using InStock.Frontend.Core.ViewModels.Input;
 
 namespace InStock.Frontend.Core.PageModels.Dashboard
 {
-	public class MainPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
+	public class MainPageModel : BaseCollectionViewPageModel<BaseViewModel>
 	{
         private readonly INavigationService _navigationService;
 
@@ -23,44 +23,12 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
                 Title = Strings.PageTitle_MainPage
             };
 
-            Items = new System.Collections.ObjectModel.ObservableCollection<MenuItemViewModel>
+            Items = new System.Collections.ObjectModel.ObservableCollection<BaseViewModel>
             {
-                new MenuItemViewModel(
-                    Strings.MenuItem_Title_Inventory,
-                    Strings.MenuItem_Subtitle_Inventory,
-                    new AsyncRelayCommand(OnShowInventory)),
-
-                new MenuItemViewModel(
-                    Strings.MenuItem_Title_PointOfSale,
-                    Strings.MenuItem_Subtitle_PointOfSale,
-                    new AsyncRelayCommand(OnShowPointOfSale)),
-
-                new MenuItemViewModel(
-                    Strings.MenuItem_Title_Vendors,
-                    Strings.MenuItem_Subtitle_Vendors,
-                    new AsyncRelayCommand(OnShowPointOfSale)),
-
-                new MenuItemViewModel(
-                    Strings.MenuItem_Title_Locations,
-                    Strings.MenuItem_Subtitle_Locations,
-                    new AsyncRelayCommand(OnShowPointOfSale)),
-
-                new MenuItemViewModel(
-                    Strings.MenuItem_Title_Customers,
-                    Strings.MenuItem_Subtitle_Customers,
-                    new AsyncRelayCommand(OnShowPointOfSale)),
-
-                new MenuItemViewModel(
-                    Strings.MenuItem_Title_ProfitAndLoss,
-                    Strings.MenuItem_Subtitle_ProfitAndLoss,
-                    new AsyncRelayCommand(OnShowPointOfSale))
+                new SearchBarViewModel(),
+                new ChartViewModel(),
+                new CollectionViewModel<LocationCardViewModel>()
             };
         }
-
-        private Task OnShowInventory()
-            => _navigationService.NavigateToAsync<InventoryPageModel>();
-
-        private Task OnShowPointOfSale()
-            => _navigationService.NavigateToAsync<ScannerPageModel>();
     }
 }
