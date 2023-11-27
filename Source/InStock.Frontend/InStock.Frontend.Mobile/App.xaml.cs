@@ -42,7 +42,7 @@ public partial class App : Application
     protected override Window CreateWindow(IActivationState activationState)
     {
         var locator = Resolver.Resolve<ILocator<Page>>();
-        var page = locator.CreatePageFor<LoginPageModel>();
+        var page = locator.CreatePageFor<MainPageModel>();
         var window = new Window(new NavigationPage(page));
 
         return window;
