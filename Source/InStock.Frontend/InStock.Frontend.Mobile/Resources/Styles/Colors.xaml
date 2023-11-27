@@ -4,6 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Color x:Key="HeaderEnd">#3122c2</Color>
+    <Color x:Key="HeaderStart">#621fa0</Color>
+
+    <Color x:Key="FlyoutHeaderEnd">#e10a64</Color>
+    <Color x:Key="FlyoutHeaderStart">#78498f</Color>
+
     <Color x:Key="Primary">#7401DF</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
