@@ -17,8 +17,9 @@ namespace InStock.Frontend.Mobile.TemplateSelectors
 			{
 				{ typeof(MenuItemViewModel), new DataTemplate(typeof(MenuItemView)) },
 				{ typeof(SearchBarViewModel), new DataTemplate(typeof(SearchBarView)) },
-				{ typeof(CollectionViewModel<LocationCardViewModel>), new DataTemplate(typeof(HorizontalScrollView)) }.,
-                { typeof(ChartViewModel), new DataTemplate(typeof(ChartCardView)) }
+				{ typeof(CollectionViewModel<LocationCardViewModel>), new DataTemplate(typeof(HorizontalScrollView)) },
+                { typeof(ChartViewModel), new DataTemplate(typeof(ChartCardView)) },
+				{ typeof(LocationCardViewModel), new DataTemplate(typeof(LocationCardView)) }
 			};
 		}
 	}
