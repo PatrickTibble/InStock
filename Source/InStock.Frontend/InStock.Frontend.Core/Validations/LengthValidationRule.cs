@@ -1,4 +1,6 @@
-﻿namespace InStock.Frontend.Abstraction.Validations
+﻿using InStock.Frontend.Abstraction.Validations;
+
+namespace InStock.Frontend.Core.Validations
 {
     public class LengthValidationRule : IValidationRule
     {
