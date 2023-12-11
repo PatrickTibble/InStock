@@ -376,6 +376,15 @@ namespace InStock.Frontend.Core.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string Placeholder_Search {
+            get {
+                return ResourceManager.GetString("Placeholder_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to username.
         /// </summary>
         public static string Placeholder_Username {

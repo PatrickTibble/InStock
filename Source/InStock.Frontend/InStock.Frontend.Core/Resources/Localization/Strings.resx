@@ -228,4 +228,7 @@
   <data name="MenuItem_Title_Vendors" xml:space="preserve">
     <value>Vendors</value>
   </data>
+  <data name="Placeholder_Search" xml:space="preserve">
+    <value>search</value>
+  </data>
 </root>
