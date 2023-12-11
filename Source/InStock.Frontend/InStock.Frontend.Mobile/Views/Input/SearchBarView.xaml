@@ -4,9 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:frames="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
     xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Input;assembly=InStock.Frontend.Core"
+    xmlns:shadows="clr-namespace:InStock.Frontend.Mobile.Views.Shadows"
     x:DataType="vm:SearchBarViewModel"
     HeightRequest="60"
+    Margin="20,0"
     x:Class="InStock.Frontend.Mobile.Views.Input.SearchBarView">
+    <Frame.Shadow>
+        <shadows:PrimaryShadow />
+    </Frame.Shadow>
     <StackLayout 
         Padding="5,3"
         Orientation="Horizontal"
