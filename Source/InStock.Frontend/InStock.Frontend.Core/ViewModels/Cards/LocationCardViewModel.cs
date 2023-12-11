@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Core.ViewModels.Base;
 using System.Windows.Input;
 
@@ -17,5 +18,12 @@ namespace InStock.Frontend.Core.ViewModels.Cards
 
         [ObservableProperty]
         private ICommand? _command;
+
+        public LocationCardViewModel(Location location)
+        {
+            Title = location.Name;
+            DetailText = location.Description;
+            ImageSource = location.ImageUrl;
+        }
     }
 }
