@@ -25,6 +25,7 @@ using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Services.Settings;
 using InStock.Frontend.Mobile.Services.Settings;
 using InStock.Frontend.Mobile.Services.Platforms;
+using InStock.Frontend.Mobile.Services.Platform;
 
 namespace InStock.Frontend.Mobile;
 
@@ -54,6 +55,7 @@ public partial class App : Application
 
         container.Register<ILocator<Page>>(new PageModelLocator(container));
         container.Register<IAlertService, MauiAlertService>();
+        container.Register<IImageService, ImageService>();
         container.Register<INavigationService, MauiNavigationService>();
         container.Register<IMainThreadDispatcher, MainThreadDispatcher>();
         container.Register<ITaskCancellationService, TaskCancellationService>();
