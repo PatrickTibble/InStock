@@ -1,6 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using InStock.Common.Abstraction.Services.Logger;
+using System.Runtime.CompilerServices;
 
-namespace InStock.Common.Abstraction.Logger
+namespace InStock.Common.Core.Services.Logger
 {
     public class LocalSessionLogger : ILogger
     {
@@ -8,6 +9,11 @@ namespace InStock.Common.Abstraction.Logger
         {
             Console.WriteLine($"Exception in {callerName}: {exception.Message}");
             return Task.CompletedTask;
+        }
+
+        public void LogInfo(string message, [CallerMemberName] string? callerName = null)
+        {
+            Console.WriteLine(message, callerName);
         }
     }
 }

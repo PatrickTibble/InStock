@@ -1,4 +1,4 @@
-﻿using InStock.Common.Abstraction.Logger;
+﻿using InStock.Common.Abstraction.Services.Logger;
 using InStock.Common.IdentityService.Abstraction.Exceptions;
 using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
