@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using InStock.Frontend.Abstraction.Models;
+using InStock.Common.InventoryService.Abstraction.Entities;
 using InStock.Frontend.Core.ViewModels.Base;
 using System.Windows.Input;
 
@@ -7,9 +7,6 @@ namespace InStock.Frontend.Core.ViewModels.Cards
 {
     public partial class LocationCardViewModel : BaseViewModel
     {
-        [ObservableProperty]
-        private string? _titleText;
-
         [ObservableProperty]
         private string? _detailText;
 

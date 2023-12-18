@@ -2,6 +2,8 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:context="clr-namespace:InStock.Frontend.Core.PageModels.Base;assembly=InStock.Frontend.Core"
+    x:DataType="context:BaseCollectionViewPageModel"
     NavigationPage.HasNavigationBar="{Binding NavigationBarVisible}"
     xmlns:headers="clr-namespace:InStock.Frontend.Mobile.Views.Headers"
     x:Class="InStock.Frontend.Mobile.Pages.Shared.CollectionViewPage"
@@ -25,6 +27,7 @@
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             ItemTemplate="{StaticResource ItemTemplateSelector}"
+            ItemSizingStrategy="MeasureAllItems"
             SelectionMode="None">
             <CollectionView.Shadow>
                 <shadows:PrimaryShadow />

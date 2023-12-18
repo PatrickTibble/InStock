@@ -1,4 +1,5 @@
-﻿using InStock.Frontend.Abstraction.Adapters;
+﻿using InStock.Common.InventoryService.Abstraction.Entities;
+using InStock.Frontend.Abstraction.Adapters;
 using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Navigation;
@@ -13,11 +14,11 @@ using InStock.Frontend.Core.ViewModels.Input;
 
 namespace InStock.Frontend.Core.PageModels.Dashboard
 {
-	public class MainPageModel : BaseCollectionViewPageModel<BaseViewModel>
+	public class MainPageModel : BaseCollectionViewPageModel
 	{
         private readonly INavigationService _navigationService;
         private readonly IImageService _imageService;
-        private readonly IAdapter<RevenueReport, ChartDataSet> _revenueAdapter;
+        private readonly IAdapter<IList<RevenueReport>, ChartDataSet> _revenueAdapter;
         private readonly ILocationsManager _locationsManager;
         private readonly IRevenueManager _revenueManager;
         private ChartViewModel _chartViewModel;
@@ -28,7 +29,7 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
             IImageService imageService,
             ILocationsManager locationManager,
             IRevenueManager revenueManager,
-            IAdapter<RevenueReport, ChartDataSet> revenueAdapter)
+            IAdapter<IList<RevenueReport>, ChartDataSet> revenueAdapter)
 		{
             _locationsManager = locationManager;
             _revenueManager = revenueManager;
@@ -60,9 +61,10 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
         public override async Task InitializeAsync(object? navigationData = null)
         {
             var revenue = await _revenueManager.GetRevenueReportAsync();
+            var chartData = _revenueAdapter.Convert(revenue ?? new List<RevenueReport>());
             await Task.WhenAny(
                 base.InitializeAsync(navigationData),
-                _chartViewModel.InitializeAsync(_revenueAdapter.Convert(revenue)),
+                _chartViewModel.InitializeAsync(chartData),
                 _locationsViewModel.InitializeAsync());
         }
 

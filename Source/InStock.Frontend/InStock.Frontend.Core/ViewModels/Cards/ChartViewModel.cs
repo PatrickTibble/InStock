@@ -15,14 +15,23 @@ namespace InStock.Frontend.Core.ViewModels.Cards
         private ObservableCollection<string>? _yAxis;
 
         [ObservableProperty]
-        private ObservableCollection<Point>? _points;
+        private ObservableCollection<ChartPoint>? _points;
+
+        public EventHandler? Draw { get; set; }
 
         public override Task InitializeAsync(object? navigationData = null)
         {
-            if (navigationData is ChartDataSet dataSet)
+            if (navigationData is ChartDataSet dataSet
+                && dataSet.Points is IList<ChartPoint> points 
+                && dataSet.Axis.X.Names is IList<string> xAxis
+                && dataSet.Axis.Y.Names is IList<string> yAxis)
             {
-
+                Points = new ObservableCollection<ChartPoint>(points);
+                XAxis = new ObservableCollection<string>(xAxis);
+                YAxis = new ObservableCollection<string>(yAxis);
             }
+
+            Draw?.Invoke(null, EventArgs.Empty);
 
             return base.InitializeAsync(navigationData);
         }
