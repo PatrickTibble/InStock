@@ -1,4 +1,4 @@
-﻿using InStock.Frontend.Abstraction.Models;
+﻿using InStock.Common.InventoryService.Abstraction.Entities;
 
 namespace InStock.Frontend.Abstraction.Managers
 {

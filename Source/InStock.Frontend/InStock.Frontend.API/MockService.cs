@@ -9,7 +9,9 @@ namespace InStock.Frontend.API
         private static IDictionary<Type, object> _serviceMap = new Dictionary<Type, object>()
         {
             { typeof(IAccountService), new MockAccountService() },
-            { typeof(IInventoryService), new MockInventoryService() }
+            { typeof(IInventoryService), new MockInventoryService() },
+            { typeof(ILocationsService), new MockLocationsService() },
+            { typeof(IRevenueService), new MockRevenueService() },
         };
 
         internal static T For<T>()

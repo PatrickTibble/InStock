@@ -7,6 +7,6 @@ namespace InStock.Common.InventoryService.Abstraction.Services
     public interface ILocationsService
     {
         [Get($"/{Constants.Locations}")]
-        Task<Result<LocationsResponse>> GetLocations([Header(Constants.Authorization)] string accessToken, CancellationToken? token = null);
+        Task<Result<LocationsResponse>> GetLocationsAsync([Header(Constants.Authorization)] string accessToken, CancellationToken? token = null);
     }
 }

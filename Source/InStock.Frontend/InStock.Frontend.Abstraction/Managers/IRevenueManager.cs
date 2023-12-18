@@ -1,9 +1,9 @@
-﻿using InStock.Frontend.Abstraction.Models;
+﻿using InStock.Common.InventoryService.Abstraction.Entities;
 
 namespace InStock.Frontend.Abstraction.Managers
 {
     public interface IRevenueManager
     {
-        Task<RevenueReport> GetRevenueReportAsync();
+        Task<IList<RevenueReport>> GetRevenueReportAsync();
     }
 }
