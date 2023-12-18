@@ -2,9 +2,17 @@
 <ScrollView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:context="clr-namespace:InStock.Frontend.Core.ViewModels.Collections;assembly=InStock.Frontend.Core"
+    x:DataType="context:CollectionViewModel"
+    Orientation="Horizontal"
+    Margin="20,0"
+    VerticalOptions="Start"
+    HorizontalOptions="FillAndExpand"
     x:Class="InStock.Frontend.Mobile.Views.Scrolls.HorizontalScrollView">
     <StackLayout
         Orientation="Horizontal"
+        VerticalOptions="Start"
+        HorizontalOptions="Start"
         BindableLayout.ItemsSource="{Binding Items}"
         BindableLayout.ItemTemplateSelector="{StaticResource ItemTemplateSelector}"/>
 </ScrollView>
