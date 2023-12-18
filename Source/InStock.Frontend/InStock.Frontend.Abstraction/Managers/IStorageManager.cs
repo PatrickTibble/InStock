@@ -1,6 +1,6 @@
 ﻿namespace InStock.Frontend.Abstraction.Managers
 {
-    public interface ISettingsManager
+    public interface IStorageManager
     {
         Task<string?> GetAccessTokenAsync();
 

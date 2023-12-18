@@ -1,14 +1,14 @@
-﻿using InStock.Common.Core.Extensions;
+﻿using InStock.Common.Abstraction.Services.Storage;
+using InStock.Common.Core.Extensions;
 using InStock.Frontend.Abstraction.Managers;
-using InStock.Frontend.Abstraction.Services.Settings;
 
 namespace InStock.Frontend.Core.Managers
 {
-    public class SettingsManager : ISettingsManager
+    public class LocalStorageManager : IStorageManager
     {
-        private readonly ISettingsService _service;
+        private readonly IStorageService _service;
 
-        public SettingsManager(ISettingsService service)
+        public LocalStorageManager(IStorageService service)
         {
             _service = service;
             // ensure device id
