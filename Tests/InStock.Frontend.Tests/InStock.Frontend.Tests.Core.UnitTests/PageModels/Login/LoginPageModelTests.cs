@@ -3,8 +3,6 @@ using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
-using InStock.Frontend.Abstraction.Services.Settings;
-using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Login;
 using Moq;
