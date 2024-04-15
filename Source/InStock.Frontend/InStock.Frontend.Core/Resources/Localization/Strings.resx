@@ -204,4 +204,31 @@
   <data name="Login" xml:space="preserve">
     <value>Log in</value>
   </data>
+  <data name="MenuItem_Subtitle_Customers" xml:space="preserve">
+    <value>Manage known customers</value>
+  </data>
+  <data name="MenuItem_Subtitle_Locations" xml:space="preserve">
+    <value>Keep track of where your inventory is</value>
+  </data>
+  <data name="MenuItem_Subtitle_ProfitAndLoss" xml:space="preserve">
+    <value>View income and expenses</value>
+  </data>
+  <data name="MenuItem_Subtitle_Vendors" xml:space="preserve">
+    <value>View and update vendors and suppliers</value>
+  </data>
+  <data name="MenuItem_Title_Customers" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="MenuItem_Title_Locations" xml:space="preserve">
+    <value>Locations</value>
+  </data>
+  <data name="MenuItem_Title_ProfitAndLoss" xml:space="preserve">
+    <value>Profit and Loss</value>
+  </data>
+  <data name="MenuItem_Title_Vendors" xml:space="preserve">
+    <value>Vendors</value>
+  </data>
+  <data name="Placeholder_Search" xml:space="preserve">
+    <value>search</value>
+  </data>
 </root>

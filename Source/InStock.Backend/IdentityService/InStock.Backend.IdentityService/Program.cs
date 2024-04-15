@@ -2,8 +2,8 @@ using InStock.Common.IdentityService.Abstraction.Repositories;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Backend.IdentityService.Data.Repositories;
 using InStock.Backend.IdentityService.Core.Services;
-using InStock.Common.Abstraction.Logger;
-using ILogger = InStock.Common.Abstraction.Logger.ILogger;
+using ILogger = InStock.Common.Abstraction.Services.Logger.ILogger;
+using InStock.Common.Core.Services.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
 

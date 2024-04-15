@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using InStock.Common.IoC;
+using InStock.Frontend.Mobile.Extensions;
+using InStock.Frontend.Mobile.Services;
+using Microsoft.Extensions.Logging;
 
 namespace InStock.Frontend.Mobile;
 
@@ -6,8 +10,10 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
+		Resolver.SetServiceHelper(new ServiceHelper());
 		var builder = MauiApp.CreateBuilder();
 		builder
+			.UseMauiCommunityToolkit()
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
@@ -18,6 +24,10 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+
+		builder.Services
+			.RegisterServices()
+			.RegisterForNavigation();
 
 		return builder.Build();
 	}

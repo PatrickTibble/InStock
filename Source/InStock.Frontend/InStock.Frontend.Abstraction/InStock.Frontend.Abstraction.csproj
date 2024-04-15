@@ -24,4 +24,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\InStock.Common\InventoryService\InStock.Common.InventoryService.Abstraction\InStock.Common.InventoryService.Abstraction.csproj" />
+    <ProjectReference Include="..\..\InStock.Common\Shared\InStock.Common.IoC\InStock.Common.IoC.csproj" />
+  </ItemGroup>
 </Project>

@@ -6,5 +6,10 @@ namespace InStock.Frontend.Core.ViewModels.Base
 	{
 		[ObservableProperty]
 		private string? _title;
+
+		public virtual Task InitializeAsync(object? navigationData = null)
+		{
+			return Task.CompletedTask;
+		}
 	}
 }

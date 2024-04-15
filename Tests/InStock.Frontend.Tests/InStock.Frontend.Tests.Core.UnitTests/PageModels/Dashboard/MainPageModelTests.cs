@@ -1,7 +1,10 @@
-﻿using InStock.Frontend.Abstraction.Services.Navigation;
+﻿using InStock.Common.InventoryService.Abstraction.Entities;
+using InStock.Frontend.Abstraction.Adapters;
+using InStock.Frontend.Abstraction.Managers;
+using InStock.Frontend.Abstraction.Models;
+using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Dashboard;
-using InStock.Frontend.Core.PageModels.Inventory;
-using InStock.Frontend.Core.PageModels.Login;
+using InStock.Frontend.Core.Services.Platform;
 using Moq;
 
 namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
@@ -15,8 +18,17 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
         public void Setup()
 		{
             _navigationService = new Mock<INavigationService>();
+
+            var _imageService = new Mock<IImageService>();
+            var locationManager = new Mock<ILocationsManager>();
+            var revenueManager = new Mock<IRevenueManager>();
+            var adapter = new Mock<IAdapter<IList<RevenueReport>, ChartDataSet>>();
             _pageModel = new MainPageModel(
-                _navigationService.Object);
+                _navigationService.Object,
+                _imageService.Object,
+                locationManager.Object,
+                revenueManager.Object,
+                adapter.Object);
 		}
 
         [Test]
@@ -26,18 +38,5 @@ namespace InStock.Frontend.Tests.Core.UnitTests.PageModels.Dashboard
         [Test]
         public void HeaderViewModel_IsNotNull()
             => Assert.That(_pageModel.HeaderViewModel, Is.Not.Null);
-
-        [Test]
-        public void Items_Selection_InvokesNavigation()
-        {
-            _ = _navigationService
-                .Setup(n => n.NavigateToAsync<InventoryPageModel>(It.IsAny<object>(), It.IsAny<bool>()))
-                .Returns(Task.CompletedTask);
-
-            _pageModel.Items!.First().Command.Execute(null);
-
-            _navigationService
-                .Verify(n => n.NavigateToAsync<InventoryPageModel>(It.IsAny<object>(), false), Times.Once);
-        }
 	}
 }

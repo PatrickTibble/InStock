@@ -3,12 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.ListItems;assembly=InStock.Frontend.Core"
              x:DataType="vm:MenuItemViewModel"
+             xmlns:frames="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
              x:Class="InStock.Frontend.Mobile.Views.ListItems.MenuItemView">
-    <Frame
+    <frames:RoundedCardFrame
         Margin="20,5"
-        BorderColor="White"
-        BackgroundColor="White" 
-        CornerRadius="30"
         HeightRequest="60" 
         Padding="0">
         <StackLayout 
@@ -53,5 +51,5 @@
                 </StackLayout>
             </Frame>
         </StackLayout>
-    </Frame>
+    </frames:RoundedCardFrame>
 </ContentView>

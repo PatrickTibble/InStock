@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:PrimaryCardFrame 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Cards;assembly=InStock.Frontend.Core"
+    WidthRequest="200"
+    HeightRequest="200"
+    xmlns:images="clr-namespace:InStock.Frontend.Mobile.Views.Images"
+    x:DataType="{x:Type vm:LocationCardViewModel}"
+    xmlns:base="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
+    xmlns:labels="clr-namespace:InStock.Frontend.Mobile.Views.Labels"
+    x:Class="InStock.Frontend.Mobile.Views.Cards.LocationCardView">
+    <base:PrimaryCardFrame.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding Command}" />
+    </base:PrimaryCardFrame.GestureRecognizers>
+    <StackLayout>
+        <images:CachedImage 
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            Source="{Binding ImageSource}" />
+        <labels:ParagraphLabel
+            HorizontalOptions="Center"
+            Text="{Binding Title}" />
+        <labels:ParagraphSmallLabel 
+            HorizontalOptions="Center"
+            Text="{Binding DetailText}" />
+    </StackLayout>
+</base:PrimaryCardFrame>

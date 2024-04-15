@@ -5,12 +5,13 @@ using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.Resources.Localization;
+using InStock.Frontend.Core.ViewModels.Base;
 using InStock.Frontend.Core.ViewModels.Headers;
 using InStock.Frontend.Core.ViewModels.ListItems;
 
 namespace InStock.Frontend.Core.PageModels.Inventory
 {
-    public class InventoryPageModel : BaseCollectionViewPageModel<MenuItemViewModel>
+    public class InventoryPageModel : BaseCollectionViewPageModel
     {
         private readonly IMainThreadDispatcher _dispatcher;
         private readonly INavigationService _navigationService;
@@ -42,7 +43,7 @@ namespace InStock.Frontend.Core.PageModels.Inventory
                 {
                     if (items != null)
                     {
-                        Items = new ObservableCollection<MenuItemViewModel>(
+                        Items = new ObservableCollection<BaseViewModel>(
                             items.Select(
                                 item => new MenuItemViewModel(
                                     item.Name,

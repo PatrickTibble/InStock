@@ -3,9 +3,9 @@ using InStock.Common.AccountService.Abstraction.Services;
 using InStock.Common.IdentityService.Abstraction.Services;
 using InStock.Backend.AccountService.Core.Services;
 using Refit;
-using InStock.Common.Abstraction.Logger;
-using ILogger = InStock.Common.Abstraction.Logger.ILogger;
+using ILogger = InStock.Common.Abstraction.Services.Logger.ILogger;
 using InStock.Backend.AccountService.Data.Repositories.Account;
+using InStock.Common.Core.Services.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
 

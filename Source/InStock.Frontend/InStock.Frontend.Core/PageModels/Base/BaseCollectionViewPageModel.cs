@@ -4,17 +4,16 @@ using InStock.Frontend.Core.ViewModels.Base;
 
 namespace InStock.Frontend.Core.PageModels.Base
 {
-    public abstract partial class BaseCollectionViewPageModel<TListItem> : BasePageModel
-		where TListItem : BaseViewModel
+    public abstract partial class BaseCollectionViewPageModel : BasePageModel
 	{
 		[ObservableProperty]
-		private ObservableCollection<TListItem>? _items;
+		private ObservableCollection<BaseViewModel>? _items;
 
 		[ObservableProperty]
 		private bool _navigationBarVisible = false;
 
 		[ObservableProperty]
-		private TListItem? _selectedItem;
+		private BaseViewModel? _selectedItem;
 
 		public ObservableCollection<BaseViewModel>? HeaderViewModels { get; }
 
@@ -36,12 +35,12 @@ namespace InStock.Frontend.Core.PageModels.Base
             HeaderViewModels = new ObservableCollection<BaseViewModel>();
         }
 
-		protected virtual void SelectedItemChanged(TListItem? oldValue, TListItem? newValue)
+		protected virtual void SelectedItemChanged(BaseViewModel? oldValue, BaseViewModel? newValue)
 		{
 
 		}
 
-		partial void OnSelectedItemChanged(TListItem? oldValue, TListItem? newValue)
+		partial void OnSelectedItemChanged(BaseViewModel? oldValue, BaseViewModel? newValue)
 			=> SelectedItemChanged(oldValue, newValue);
     }
 }
