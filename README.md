@@ -62,3 +62,7 @@ Add the connection strings to your UserSecrets (secrets.json, included by right+
    - InStock.Frontend.Mobile
 1. Create an Account
 1. Log In with created account
+
+# Gallery 
+
+ ![Android App](https://github.com/PatrickTibble/InStock/blob/frontent/mobile/ui_design/Solution%20Items/Screenshots/MauiApp/instock_home.png?raw=true)
