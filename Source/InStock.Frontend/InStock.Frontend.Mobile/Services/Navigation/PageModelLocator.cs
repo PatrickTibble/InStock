@@ -6,12 +6,10 @@ namespace InStock.Frontend.Mobile.Services.Navigation
     public class PageModelLocator : ILocator<Page>
     {
         private readonly IDictionary<Type, Type> _lookupTable;
-        private readonly IDependencyContainer _container;
 
-        public PageModelLocator(IDependencyContainer container)
+        public PageModelLocator()
         {
             _lookupTable = new Dictionary<Type, Type>();
-            _container = container;
         }
 
         Page ILocator<Page>.CreatePageFor<TPageModel>()
@@ -19,7 +17,7 @@ namespace InStock.Frontend.Mobile.Services.Navigation
             if (_lookupTable.ContainsKey(typeof(TPageModel))
                 && Activator.CreateInstance(_lookupTable[typeof(TPageModel)]) is Page page)
             {
-                var viewModel = _container.Resolve<TPageModel>();
+                var viewModel = Resolver.Resolve<TPageModel>();
                 page.Appearing += viewModel.Appearing;
                 page.Disappearing += viewModel.Disappearing;
 

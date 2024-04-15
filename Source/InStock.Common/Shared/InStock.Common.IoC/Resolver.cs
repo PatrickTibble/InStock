@@ -1,26 +1,18 @@
-﻿namespace InStock.Common.IoC
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace InStock.Common.IoC
 {
 	public static class Resolver
 	{
-        private static IDependencyContainer? _container;
-        public static IDependencyContainer Container
-        {
-            get
-            {
-                if (_container == null)
-                {
-                    _container = new TinyDependencyContainer();
-                }
-                return _container;
-            }
-        }
+        private static IServiceHelper? _container;
+        public static IServiceHelper Container => _container ?? throw new InvalidOperationException("Resolver has not been initialized.");
 
-        public static void SetResolver(IDependencyContainer container)
+        public static void SetServiceHelper(IServiceHelper container)
             => _container = container;
 
         public static T Resolve<T>()
             where T : class
-            => Container.Resolve<T>();
+            => Container.Provider.GetService<T>() ?? throw new InvalidOperationException($"Unable to resolve type {typeof(T).FullName}");
 	}
 }
 
