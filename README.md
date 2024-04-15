@@ -1,6 +1,9 @@
 # InStock
  Inventory Management and POS Scanner
 
+# Gallery 
+
+<img width="200" src="https://github.com/PatrickTibble/InStock/blob/main/Solution%20Items/Screenshots/MauiApp/instock_home.png?raw=true" />
  
 ## Running with DebugWithMocks Configuration
 You can run this without a backend using Mock Services.
@@ -63,6 +66,3 @@ Add the connection strings to your UserSecrets (secrets.json, included by right+
 1. Create an Account
 1. Log In with created account
 
-# Gallery 
-
- ![Android App](https://github.com/PatrickTibble/InStock/blob/frontent/mobile/ui_design/Solution%20Items/Screenshots/MauiApp/instock_home.png?raw=true)
