@@ -9,16 +9,16 @@ namespace InStock.Frontend.Mobile.Services.Platform
         {
             return imageEnum switch
             {
-                Images.ChevronIcon => "chevron.png",
-                Images.DashboardIcon => "home.png",
-                Images.InventoryIcon => "inventory.png",
-                Images.LocationsIcon => "location.png",
-                Images.LockIcon => "lock.png",
-                Images.MenuIcon => "paragraph.png",
-                Images.OptionIcon => "option.png",
-                Images.ScannerIcon => "checklist.png",
-                Images.SearchIcon => "find_gradient.png",
-                Images.UserIcon => "user.png",
+                Images.Chevron => "chevron.png",
+                Images.Dashboard => "home.png",
+                Images.Inventory => "inventory.png",
+                Images.Locations => "location.png",
+                Images.Lock => "lock.png",
+                Images.Menu => "paragraph.png",
+                Images.Option => "option.png",
+                Images.Scanner => "checklist.png",
+                Images.Search => "find_gradient.png",
+                Images.User => "user.png",
                 _ => string.Empty
             };
         }

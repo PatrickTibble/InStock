@@ -6,16 +6,16 @@ using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.Resources.Localization;
 using InStock.Frontend.Core.Services.Platform;
-using InStock.Frontend.Core.ViewModels.Base;
 using InStock.Frontend.Core.ViewModels.Cards;
 using InStock.Frontend.Core.ViewModels.Collections;
 using InStock.Frontend.Core.ViewModels.Headers;
 using InStock.Frontend.Core.ViewModels.Input;
+using System.ComponentModel;
 
 namespace InStock.Frontend.Core.PageModels.Dashboard
 {
-	public class MainPageModel : BaseCollectionViewPageModel
-	{
+    public class MainPageModel : BaseCollectionViewPageModel
+    {
         private readonly INavigationService _navigationService;
         private readonly IImageService _imageService;
         private readonly IAdapter<IList<RevenueReport>, ChartDataSet> _revenueAdapter;
@@ -30,27 +30,30 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
             ILocationsManager locationManager,
             IRevenueManager revenueManager,
             IAdapter<IList<RevenueReport>, ChartDataSet> revenueAdapter)
-		{
+        {
             _locationsManager = locationManager;
             _revenueManager = revenueManager;
             _navigationService = navigationService;
             _imageService = imageService;
             _revenueAdapter = revenueAdapter;
 
-            HeaderViewModel = new MainPageHeaderViewModel()
+            HeaderViewModels = new List<INotifyPropertyChanged> 
             {
-                Title = Strings.PageTitle_MainPage
+                new MainPageHeaderViewModel()
+                {
+                    Title = Strings.PageTitle_MainPage
+                }
             };
 
             _chartViewModel = new ChartViewModel();
-            _locationsViewModel = new CollectionViewModel<LocationCardViewModel>(GetLocations);
+            _locationsViewModel = new CollectionViewModel<LocationCardViewModel>(GetLocationsAsync);
 
-            Items = new System.Collections.ObjectModel.ObservableCollection<BaseViewModel>
+            Items = new System.Collections.ObjectModel.ObservableCollection<INotifyPropertyChanged>
             {
                 new SearchBarViewModel
                 {
-                    LeftIcon = _imageService.GetImage(Abstraction.Enums.Images.SearchIcon),
-                    RightIcon = _imageService.GetImage(Abstraction.Enums.Images.ChevronIcon),
+                    LeftIcon = _imageService.GetImage(Abstraction.Enums.Images.Search),
+                    RightIcon = _imageService.GetImage(Abstraction.Enums.Images.Chevron),
                     Placeholder = Strings.Placeholder_Search
                 },
                 _chartViewModel,
@@ -60,17 +63,25 @@ namespace InStock.Frontend.Core.PageModels.Dashboard
 
         public override async Task InitializeAsync(object? navigationData = null)
         {
-            var revenue = await _revenueManager.GetRevenueReportAsync();
+            var revenue = await _revenueManager
+                .GetRevenueReportAsync()
+                .ConfigureAwait(false);
+
             var chartData = _revenueAdapter.Convert(revenue ?? new List<RevenueReport>());
+
             await Task.WhenAny(
-                base.InitializeAsync(navigationData),
-                _chartViewModel.InitializeAsync(chartData),
-                _locationsViewModel.InitializeAsync());
+                    base.InitializeAsync(navigationData),
+                    _chartViewModel.InitializeAsync(chartData),
+                    _locationsViewModel.InitializeAsync())
+                .ConfigureAwait(false);
         }
 
-        private async Task<IEnumerable<LocationCardViewModel>> GetLocations()
+        private async Task<IEnumerable<LocationCardViewModel>> GetLocationsAsync()
         {
-            var locationsResult = await _locationsManager.GetLocationsAsync();
+            var locationsResult = await _locationsManager
+                .GetLocationsAsync()
+                .ConfigureAwait(false);
+
             return locationsResult.Select(x => new LocationCardViewModel(x));
         }
     }

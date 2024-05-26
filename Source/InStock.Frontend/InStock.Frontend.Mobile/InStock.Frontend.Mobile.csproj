@@ -69,9 +69,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.40" />
-    <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
-    <PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.14" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.14" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="8.0.40" />
@@ -108,6 +108,10 @@
 	  <None Remove="Services\Threading\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Controls\Entries\" />
+	  <Folder Include="Controls\Frames\" />
+	  <Folder Include="Layouts\Grids\" />
+	  <Folder Include="Layouts\StackLayouts\" />
 	  <Folder Include="Pages\Shared\" />
 	  <Folder Include="Pages\Inventory\" />
 	  <Folder Include="Views\ListItems\" />
@@ -132,13 +136,13 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Controls\Buttons\BindableButton.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Inventory\ItemDetailsPage.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Login\CreateAccountPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\Login\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Dimens.xaml">
@@ -174,16 +178,16 @@
 	  <MauiXaml Update="Views\Input\SearchBarView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Labels\Header1Label.xaml">
+	  <MauiXaml Update="Controls\Labels\Header1Label.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Labels\ParagraphLabel.xaml">
+	  <MauiXaml Update="Controls\Labels\ParagraphSmallLabel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Labels\ParagraphSmallLabel.xaml">
+	  <MauiXaml Update="Controls\Labels\TitleLabel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Labels\TitleLabel.xaml">
+	  <MauiXaml Update="Views\Labels\SingleLabelView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Scrolls\HorizontalScrollView.xaml">

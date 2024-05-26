@@ -1,47 +1,45 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using InStock.Frontend.Core.ViewModels.Base;
+using CommunityToolkit.Mvvm.Input;
+using InStock.Frontend.Abstraction.Validations;
 
 namespace InStock.Frontend.Core.PageModels.Base
 {
     public abstract partial class BaseCollectionViewPageModel : BasePageModel
 	{
 		[ObservableProperty]
-		private ObservableCollection<BaseViewModel>? _items;
+		private IList<INotifyPropertyChanged>? _items;
 
 		[ObservableProperty]
 		private bool _navigationBarVisible = false;
 
 		[ObservableProperty]
-		private BaseViewModel? _selectedItem;
+		private IList<INotifyPropertyChanged>? _headerViewModels;
 
-		public ObservableCollection<BaseViewModel>? HeaderViewModels { get; }
+        [ObservableProperty]
+        private IList<INotifyPropertyChanged>? _footerViewModels;
 
-		public BaseViewModel? HeaderViewModel
+		protected virtual bool Validate()
 		{
-			get => HeaderViewModels?.FirstOrDefault();
-			set
+			var invalidItems = Items?.OfType<IValidatable>().Where(x => !x.Validate()).ToList();
+			return invalidItems == null || invalidItems.Count == 0;
+		}
+
+		[RelayCommand]
+		private async Task OnCompleteAsync()
+		{
+			if (!Validate())
 			{
-				HeaderViewModels?.Clear();
-				if (value != null)
-				{
-					HeaderViewModels?.Add(value);
-				}
-			}
+                return;
+            }
+
+			await OnCompleteValidatedAsync()
+				.ConfigureAwait(false);
 		}
 
-		protected BaseCollectionViewPageModel()
+		protected virtual Task OnCompleteValidatedAsync()
 		{
-            HeaderViewModels = new ObservableCollection<BaseViewModel>();
-        }
-
-		protected virtual void SelectedItemChanged(BaseViewModel? oldValue, BaseViewModel? newValue)
-		{
-
+			return Task.CompletedTask;
 		}
-
-		partial void OnSelectedItemChanged(BaseViewModel? oldValue, BaseViewModel? newValue)
-			=> SelectedItemChanged(oldValue, newValue);
     }
 }
-

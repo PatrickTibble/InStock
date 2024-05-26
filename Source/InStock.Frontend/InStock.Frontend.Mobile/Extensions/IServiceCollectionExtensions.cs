@@ -6,6 +6,7 @@ using InStock.Common.Core.Services.Downloading;
 using InStock.Common.InventoryService.Abstraction.Entities;
 using InStock.Common.InventoryService.Abstraction.Services;
 using InStock.Frontend.Abstraction.Adapters;
+using InStock.Frontend.Abstraction.Directors;
 using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.PageModels;
@@ -15,6 +16,8 @@ using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.Adapters;
+using InStock.Frontend.Core.Builders;
+using InStock.Frontend.Core.Directors;
 using InStock.Frontend.Core.Managers;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Inventory;
@@ -77,6 +80,13 @@ public static class IServiceCollectionExtensions
         collection
             .AddSingleton<IAdapter<IList<RevenueReport>, ChartDataSet>, RevenueToChartDataSetAdapter>();
 
+        var builder = new ViewModelBuilder();
+        var director = new ViewModelDirector();
+        director.SetBuilder(builder);
+        //-- Directors
+        collection
+            .AddSingleton<IViewModelDirector>(director);
+
         return collection;
     }
 
@@ -87,7 +97,7 @@ public static class IServiceCollectionExtensions
         collection
             .AddSingleton<ILocator<Page>>(locator)
             //-- Dashboard
-            .Register<CollectionViewPage, MainPageModel>(locator)
+            .Register<MainPageModel>(locator)
 
             //-- Inventory
             .Register<ItemDetailsPage, InventoryItemDetailsPageModel>(locator)
@@ -95,13 +105,17 @@ public static class IServiceCollectionExtensions
 
             //-- Login
             .Register<CreateAccountPage, CreateAccountPageModel>(locator)
-            .Register<LoginPage, LoginPageModel>(locator)
+            .Register<LoginPageModel>(locator)
 
             //-- Scanner
             .Register<ScannerPage, ScannerPageModel>(locator);
 
         return collection;
     }
+
+    private static IServiceCollection Register<TPageModel>(this IServiceCollection collection, ILocator<Page> locator)
+        where TPageModel : class, IBasePageModel
+        => Register<CollectionViewPage, TPageModel>(collection, locator);
 
     private static IServiceCollection Register<TPage, TPageModel>(this IServiceCollection collection, ILocator<Page> locator)
         where TPageModel : class, IBasePageModel

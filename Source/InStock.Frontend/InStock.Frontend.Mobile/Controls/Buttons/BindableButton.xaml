@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Button 
+    xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Input;assembly=InStock.Frontend.Core"
+    x:DataType="vm:ButtonViewModel"
+    IsVisible="{Binding IsVisible}"
+    IsEnabled="{Binding IsEnabled}"
+    Text="{Binding Title}"
+    Command="{Binding Command}"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:tk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="InStock.Frontend.Mobile.Controls.Buttons.BindableButton">
+    <Button.Behaviors>
+        <tk:TouchBehavior
+            PressedOpacity="0.9"
+            PressedScale="0.9" />
+    </Button.Behaviors>
+</Button>

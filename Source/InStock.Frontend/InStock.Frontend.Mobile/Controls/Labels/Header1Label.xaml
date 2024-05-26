@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Label 
+<Label
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="InStock.Frontend.Mobile.Views.Labels.TitleLabel"
-    FontSize="{StaticResource Title}"
+    x:Class="InStock.Frontend.Mobile.Controls.Labels.Header1Label" 
+    FontSize="{StaticResource Header1}"
     FontAttributes="Bold"
     TextColor="{StaticResource Gray100}"/>

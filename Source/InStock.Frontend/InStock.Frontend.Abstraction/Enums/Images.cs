@@ -2,15 +2,15 @@
 {
     public enum Images
     {
-        MenuIcon,
-        OptionIcon,
-        SearchIcon,
-        ChevronIcon,
-        ScannerIcon,
-        DashboardIcon,
-        InventoryIcon,
-        LocationsIcon,
-        UserIcon,
-        LockIcon,
+        Chevron,
+        Dashboard,
+        Inventory,
+        Locations,
+        Lock,
+        Menu,
+        Option,
+        Scanner,
+        Search,
+        User,
     }
 }
