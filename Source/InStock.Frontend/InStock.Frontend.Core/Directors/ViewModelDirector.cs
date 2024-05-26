@@ -8,7 +8,7 @@ namespace InStock.Frontend.Core.Directors;
 
 public class ViewModelDirector : IViewModelDirector
 {
-    private IViewModelBuilder _builder;
+    private IViewModelBuilder? _builder;
 
     public void SetBuilder(IViewModelBuilder builder)
     {
@@ -17,13 +17,14 @@ public class ViewModelDirector : IViewModelDirector
 
     public IList<INotifyPropertyChanged> CreateLoginPage(string usernamePlaceholder, string passwordPlaceholder, ICommand loginCommand, ICommand registerCommand)
     {
-        return _builder
+        return _builder?
             .AddHeaderLabel("Test 123", null)
             .AddTitleLabel("Tester 456", null)
             .AddTextEntry(usernamePlaceholder)
             .AddPasswordEntry(passwordPlaceholder)
             .AddButton(Strings.ButtonTitle_Login, loginCommand)
             .AddButton(Strings.ButtonTitle_CreateAccount, registerCommand)
-            .Build();
+            .Build()
+            ?? [];
     }
 }
