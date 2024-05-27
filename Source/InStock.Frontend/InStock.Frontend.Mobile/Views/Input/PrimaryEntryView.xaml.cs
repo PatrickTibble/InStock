@@ -19,20 +19,6 @@ public partial class PrimaryEntryView : ContentView
     public PrimaryEntryView()
     {
         InitializeComponent();
-
-        var colors = new Color[]
-        {
-            Color.FromArgb("#F5F5F5"),
-            Color.FromArgb("#E0E0E0"),
-            Color.FromArgb("#BDBDBD"),
-            Color.FromArgb("#9E9E9E"),
-            Color.FromArgb("#757575"),
-            Color.FromArgb("#616161"),
-            Color.FromArgb("#424242"),
-        };
-
-        var rnd = new Random();
-        BackgroundColor = colors[rnd.Next() % colors.Length];
     }
 
     private void OnIconPropertyChanged(string oldValue, string newValue)

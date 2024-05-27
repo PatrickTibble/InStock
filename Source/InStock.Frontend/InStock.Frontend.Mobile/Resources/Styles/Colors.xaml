@@ -10,6 +10,8 @@
     <Color x:Key="FlyoutHeaderEnd">#e10a64</Color>
     <Color x:Key="FlyoutHeaderStart">#78498f</Color>
 
+    <Color x:Key="ErrorColor">#e10b22</Color>
+
     <Color x:Key="Primary">#7401DF</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>

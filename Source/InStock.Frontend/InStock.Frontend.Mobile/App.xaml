@@ -21,6 +21,14 @@
             <converters:LabelStyleToFontSizeConverter x:Key="LabelStyleToFontSizeConverter" />
             <converters:LabelStyleToTextColorConverter x:Key="LabelStyleToTextColorConverter" />
 
+            <converters:BoolToColorConverter x:Key="ValidToTextColorConverter"
+                                             TrueColor="{StaticResource Gray900}"
+                                             FalseColor="{StaticResource ErrorColor}" />
+
+            <converters:BoolToColorConverter x:Key="ValidToBorderColorConverter"
+                                             TrueColor="{StaticResource Gray300}"
+                                             FalseColor="{StaticResource ErrorColor}" />
+
             <templateSelectors:CollectionViewHeaderTemplateSelector x:Key="HeaderTemplateSelector" />
             <templateSelectors:CollectionViewItemTemplateSelector x:Key="ItemTemplateSelector" />
         </ResourceDictionary>
