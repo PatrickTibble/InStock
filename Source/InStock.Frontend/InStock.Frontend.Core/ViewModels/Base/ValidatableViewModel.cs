@@ -6,7 +6,7 @@ namespace InStock.Frontend.Core.ViewModels.Base;
 public abstract partial class ValidatableViewModel : BaseViewModel, IValidatable
 {
     [ObservableProperty]
-    private bool _isValid;
+    private bool _isValid = true;
 
     [ObservableProperty]
     private string? _validationMessage;
@@ -34,5 +34,10 @@ public abstract partial class ValidatableViewModel : BaseViewModel, IValidatable
         ValidationMessage = string.Join(Environment.NewLine, messages);
 
         return IsValid;
+    }
+
+    partial void OnTextChanged(string? value)
+    {
+        IsValid = true;
     }
 }

@@ -17,7 +17,5 @@ namespace InStock.Frontend.Core.ViewModels.Input
 
         [ObservableProperty]
         private bool _isPassword;
-
-        public ButtonViewModel SecondaryActionViewModel { get; } = new ButtonViewModel { Title = string.Empty, Command = new RelayCommand(() => { }) };
     }
 }

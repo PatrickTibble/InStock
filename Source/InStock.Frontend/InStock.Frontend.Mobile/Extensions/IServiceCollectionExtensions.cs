@@ -18,6 +18,7 @@ using InStock.Frontend.Abstraction.Services.Threading;
 using InStock.Frontend.Core.Adapters;
 using InStock.Frontend.Core.Builders;
 using InStock.Frontend.Core.Directors;
+using InStock.Frontend.Core.Factories;
 using InStock.Frontend.Core.Managers;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.PageModels.Inventory;
@@ -80,10 +81,13 @@ public static class IServiceCollectionExtensions
         collection
             .AddSingleton<IAdapter<IList<RevenueReport>, ChartDataSet>, RevenueToChartDataSetAdapter>();
 
+        //-- Directors
+        var ruleFactory = new ValidationRuleFactory();
         var builder = new ViewModelBuilder();
         var director = new ViewModelDirector();
         director.SetBuilder(builder);
-        //-- Directors
+        director.SetRuleFactory(ruleFactory);
+
         collection
             .AddSingleton<IViewModelDirector>(director);
 

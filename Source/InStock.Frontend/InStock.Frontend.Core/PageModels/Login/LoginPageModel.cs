@@ -5,7 +5,6 @@ using InStock.Frontend.Abstraction.Managers;
 using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
-using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.Resources.Localization;
@@ -30,7 +29,6 @@ public partial class LoginPageModel : BaseCollectionViewPageModel
 
     public LoginPageModel(
         INavigationService navigationService,
-        IClientInfoService infoService,
         IAlertService alertService,
         IViewModelDirector director,
         IAccountManager accountManager)
@@ -40,7 +38,6 @@ public partial class LoginPageModel : BaseCollectionViewPageModel
         _navigationService = navigationService;
         _accountManager = accountManager;
 
-        AppVersion = infoService.AppVersion.ToString();
         Items = _director.CreateLoginPage(UsernamePlaceholder, PasswordPlaceholder, CompleteCommand, RegisterCommand);
     }
 
@@ -62,16 +59,14 @@ public partial class LoginPageModel : BaseCollectionViewPageModel
             .FirstOrDefault(e => e.Placeholder.Equals(PasswordPlaceholder))
             ?.Text;
 
-        await TryLoginWithCredentialsAsync(username, password).ConfigureAwait(false);
+        await TryLoginWithCredentialsAsync(username, password)
+            .ConfigureAwait(false);
 
         IsLoading = false;
     }
 
     private async Task TryLoginWithCredentialsAsync(string? username, string? password)
     {
-        await _navigationService.NavigateToAsync<LoginPageModel>().ConfigureAwait(false);
-        return;
-
         var loginResult = await _accountManager
             .LoginAsync(username, password)
             .ConfigureAwait(false);

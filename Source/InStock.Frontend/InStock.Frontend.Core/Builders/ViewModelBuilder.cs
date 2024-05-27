@@ -35,7 +35,7 @@ public class ViewModelBuilder : IViewModelBuilder
         return this;
     }
 
-    public IViewModelBuilder AddHeaderLabel(string text, ICommand? tapCommand)
+    public IViewModelBuilder AddHeaderLabel(string text, ICommand? tapCommand = default)
     {
         _viewModels.Add(new SingleLabelViewModel
         {
@@ -47,13 +47,13 @@ public class ViewModelBuilder : IViewModelBuilder
         return this;
     }
 
-    public IViewModelBuilder AddImageRow(string source)
+    public IViewModelBuilder AddImageRow(Images image, ICommand? tapCommand = default)
     {
 
         return this;
     }
 
-    public IViewModelBuilder AddParagraphSmallLabel(string text, ICommand? tapCommand)
+    public IViewModelBuilder AddParagraphSmallLabel(string text, ICommand? tapCommand = default)
     {
         _viewModels.Add(new SingleLabelViewModel
         {
@@ -84,7 +84,7 @@ public class ViewModelBuilder : IViewModelBuilder
         return this;
     }
 
-    public IViewModelBuilder AddTitleLabel(string text, ICommand? tapCommand)
+    public IViewModelBuilder AddTitleLabel(string text, ICommand? tapCommand = default)
     {
         _viewModels.Add(new SingleLabelViewModel
         {
@@ -103,10 +103,11 @@ public class ViewModelBuilder : IViewModelBuilder
         return vms;
     }
 
-    public IViewModelBuilder WithValidations(params IValidationRule[] validationRules)
+    public IViewModelBuilder WithValidations(params IValidationRule[]? validationRules)
     {
-        if (_viewModels?.LastOrDefault() is IValidatable validatable)
+        if (_viewModels?.LastOrDefault() is IValidatable validatable && validationRules != null)
         {
+            validatable.ValidationRules ??= new List<IValidationRule>();
             foreach (var validationRule in validationRules)
             {
                 validatable.ValidationRules.Add(validationRule);
