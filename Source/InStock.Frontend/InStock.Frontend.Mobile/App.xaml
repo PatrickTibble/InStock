@@ -16,6 +16,10 @@
 
             <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
             <converters:NotNullOrEmptyConverter x:Key="NotNullOrEmptyConverter" />
+            <converters:MarginSetToThicknessConverter x:Key="MarginSetToThicknessConverter" />
+            <converters:LabelStyleToFontAttributesConverter x:Key="LabelStyleToFontAttributesConverter" />
+            <converters:LabelStyleToFontSizeConverter x:Key="LabelStyleToFontSizeConverter" />
+            <converters:LabelStyleToTextColorConverter x:Key="LabelStyleToTextColorConverter" />
 
             <templateSelectors:CollectionViewHeaderTemplateSelector x:Key="HeaderTemplateSelector" />
             <templateSelectors:CollectionViewItemTemplateSelector x:Key="ItemTemplateSelector" />

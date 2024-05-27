@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    IsVisible="{Binding IsVisible}"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Labels;assembly=InStock.Frontend.Core"
+    x:DataType="vm:SingleLabelViewModel"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InStock.Frontend.Mobile.Views.Labels.SingleLabelView">
+    <VerticalStackLayout>
+        <Label
+            FontSize="{Binding LabelStyle, Converter={StaticResource LabelStyleToFontSizeConverter}, Mode=OneTime}"
+            FontAttributes="{Binding LabelStyle, Converter={StaticResource LabelStyleToFontAttributesConverter}, Mode=OneTime}"
+            TextColor="{Binding LabelStyle, Converter={StaticResource LabelStyleToTextColorConverter}, Mode=OneTime}"
+            Text="{Binding Text, Mode=OneTime}" 
+            Margin="{Binding Margins, Converter={StaticResource MarginSetToThicknessConverter}, Mode=OneTime}" />
+    </VerticalStackLayout>
+</ContentView>

@@ -1,97 +1,96 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using InStock.Frontend.Abstraction.Directors;
 using InStock.Frontend.Abstraction.Managers;
+using InStock.Frontend.Abstraction.Models;
 using InStock.Frontend.Abstraction.Services.Alerts;
 using InStock.Frontend.Abstraction.Services.Navigation;
 using InStock.Frontend.Abstraction.Services.Platform;
 using InStock.Frontend.Core.PageModels.Base;
 using InStock.Frontend.Core.PageModels.Dashboard;
 using InStock.Frontend.Core.Resources.Localization;
-using InStock.Frontend.Core.ViewModels.Input;
 
-namespace InStock.Frontend.Core.PageModels.Login
+namespace InStock.Frontend.Core.PageModels.Login;
+
+public partial class LoginPageModel : BaseCollectionViewPageModel
 {
-    public partial class LoginPageModel : BasePageModel
-	{
-        private readonly IAlertService _alertService;
-        private readonly INavigationService _navigationService;
-        private readonly IAccountManager _accountManager;
+    private readonly string UsernamePlaceholder = Strings.Placeholder_Username;
+    private readonly string PasswordPlaceholder = Strings.Placeholder_Password;
 
-        [ObservableProperty]
-        private bool _isLoading;
+    private readonly IAlertService _alertService;
+    private readonly INavigationService _navigationService;
+    private readonly IAccountManager _accountManager;
+    private readonly IViewModelDirector _director;
 
-        [ObservableProperty]
-        private string? _appVersion;
+    [ObservableProperty]
+    private bool _isLoading;
 
-        public LoginPageModel(
-            INavigationService navigationService,
-            IClientInfoService infoService,
-            IAlertService alertService,
-            IAccountManager accountManager)
-		{
-            _alertService = alertService;
-            _navigationService = navigationService;
-            _accountManager = accountManager;
+    [ObservableProperty]
+    private string? _appVersion;
 
-            AppVersion = infoService.AppVersion.ToString();
+    public LoginPageModel(
+        INavigationService navigationService,
+        IClientInfoService infoService,
+        IAlertService alertService,
+        IViewModelDirector director,
+        IAccountManager accountManager)
+    {
+        _director = director;
+        _alertService = alertService;
+        _navigationService = navigationService;
+        _accountManager = accountManager;
 
-            UsernameViewModel = new PrimaryEntryViewModel
-            {
-                Placeholder = Strings.Placeholder_Username
-            };
-
-            PasswordViewModel = new PrimaryEntryViewModel
-            {
-                Placeholder = Strings.Placeholder_Password,
-                IsPassword = true
-            };
-
-            PasswordViewModel.SecondaryActionViewModel.Title = Strings.ButtonTitle_ForgotPassword;
-
-            LoginViewModel = new ButtonViewModel
-            {
-                Command = new AsyncRelayCommand(TryLoginWithCredentialsAsync, () => !IsLoading),
-                Title = Strings.ButtonTitle_Login
-            };
-
-            CreateAccountViewModel = new ButtonViewModel
-            {
-                Command = new AsyncRelayCommand(TryNavigateToCreateAccountAsync, () => !IsLoading),
-                Title = Strings.ButtonTitle_CreateAccount
-            };
-        }
-
-        public PrimaryEntryViewModel UsernameViewModel { get; }
-
-        public PrimaryEntryViewModel PasswordViewModel { get; }
-
-        public ButtonViewModel LoginViewModel { get; }
-
-        public ButtonViewModel CreateAccountViewModel { get; }
-
-        private async Task TryLoginWithCredentialsAsync()
-        {
-            IsLoading = true;
-            var loginResult = await _accountManager
-                .LoginAsync(UsernameViewModel.Text, PasswordViewModel.Text)
-                .ConfigureAwait(false);
-
-            if (loginResult.Result)
-            {
-                await _navigationService
-                    .NavigateToAsync<MainPageModel>(setRoot: true)
-                    .ConfigureAwait(false);
-
-                return;
-            }
-
-            IsLoading = false;
-            await _alertService
-                .ShowServiceAlert(Strings.AlertTitle_LoginFailed, Strings.AlertBody_LoginFailed, Strings.AlertAction_Confirm)
-                .ConfigureAwait(false);
-        }
-
-        private Task TryNavigateToCreateAccountAsync()
-            => _navigationService.NavigateToAsync<CreateAccountPageModel>();
+        AppVersion = infoService.AppVersion.ToString();
+        Items = _director.CreateLoginPage(UsernamePlaceholder, PasswordPlaceholder, CompleteCommand, RegisterCommand);
     }
+
+    protected override async Task OnCompleteValidatedAsync()
+    {
+        await base
+            .OnCompleteValidatedAsync()
+            .ConfigureAwait(false);
+
+        IsLoading = true;
+
+        var username = Items
+            ?.OfType<IEntry>()
+            .FirstOrDefault(e => e.Placeholder.Equals(UsernamePlaceholder))
+            ?.Text;
+
+        var password = Items
+            ?.OfType<IEntry>()
+            .FirstOrDefault(e => e.Placeholder.Equals(PasswordPlaceholder))
+            ?.Text;
+
+        await TryLoginWithCredentialsAsync(username, password).ConfigureAwait(false);
+
+        IsLoading = false;
+    }
+
+    private async Task TryLoginWithCredentialsAsync(string? username, string? password)
+    {
+        await _navigationService.NavigateToAsync<LoginPageModel>().ConfigureAwait(false);
+        return;
+
+        var loginResult = await _accountManager
+            .LoginAsync(username, password)
+            .ConfigureAwait(false);
+
+        if (loginResult.Result)
+        {
+            await _navigationService
+                .NavigateToAsync<MainPageModel>(setRoot: true)
+                .ConfigureAwait(false);
+
+            return;
+        }
+
+        await _alertService
+            .ShowServiceAlert(Strings.AlertTitle_LoginFailed, Strings.AlertBody_LoginFailed, Strings.AlertAction_Confirm)
+            .ConfigureAwait(false);
+    }
+
+    [RelayCommand]
+    private Task OnRegisterAsync()
+        => _navigationService.NavigateToAsync<CreateAccountPageModel>();
 }

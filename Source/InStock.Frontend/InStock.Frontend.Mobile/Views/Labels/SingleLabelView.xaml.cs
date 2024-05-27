@@ -1,8 +1,8 @@
 namespace InStock.Frontend.Mobile.Views.Labels;
 
-public partial class ParagraphLabel : Label
+public partial class SingleLabelView : ContentView
 {
-	public ParagraphLabel()
+	public SingleLabelView()
 	{
 		InitializeComponent();
 	}

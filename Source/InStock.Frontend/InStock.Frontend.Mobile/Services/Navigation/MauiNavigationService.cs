@@ -7,41 +7,65 @@ namespace InStock.Frontend.Mobile.Services.Navigation
     {
         private readonly ILocator<Page> _locator;
 
+        private INavigation _navigation => Application.Current.MainPage.Navigation;
+        private IDispatcher _dispatcher => Application.Current.Dispatcher;
+
         public MauiNavigationService(ILocator<Page> locator)
         {
             _locator = locator;
         }
 
-        public Task NavigateToAsync<TPageModel>(object? navigationData = null, bool setRoot = false)
+        public async Task NavigateToAsync<TPageModel>(object? navigationData = null, bool setRoot = false)
             where TPageModel : class, IBasePageModel
         {
-            if (Application.Current.Dispatcher.IsDispatchRequired)
+            var page = _locator.CreatePageFor<TPageModel>();
+
+            if (_dispatcher.IsDispatchRequired)
             {
-                return Application.Current.Dispatcher.DispatchAsync(() => NavigateToAsync<TPageModel>(navigationData, setRoot));
+                await _dispatcher
+                    .DispatchAsync(() => InternalNavigateAsync(page, setRoot))
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await InternalNavigateAsync(page, setRoot)
+                    .ConfigureAwait(false);
             }
 
-            var page = _locator.CreatePageFor<TPageModel>();
-            var tasks = new List<Task> { ((IBasePageModel)page.BindingContext).InitializeAsync(navigationData) };
+            if (page.BindingContext is IBasePageModel basePageModel)
+            {
+                await basePageModel
+                    .InitializeAsync(navigationData)
+                    .ConfigureAwait(false);
+            }
+        }
 
+        private async Task InternalNavigateAsync(Page page, bool setRoot)
+        {
             if (!setRoot)
             {
-                tasks.Add(Application.Current.MainPage.Navigation.PushAsync(page));
+                await _navigation
+                    .PushAsync(page)
+                    .ConfigureAwait(false);
             }
             else
             {
                 Application.Current.MainPage = new NavigationPage(page);
             }
-
-            return Task.WhenAll(tasks);
         }
 
-        public Task PopAsync()
+        public async Task PopAsync()
         {
-            if (Application.Current.Dispatcher.IsDispatchRequired)
+            if (_dispatcher.IsDispatchRequired)
             {
-                return Application.Current.Dispatcher.DispatchAsync(PopAsync);
+                await _dispatcher
+                    .DispatchAsync(PopAsync)
+                    .ConfigureAwait(false);
+                return;
             }
-            return Application.Current.MainPage.Navigation.PopAsync();
+            await _navigation
+                .PopAsync()
+                .ConfigureAwait(false);
         }
     }
 }

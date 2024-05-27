@@ -1,8 +1,7 @@
-﻿namespace InStock.Frontend.Abstraction.Validations
+﻿namespace InStock.Frontend.Abstraction.Validations;
+
+public interface IValidationRule
 {
-    public interface IValidationRule
-    {
-        string ValidationMessage { get; set; }
-        bool Check(string? userInput);
-    }
+    string ValidationMessage { get; set; }
+    bool Check(string? userInput);
 }

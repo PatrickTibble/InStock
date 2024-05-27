@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InStock.Frontend.Abstraction.Repositories;
 using InStock.Frontend.Abstraction.Services.Navigation;
@@ -28,9 +29,12 @@ namespace InStock.Frontend.Core.PageModels.Inventory
 
             NavigationBarVisible = true;
 
-            HeaderViewModel = new PrimaryHeaderViewModel
-            {
-                Title = Strings.PageTitle_InventoryPage
+            HeaderViewModels = new List<INotifyPropertyChanged>
+            { 
+                new PrimaryHeaderViewModel
+                {
+                    Title = Strings.PageTitle_InventoryPage
+                }
             };
         }
 
@@ -43,7 +47,7 @@ namespace InStock.Frontend.Core.PageModels.Inventory
                 {
                     if (items != null)
                     {
-                        Items = new ObservableCollection<BaseViewModel>(
+                        Items = new ObservableCollection<INotifyPropertyChanged>(
                             items.Select(
                                 item => new MenuItemViewModel(
                                     item.Name,

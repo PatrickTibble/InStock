@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Button xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        x:Class="InStock.Frontend.Mobile.Views.Input.PrimaryRoundButton"
-        xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Input;assembly=InStock.Frontend.Core"
-        xmlns:shadows="clr-namespace:InStock.Frontend.Mobile.Views.Shadows"
-        x:DataType="vm:ButtonViewModel"
-        HeightRequest="48"
-        CornerRadius="24"
-        BackgroundColor="{StaticResource AccentSecondary}"
-        TextColor="{StaticResource White}"
-        IsEnabled="{Binding IsEnabled}"
-        IsVisible="{Binding IsVisible}"
-        Command="{Binding Command}"
-        Text="{Binding Title}">
-    <Button.Shadow>
-        <shadows:PrimaryShadow />
-    </Button.Shadow>
-</Button>
+<base:BindableButton
+    xmlns:base="clr-namespace:InStock.Frontend.Mobile.Controls.Buttons"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InStock.Frontend.Mobile.Views.Input.PrimaryRoundButton"
+    x:DataType="vm:ButtonViewModel"
+    xmlns:vm="clr-namespace:InStock.Frontend.Core.ViewModels.Input;assembly=InStock.Frontend.Core"
+    Margin="12,5"
+    HeightRequest="48"
+    CornerRadius="24"
+    xmlns:tk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="{StaticResource AccentSecondary}"
+    TextColor="{StaticResource White}" />

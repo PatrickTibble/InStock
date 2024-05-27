@@ -8,7 +8,7 @@
     xmlns:images="clr-namespace:InStock.Frontend.Mobile.Views.Images"
     x:DataType="{x:Type vm:LocationCardViewModel}"
     xmlns:base="clr-namespace:InStock.Frontend.Mobile.Views.Frames"
-    xmlns:labels="clr-namespace:InStock.Frontend.Mobile.Views.Labels"
+    xmlns:labels="clr-namespace:InStock.Frontend.Mobile.Controls.Labels"
     x:Class="InStock.Frontend.Mobile.Views.Cards.LocationCardView">
     <base:PrimaryCardFrame.GestureRecognizers>
         <TapGestureRecognizer Command="{Binding Command}" />
@@ -18,7 +18,7 @@
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand"
             Source="{Binding ImageSource}" />
-        <labels:ParagraphLabel
+        <labels:ParagraphSmallLabel
             HorizontalOptions="Center"
             Text="{Binding Title}" />
         <labels:ParagraphSmallLabel 

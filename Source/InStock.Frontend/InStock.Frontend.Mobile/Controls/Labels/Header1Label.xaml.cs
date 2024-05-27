@@ -1,4 +1,4 @@
-namespace InStock.Frontend.Mobile.Views.Labels;
+namespace InStock.Frontend.Mobile.Controls.Labels;
 
 public partial class Header1Label : Label
 {
